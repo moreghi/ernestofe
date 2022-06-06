@@ -1,0 +1,104 @@
+
+
+<div class="modal-header modal-header-Moreno">
+  <div class="col-sm-3">
+    <img src="assets/images/logoSanfra.png" width="40" height="40" alt="logo">&nbsp; Sanfra in ...  Festa
+  </div>
+
+<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+<br>
+
+<h2 class="modal-title"  [ngClass]="(msgpopup.header === 'lavorazione') ? 'lavorazione':'consegna'" #header="ngModel"  [(ngModel)]="msgpopup.header" id="header" name="header">{{title}}</h2> <!-- id="modal-basic-title"-->
+<div class="modal-body">
+<!-- inserire i campi della form da gestire in popup  -->
+ <form [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="editForm" >   <!-- class="was-validated" -->
+<!--   inizio   -->
+      <!-- Chiave del record -->
+      <input hidden type="text" formControlName="id" class="form-control" />
+<!--
+      <label >{{txt01xx}}</label> merda
+
+      <div >
+        {{txt01xx}}
+      </div>
+-->
+
+      <!-- txt01    -->
+      <div class="form-row">
+        <div class="mb-3 row margini">
+          <div class="col-sm-9">
+            {{txt01xx}}
+           <!-- <input disabled type="text" formControlName="txt01" class="form-control"/>  -->
+          </div>
+        </div>
+      </div>
+      <!-- txt02   -->
+      <div class="form-row">
+        <div class="mb-3 row margini">
+          <div class="col-sm-9">
+            {{txt02xx}}
+          <!--  <input disabled type="text" formControlName="txt02" class="form-control" />  -->
+          </div>
+        </div>
+      </div>
+     <!-- txt03   -->
+     <div class="form-row">
+      <div class="mb-3 row margini">
+        <div class="col-sm-9">
+          {{txt03xx}}
+       <!--   <input disabled type="text" formControlName="txt03" class="form-control" />   -->
+        </div>
+      </div>
+    </div>
+
+<!-- fine  -->
+
+
+
+</form>
+</div>
+
+<div class="modal-footer">
+
+
+  <button [disabled]="isLoading" class="btn btn-secondary mr-2" (click)="modal.dismiss('Cross click')">Cancel
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+  </button>   <!--(click)="modal.close('Merda')"-->
+  <button class="btn btn-primary mr-2" (click)="onSubmit()" >Conferma
+    <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+  </button>   <!-- (click)="onSubmit()"     [disabled]="isLoading"  -->
+  <button [hidden]="fieldVisible === false" class="btn btn-danger mr-2" (click)="openModal2(templateConfirmDelete)" >Cancella
+    <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+  </button>
+</div>
+
+
+<!-- (click)="modal.close('Save click')" -->
+<!--
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-dark" >Save</button>
+</div> -->
+
+<ng-template #templateConfirmDelete>
+<div class="modal-header modal-header-Moreno">
+  <h4 class="modal-title pull-left">Cancellazione Manifestazione</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef2.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  confermi la cancellazione ?<br />
+</div>
+  <div class="modal-footer">
+   <button type="button" class="btn btn-secondary" (click)="closeModal(2)">Annulla
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+   </button>
+  <button type="button" class="btn btn-danger" (click)="closeModal(1)">Conferma
+    <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+  </button>
+</div>
+</ng-template>
+

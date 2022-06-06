@@ -1,0 +1,45 @@
+.logo {
+  width: 50px;
+  height: 50px;
+  border-color: red;
+  border-radius: 5px;
+}
+.dropdown-submenu {
+  position: relative;
+
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+  top: 0;
+  left: 10rem;       /* left: -10rem; */
+
+  /* 10rem is the min-width of dropdown-menu */
+  margin-top: 26px;  /*margin-top: -6px;  */
+  display:block
+
+}
+.dropdown:hover>.dropdown-menu{
+display:block
+}
+
+/* rotate caret on hover */
+
+.dropdown-menu>li>a:hover:after {
+  text-decoration: underline;
+  transform: rotate(-90deg);   /*  transform: rotate(-90deg); */
+}
+.dropdown-item-moreno {
+  font-size:15px;
+  color:red
+}
+
+.colorUsername {
+  color:yellow;
+  font-size:15px;
+
+}
+
+.centrata {
+  text-align: center;
+}
+

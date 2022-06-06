@@ -1,0 +1,166 @@
+<p>registrazione works!</p>
+
+<h3 class="card-header">Register</h3>
+<div class="card-body">
+
+      <form name="signupForm" #signupForm=ngForm (ngSubmit)="onSubmit(signupForm)">
+
+
+
+        <div class="form-row">
+          <!--
+            <div class="form-group col">
+                <label>Titolo</label>
+                <select  name="titolo" class="form-control">
+                    <option value=""></option>
+                    <option value="Mr">Mr</option>
+                    <option value="Mrs">Mrs</option>
+                    <option value="Miss">Miss</option>
+                    <option value="Ms">Ms</option>
+                </select>
+
+            </div>     -->
+
+            <fieldset ngModelGroup="anagrafica">
+              <div class="row">
+
+                  <div class="form-group col-5">
+                    <label for="cognome" class="col-sm-2 col-form-label">cognome</label>
+                      <input type="text" class="form-control" name="cognome" placeholder="inserire cognome" [(ngModel)]="form.cognome" required #cognome="ngModel"  ngModel id="cognome" minlength="3" maxlength="32"/>
+                      <div *ngIf="cognome.dirty && cognome.touched && cognome.invalid" class="alert alert-danger">
+                        <!-- {{ demessa.errors | json }}  per editare gli errori e poi impostare il validatore corretto -->
+                      <!--  validatore lato client -->
+                            <div  *ngIf="cognome.errors.required">    <!-- *ngIf="demessa.invalid"-->
+                              il campo cognome è obbligatorio
+                            </div>
+                            <div  *ngIf="cognome.errors.minlength">
+                              il campo deve essere lungo più di {{ cognome.errors.minlength.requiredLength }} caratteri
+                            </div>
+                            <div  *ngIf="cognome.errors.maxlength">
+                              il campo non deve essere lungo più di {{ cognome.errors.maxlength.requiredLength }} caratteri
+                            </div>
+                      </div>
+                  </div>
+                  <div class="form-group col-5">
+                    <label for="nome" class="col-sm-2 col-form-label">nome</label>
+                      <input type="text" class="form-control" name="nome" placeholder="inserire nome" [(ngModel)]="form.nome" required #nome="ngModel"  ngModel id="nome"  minlength="5" maxlength="32"/>
+                      <div *ngIf="nome.dirty && nome.touched && nome.invalid" class="alert alert-danger">
+                        <!-- {{ demessa.errors | json }}  per editare gli errori e poi impostare il validatore corretto -->
+                      <!--  validatore lato client -->
+                            <div  *ngIf="nome.errors.required">    <!-- *ngIf="demessa.invalid"-->
+                              il campo nome è obbligatorio
+                            </div>
+                            <div  *ngIf="nome.errors.minlength">
+                              il campo deve essere lungo più di {{ nome.errors.minlength.requiredLength }} caratteri
+                            </div>
+                            <div  *ngIf="nome.errors.maxlength">
+                              il campo non deve essere lungo più di {{ nome.errors.maxlength.requiredLength }} caratteri
+                            </div>
+                      </div>
+                  </div>
+              </div>
+            </fieldset>
+
+
+        </div>
+
+        <fieldset ngModelGroup="otherfields">
+          <div class="row">
+              <div class="form-group  col-5">
+                <label for="username" class="col-sm-2 col-form-label">Username</label>
+                  <input type="text" class="form-control" name="username" placeholder="inserire username" required  #username="ngModel" ngModel id="username"   minlength="8" maxlength="32"/>
+                  <div *ngIf="username.dirty && username.touched && username.invalid" class="alert alert-danger">
+                    <!-- {{ demessa.errors | json }}  per editare gli errori e poi impostare il validatore corretto -->
+                  <!--  validatore lato client -->
+                        <div  *ngIf="username.errors.required">    <!-- *ngIf="demessa.invalid"-->
+                          il campo username è obbligatorio
+                        </div>
+                        <div  *ngIf="username.errors.minlength">
+                          il campo deve essere lungo più di {{ username.errors.minlength.requiredLength }} caratteri
+                        </div>
+                        <div  *ngIf="username.errors.maxlength">
+                          il campo non deve essere lungo più di {{ username.errors.maxlength.requiredLength }} caratteri
+                        </div>
+                  </div>
+              </div>
+              <div class="form-group  col-5">
+                <label for="email" class="col-sm-5 col-form-label">indirizzo Email</label>
+                <input type="email" class="form-control"  name="email" placeholder="inserire email" [(ngModel)]="form.email" required  #email="ngModel" ngModel id="email" email  maxlength="40" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"/>
+                <div *ngIf="email.dirty && email.touched && email.invalid" class="alert alert-danger">
+                  <!-- {{ demessa.errors | json }}  per editare gli errori e poi impostare il validatore corretto -->
+                <!--  validatore lato client -->
+                      <div  *ngIf="email.errors.required">    <!-- *ngIf="demessa.invalid"-->
+                        il campo email è obbligatorio
+                      </div>
+                       <div  *ngIf="email.errors.maxlength">
+                        il campo non deve essere lungo più di {{ email.errors.maxlength.requiredLength }} caratteri
+                      </div>
+                      <div *ngIf="email.errors.pattern">
+                        inserire il formalismo corretto
+                  </div>
+                </div>
+            </div>
+            </div>
+          </fieldset>
+
+
+
+
+        <fieldset ngModelGroup="passwords">
+          <div class="row">
+            <div class="form-group col-5">
+              <label for="password" class="col-sm-2 col-form-label">Password</label>
+
+                <input type="password" class="form-control"  name="password" placeholder="inserire password" [(ngModel)]="form.password" required #password="ngModel"  ngModel id="password"   minlength="8" maxlength="32"/>
+                <div *ngIf="password.dirty && password.touched && password.invalid" class="alert alert-danger">
+                  <!-- {{ demessa.errors | json }}  per editare gli errori e poi impostare il validatore corretto -->
+                <!--  validatore lato client -->
+                      <div  *ngIf="password.errors.required">    <!-- *ngIf="demessa.invalid"-->
+                        il campo password è obbligatorio
+                      </div>
+                      <div  *ngIf="password.errors.minlength">
+                        il campo deve essere lungo più di {{ password.errors.minlength.requiredLength }} caratteri
+                      </div>
+                      <div  *ngIf="password.errors.maxlength">
+                        il campo non deve essere lungo più di {{ password.errors.maxlength.requiredLength }} caratteri
+                      </div>
+                </div>
+            </div>
+            <div class="form-group col-5">
+                <label for="confirmPassword" class="col-sm-5 col-form-label">Conferma Password</label>
+                <input type="password" class="form-control"  name="confirmPassword" placeholder="inserire confirmPassword" [(ngModel)]="form.confirmPassword" required #confirmPassword="ngModel"  ngModel id="confirmPassword"   minlength="8" maxlength="32"/>
+                <div *ngIf="confirmPassword.dirty && confirmPassword.touched && confirmPassword.invalid" class="alert alert-danger">
+                  <!-- {{ demessa.errors | json }}  per editare gli errori e poi impostare il validatore corretto -->
+                <!--  validatore lato client -->
+                      <div  *ngIf="confirmPassword.errors.required">    <!-- *ngIf="demessa.invalid"-->
+                        il campo conferma Password è obbligatorio
+                      </div>
+                      <div  *ngIf="confirmPassword.errors.minlength">
+                        il campo deve essere lungo più di {{ confirmPassword.errors.minlength.requiredLength }} caratteri
+                      </div>
+                      <div  *ngIf="confirmPassword.errors.maxlength">
+                        il campo non deve essere lungo più di {{ confirmPassword.errors.maxlength.requiredLength }} caratteri
+                      </div>
+                      <div  *ngIf="confirmPassword.errors?.notEqual">
+                        la password e conferma Password non coincidono !!
+                      </div>
+                </div>
+            </div>
+          </div>
+      </fieldset>
+      <!--    eliminare
+        <div class="form-group form-check">
+            <input type="checkbox" formControlName="acceptTerms" id="acceptTerms" class="form-check-input" [ngClass]="{ 'is-invalid': submitted && f.acceptTerms.errors }" />
+            <label for="acceptTerms" class="form-check-label">Accept Terms & Conditions</label>
+            <div *ngIf="submitted && f.acceptTerms.errors" class="invalid-feedback">Accept Ts & Cs is required</div>
+        </div>   -->
+        <br>
+        <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary"  [disabled]="!signupForm.valid">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Register
+            </button>
+            <a routerLink="../login" href="" class="btn btn-link">Cancel</a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,12 @@
+
+
+<th scope="row">{{i+1}}</th>
+    <td>{{user.cognome}} </td>
+    <td>{{user.nome}} </td>
+    <td>{{user.email}}</td>
+    <td>{{user.username}}</td>
+    <td >
+      <button class="btn btn-md btn-primary" (click)="navigate(user)">gestisci
+        <fa-icon [icon]="faUserEdit" fixed="true"></fa-icon>
+      </button>
+    </td>

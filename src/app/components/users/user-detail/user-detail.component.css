@@ -1,0 +1,67 @@
+.header_Inqu {
+  background-color: blue;
+  border-radius: 10px;
+  border: 3px solid yellow;
+}
+
+.header_Edit {
+  background-color: green;
+  border-radius: 10px;
+  border: 3px solid yellow;
+}
+
+.header_New {
+  background-color: orange;
+  border-radius: 10px;
+  border: 3px solid black;
+}
+
+.title_Inqu {
+  vertical-align: middle;
+  text-align: center;
+  font-weight: bold;
+  font-size: medium;
+  color: red;
+}
+
+.title_Edit {
+  vertical-align: middle;
+  text-align: center;
+  font-weight: bold;
+  font-size: medium;
+  color: yellow;
+}
+
+.title_New {
+  vertical-align: middle;
+  text-align: center;
+  font-weight: bold;
+  font-size: medium;
+  color: white;
+}
+
+.img {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+input.ng-invalid {border-left:5px solid red; }
+input.ng-valid{border-left:5px solid green;}
+
+.modal-header-color {
+  background-color: red;
+  color: white;
+  text-align:inherit;
+}
+
+.marginGmForm {
+  margin-left: 30px;
+}
+
+.borde {
+  border: 3px solid white;
+}

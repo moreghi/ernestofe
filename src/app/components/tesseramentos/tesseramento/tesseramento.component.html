@@ -1,0 +1,75 @@
+
+
+<td>{{i}}</td>
+  <td>{{tesseramento.anno}}</td>
+  <td>{{tesseramento.dataiscr}}</td>
+  <td>{{tesseramento.importo |currency:"EUR":"symbol"}}</td>
+
+
+
+<!--
+<td class="buttons">
+  <div class="row">
+    <div class="col-sm-4">
+          <button   class="btn btn-success  btn-sm" (click)="showtesseramentoestazionePopup(tesseramento)" data-toggle="modal" data-target="#notesseramentoModal" >
+             <fa-icon [icon]="faList" fixed="true"></fa-icon>
+          </button>
+    </div>
+    <div class="col-sm-4">
+
+
+            <button   class="btn btn-primary  btn-sm" (click)="showtesseramentoestazioneDetail()" data-toggle="modal" data-target="#notesseramentoModal" >
+
+
+         <fa-icon [icon]="faUserEdit" fixed="true"></fa-icon>
+
+
+      </button>
+    </div>
+  </div>
+</td>  -->
+
+
+
+
+<!--  versione 2 -->
+<div *ngIf="tesseramento.anno === yyyy">
+  <td >
+    <button class="btn btn-sm  btn-danger" (click)="open(content, tesseramento)">
+    <fa-icon [icon]="faTrash"  fixed="true" class="fa-solid faTrash fa-1x"></fa-icon>
+  </button>
+  </td>
+</div>
+
+
+
+
+
+<ng-template #content let-modal>
+  <div class="modal-header modal-header-color">
+  <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+  <div class="modal-body">
+  <form>
+  <p>confermi la cancellazione del tesseramento ?</p>
+
+
+  </form>
+  </div>
+  <div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel
+    <fa-icon [icon]="faWindowClose" fixed="true"></fa-icon>
+
+  </button>
+
+  <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+    <fa-icon [icon]="faTrash" fixed="true"></fa-icon>
+  </button>
+  </div>
+</ng-template>
+
+
+

@@ -1,0 +1,77 @@
+
+  <!--  <th scope="row">{{user.id}}</th>  -->
+  <th scope="row">{{i+1}}</th>
+    <td>{{user.cognome}} </td>
+    <td>{{user.nome}} </td>
+    <td>{{user.email}}</td>
+    <td>{{user.username}}</td>
+    <!--  versione 1 -->
+<!--
+    <td>
+      <button class="btn btn-md btn-danger" (click)="delete(user.id)">Delete</button>
+      &nbsp;
+      <button class="btn btn-md btn-primary" (click)="update(user.id)">Update</button>
+    </td>
+-->
+<!--  versione 2 -->
+    <td *ngIf="functionUser === navigateEdits">
+      <button class="btn btn-md btn-danger" (click)="open(content, user)">Delete</button>
+    </td>
+    <td *ngIf="functionUser === navigateInqu">
+      <button class="btn btn-md btn-primary" (click)="navigate(navigateInqu,user)">Inqu</button>
+    </td>
+    <td *ngIf="functionUser === navigateEdits">
+      <button class="btn btn-md btn-success" (click)="navigate(navigateEdits,user)">Update all</button>
+    </td>
+    <td *ngIf="functionUser === navigateEdit">
+      <button class="btn btn-md btn-danger" (click)="navigate(navigateEdit,user)">Update </button>
+    </td>
+
+
+
+
+    <!--
+    <td>
+      <button class="btn btn-md btn-success" (click)="navigate(this.navigateInqu, user.id)">Inq</button>
+    </td>
+    <td>
+      <button class="btn btn-md btn-warning" (click)="navigate(this.navigateEdit, user.id)">ed</button>
+    </td>
+    <td>
+      <button class="btn btn-md btn-info" (click)="navigate(this.navigateEdits, user.id)">ed Full</button>
+    </td>  -->
+
+    <ng-template #content let-modal>
+      <div class="modal-header modal-header-color">
+      <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+      </button>
+      </div>
+      <div class="modal-body">
+      <form>
+      <p>confermi la cancellazione dell utente &nbsp;&nbsp;{{this.user.cognome }}&nbsp;?</p>
+
+      <!-- esempio di calendario che funziona benissimo
+      <div class="form-group">
+      <label for="dateOfBirth">Date of birth</label>
+      <div class="input-group">
+      <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+      <div class="input-group-append">
+      <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+      </div>
+      </div>
+      </div>
+      -->
+      </form>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel
+        <fa-icon [icon]="faWindowClose" fixed="true"></fa-icon>
+      </button>
+
+      <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+        <fa-icon [icon]="faTrash" fixed="true"></fa-icon>
+      </button>
+      </div>
+    </ng-template>

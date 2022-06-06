@@ -1,0 +1,76 @@
+
+<!--<ng-template #content let-modal>  -->
+
+<div class="modal-header modal-header-Moreno" >
+  <div class="col-sm-3">
+    <img src="assets/images/logoSanfra.png" width="40" height="40" alt="logo">
+  </div>
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+
+<div class="container">
+<div class="modal-body">
+  <p [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="editForm" >
+    <!-- Chiave del record -->
+    <input hidden type="text" formControlName="id" class="form-control" />
+
+  <p>Nel menu <strong>Prenotazioni</strong>&nbsp; la voce <strong>Prenotazione</strong>&nbsp;consente di accedere alla pagina di registrazione per una prenotazione al Sanfra.</p>
+    <div class="col-sm-3">
+      <img src="assets/images/infoPre/menuPrenotazione01.jpg" alt="menu01">
+    </div>
+
+    Conclusa la prenotazione, verrà inviata una email con la richiesta di confermare la prenotazione.
+    <button  class="btn btn-info mr-2" (click)="open(content)" >esito mail
+      <fa-icon [icon]="faTimes"  fixed="true"></fa-icon>
+    </button>
+<p>
+    Effettuata la conferma, la prenotazione viene resa attiva.
+    Per visualizzare le Prenotazioni inserite o per effettuare una eventuale cancellazione, occorre registrarsi preliminarmente tramite la voce
+    <strong>Registrazioni</strong>     <div class="col-sm-3">
+      <img src="assets/images/infoPre/menuRegistrazione.jpg" alt="menu02">
+    </div>
+    <p>
+    <br>Conclusa la registrazione viene resa fruibile la voce <strong>Elenco Prenotazioni</strong></p> che consente di visualizzare ed eventualmente operare sulle prenotazioni effettuate.
+    <div class="col-sm-3">
+      <img src="assets/images/infoPre/ElencoPrenotazioni.jpg" alt="menu03">
+    </div>
+
+
+
+</div>
+</div>
+<div class="modal-footer">
+
+<button  class="btn btn-info mr-2" (click)="modal.close('Save click')" >Chiudi
+  <fa-icon [icon]="faTimes"  fixed="true"></fa-icon>
+</button>
+</div>
+<!--</ng-template>  -->
+
+
+
+
+<ng-template #content>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">email di conferma</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal(1)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <strong>Registrazioni</strong>
+    <div class="col-sm-3">
+      <img src="assets/images/infoPre/ConfermaEmail.jpg" alt="email02">
+    </div>
+  </div>
+    <div class="modal-footer">
+   <!--  <button type="button" class="btn btn-secondary" (click)="closeModal(0)">Chiudi  -->
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close
+      <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+     </button>
+
+  </div>
+  </ng-template>

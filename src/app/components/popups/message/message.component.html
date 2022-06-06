@@ -1,0 +1,41 @@
+<div class="modal-header modal-header-Moreno" >
+
+      <div class="col-sm-2" >
+        <img src={{pathimage}} width="40" height="40" alt="logoImage">
+        &nbsp;
+        <img src="assets/images/logoSanfra.png" width="40" height="40" alt="logo">
+      </div>
+
+
+
+  <h4 class="modal-title textalign" id="modal-basic-title"><strong>{{title}}</strong></h4>
+<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+
+<div class="container">
+<div class="modal-body">
+  <p [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="editForm" >
+    <!-- Chiave del record -->
+    <input hidden type="text" formControlName="id" class="form-control" />
+
+
+  <p></p>
+
+  <input hidden type="text" formControlName="message01" class="form-control" />
+  <p class="info" *ngIf="msgInfo === true"><strong>{{message01}}</strong></p>
+  <p class="error" *ngIf="msgError === true"><strong>{{message01}}</strong></p>
+  <p class="correct" *ngIf="msgcorrect === true"><strong>{{message01}}</strong></p>
+
+  <p></p>
+  <p>{{message02}}</p>
+
+</div>
+<div class="modal-footer modal-footer-moreno">
+
+<button  class="btn btn-info mr-2" (click)="modal.close('Save click')" >Chiudi
+  <fa-icon [icon]="faTimes"  fixed="true"></fa-icon>
+</button>
+</div>
+</div>

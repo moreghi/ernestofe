@@ -1,0 +1,112 @@
+<p>tesseramento-detail works!</p>
+
+
+
+
+<div class="container">
+  <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
+     <div >
+      <form #fm ="ngForm">
+        <input Hidden #id="ngModel"  [(ngModel)]="socio.id" class="form-control" name="id" id="id">
+
+        <div class="row">
+            <label for="cognome" class="col-sm-1 col-form-label">Cognome</label>
+            <div class=" col-md-3">
+              <input disabled #cognome="ngModel"  [(ngModel)]="socio.cognome" class="form-control" name="cognome" id="cognome">
+            </div>
+            <label for="nome" class="col-sm-1 col-form-label">Nome</label>
+            <div class=" col-md-3">
+              <input disabled #nome="ngModel"  [(ngModel)]="socio.nome" class="form-control" name="nome" id="nome">
+            </div>
+
+
+        </div>
+
+        <br>
+        <!--  riga residenza  -->
+        <div class="row">
+          <label for="d_localita" class="col-sm-1 col-form-label">Residenza</label>
+          <div class=" col-md-3">
+            <input disabled #cognome="ngModel"  [(ngModel)]="socio.d_localita" class="form-control" name="d_localita" id="d_localita">
+          </div>
+          <label for="indirizzo" class="col-sm-1 col-form-label">Indirizzo</label>
+          <div class=" col-md-3">
+            <input disabled #nome="ngModel"  [(ngModel)]="socio.indirizzo" class="form-control" name="indirizzo" id="indirizzo">
+          </div>
+          <label for="cellulare" class="col-sm-1 col-form-label">Cellulare</label>
+          <div class=" col-md-2">
+            <input disabled #cellulare="ngModel"  [(ngModel)]="socio.cell" class="form-control" name="cellulare" id="cellulare">
+          </div>
+
+      </div>
+      <br>
+      <!--  riga Tessera  -->
+      <div class="row">
+        <label for="tessera" class="col-sm-1 col-form-label">Tessera</label>
+        <div class=" col-md-3">
+          <input disabled #tessera="ngModel"  [(ngModel)]="socio.tessera" class="form-control" name="tessera" id="tessera">
+        </div>
+      </div>
+      </form>
+    </div>
+   </div>
+
+  <br>
+      <!-- bottone per registrazione -->
+     <div class="row col-sm-6">
+            <div class="col-sm-5">
+                 <button  class="btn btn-primary btn-rounded"  (click)="registra()">Registrazione
+                   <fa-icon [icon]="faPlusSquare"  fixed="true"></fa-icon>
+                  </button>
+            </div>
+      </div>
+  <br>
+
+</div>
+  <br>
+  <div class="form-row col-md-12">
+    <div class="row col-md-12">
+
+      <!-- tabella di dettaglio dei fedeli -->
+       <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white table-bordered table-responsive-lg table-container">
+         <tr>
+             <th>#</th>
+             <th>Anno</th>
+             <th>data Iscr</th>
+             <th>Importo</th>
+             <!--  non serve action -->
+             <th >Action</th>
+         </tr>
+         <!-- <tr app-fedele *ngFor ="let fedele of fedeli; let i = index" >  -->  <!-- volendo gestire anche il progressivo -->
+           <!-- in fedele-prog passo al componente fedele.component in valore dell'indice da visualizzare -->
+         <tr app-tesseramento *ngFor ="let tesseramento of tesseramenti | paginate: { itemsPerPage: 10, currentPage: p }; let i = index"
+            [tesseramento-prog] = i+1
+            [tesseramento-data] = "tesseramento"
+            >
+         </tr>
+       </table>
+       <pagination-controls (pageChange)="p = $event"></pagination-controls>
+       <div class="form-row">
+        <div class="col-md-12">
+           <!-- messaggi -->
+          <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+           </div>
+           <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+            </div>
+          </div>
+       </div>
+    </div>
+  </div>
+
+
+
+

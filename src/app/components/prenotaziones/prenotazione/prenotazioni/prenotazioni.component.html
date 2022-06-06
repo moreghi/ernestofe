@@ -1,0 +1,153 @@
+<p>prenotazioni works!</p>
+
+<div class="container">
+
+  <div>
+    &nbsp;
+  </div>
+  <!--  messaggio operazione conclusa correttamente -->
+  <!--
+  <div *ngIf="successmsg"   class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>{{successmsg}}</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>  -->
+
+
+
+
+
+ <div class="container-fluid">
+    <div class="row" *ngIf="level !== 0">
+
+        <div class="col-md-4">
+
+          <div class="form-group row" >
+            <div class="col-sm-1">
+              <div class="alignicon">
+                <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+              </div>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="search-hero">
+                <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="inserisci campo di ricerca">
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group row">
+          <div class="col-sm-5" >
+            <div class="form-check form-check-inline" *ngFor="let option of options; let idx = index">
+              <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option" (change)="onSelectionChange(option)">&nbsp; {{option}}
+            </div>
+          </div>
+
+          <div class="col-md-3"  *ngIf="enabledSelectday === true" > <!-- *ngIf="level !== 0" -->
+            <div class="dropdown">
+              <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedDay" ngModel name="giornata" id="giornata" class="form-select" required (change)="selectedGiornata($event.target.value)" aria-label="Default select example">
+                <option selected value="999"  >Seleziona la Giornata</option>
+                <option *ngFor="let giornata of giornate" [value]="giornata.id"  class="form-control"  >{{giornata.dtGiornata | date:'dd/MM/yyyy' }}</option>
+              </select>
+            </div>
+          </div>
+          <div *ngIf="trovatoRec"  class="col col-md-2 ">
+                  <strong>Record :</strong>&nbsp;&nbsp; {{nRec}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="level === 0">
+      <div class="col-md-8">
+        Prenotazioni del cliente
+      </div>
+      <div class="col-md-4">
+        <div *ngIf="trovatoRec"  class="col col-md-3 ">
+          <strong>Record :</strong>&nbsp;&nbsp; {{nRec}}
+        </div>
+      </div>
+    </div>
+
+
+
+
+ </div>
+level {{level}}
+<!-- {{prenotazioni | json }} -->
+    <table class="table table-striped table-hover"  *ngIf="level !== 0" >
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Cognome</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Telefono</th>
+          <th scope="col">Email</th>
+          <th scope="col">Data</th>
+          <th scope="col">Persone</th>
+
+
+          <th  colspan="2" style="text-align: center ">gestione</th>
+        </tr>
+      </thead>
+      <tbody>
+
+<!--{{prenotazione | json}} -->         <!-- [prenotazione1-level] = level -->
+
+        <tr app-prenotazione1 *ngFor ="let prenotazione of prenotazioni | filter:searchText | paginate: { itemsPerPage: 10, currentPage: p }; let i = index"
+          [prenotazione1-prog] = i+1
+          [prenotazione1-data] = "prenotazione"
+          [prenotazione1-level] = level
+          (onDeletedPrenotazione) ="onDeletedPrenotazione($event)"
+          >
+
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped table-hover"  *ngIf="level === 0" >
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Cognome</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Data</th>
+          <th scope="col">Persone</th>
+
+
+          <th  colspan="2" style="text-align: center ">gestione</th>
+        </tr>
+      </thead>
+      <tbody>
+
+<!--{{prenotazione | json}} -->         <!-- [prenotazione1-level] = level -->
+
+        <tr app-prenotazione1 *ngFor ="let prenotazione of prenotazioni | filter:searchText | paginate: { itemsPerPage: 10, currentPage: p }; let i = index"
+          [prenotazione1-prog] = i+1
+          [prenotazione1-data] = "prenotazione"
+          [prenotazione1-level] = level
+          (onDeletedPrenotazione) ="onDeletedPrenotazione($event)"
+          >
+
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <div class="row col-md-12">
+      <!-- messaggi -->
+      <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+        <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+           <p>{{Message}}</p>
+           <hr>
+         </div>
+         <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+         <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+           <p>{{Message}}</p>
+         </div>
+    </div>
+
+
+
+
+</div>
+<notifier-container></notifier-container>
+

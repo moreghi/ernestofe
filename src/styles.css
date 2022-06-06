@@ -1,0 +1,14 @@
+
+/* You can add global styles to this file, and also import other style files */
+/* versione per editare  icone in login */
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500i&display=swap");
+
+/* per la gestione del messaggio di notifica esito con angula-notifier  */
+@import "~angular-notifier/styles";
+
+body:not(.fa) {
+  font-family: "Poppins", sans-serif;
+}
+
+input.ng-invalid {border-left:5px solid red; }
+input.ng-valid{border-left:5px solid green;}

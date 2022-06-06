@@ -1,0 +1,387 @@
+<p>home works!</p>
+
+<!--
+<div class="container">
+  <caption class="title  col-sm-12">{{title}}</caption>
+  <div class="row col-md-12">
+     <div class="col-md-auto">
+      <form #fm ="ngForm">
+        <input Hidden #id="ngModel"  [(ngModel)]="manif.id" class="form-control" name="id" id="id">
+
+        <div class="form-row">
+            <div class="form-group col-sm-9">
+                  <label for="descManif">Manifestazione</label>
+                  <input disabled #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif">
+
+            </div>
+            <div class="form-group col-sm-3">
+                <label >Stato</label>
+                <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.statoManifestazione == 2 ? 'red' : null">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-sm-6">
+                <label for="dtGiornata">Data </label>
+                <input  disabled [(ngModel)]="giornata.dtGiornata"  #dtGiornata="ngModel" class="form-control"  name="dtGiornata" id="dtGiornata">
+            </div>
+            <div class="form-group col-sm-3">
+              <label >Stato</label>
+              <input disabled #d_stato_giornata="ngModel"  [(ngModel)]="giornata.d_stato_giornata" class="form-control" name="d_stato_giornata" id="d_stato_giornata" [style.color]="giornata.stato == 2 ? 'red' : null">
+          </div>
+
+       </div>
+
+      </form>
+    </div>
+   </div>
+</div>
+-->
+<!--<h2><label>Situazione di Cassa</label></h2>  -->
+
+
+<br>
+
+<!--
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="#">Active</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+  </li>
+</ul>  -->
+<div class="container">
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item"><a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Chi Siamo</a></li>
+  <li class="nav-item"><a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Statuto</a></li>
+  <li class="nav-item"><a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Iniziative</a></li>
+  <li class="nav-item"><a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">Immagini</a></li>
+</ul>
+<div class="tab-content" id="myTabContent">
+
+
+
+
+
+
+
+  <div class="tab-pane p-4 fade" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+
+    <p>il Direttivo</p>
+    <hr>
+
+    <div class="form-row">
+      <p>Beppe Canto</p>
+
+      <div class="col-md-12 offset-6">
+        // !-- fare funzione upòoad e rinominare i file immagine
+        <img src="http://localhost:3000/upload/files/direttivo/index_01.jpg"  alt="user.photo" class="img-circle rounded-circle border p-1 centro" width="80px" height="80px">
+
+      </div>
+      <div class="form-row">
+        <p>Bedendo Francesco</p>
+
+        <div class="col-md-12 offset-6">
+
+          <img src="http://localhost:3000/upload/files/direttivo/index_02.jpg"  alt="user.photo" class="img-circle rounded-circle border p-1 centro" width="80px" height="80px">
+
+        </div>
+</div>
+
+
+
+
+
+
+
+    <div class="form-group row">
+      <label for="d_stato_cassa" class="col-sm-2 col-form-label">Merda 1</label>
+      <div class="col-sm-4">
+     <!--   <input disabled #d_stato_cassa="ngModel"  [(ngModel)]="giornata.d_stato_cassa" class="form-control" name="d_stato_cassa" id="d_stato_cassa" [style.color]="giornata.statoCassa == 0 ? 'red' : null">  -->
+      </div>
+    </div>
+    <br>
+
+<!--  inizio tabella con dati cassa-->
+
+
+
+<!-- fine Tabella Cassa  -->
+
+ <!-- limite per inserire la situazione cassa -->
+    </div>  <mat-autocomplete role="combobox" #auto="matAutocomplete">
+      <mat-option *ngFor="let item of list | async " [value]="item">
+        <span>{{item}}</span>
+      </mat-option>
+    </mat-autocomplete>
+
+<div class="tab-pane p-4 fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+   merda 2
+<!--
+  <div class="form-group row">
+    <label for="d_stato_cassa" class="col-sm-2 col-form-label">Stato Persone</label>
+    <div class="col-sm-4">
+      <input disabled #d_stato_cassa="ngModel"  [(ngModel)]="giornata.d_stato_utenti" class="form-control" name="d_stato_utenti" id="d_stato_utenti" [style.color]="giornata.statoUtenti == 0 ? 'red' : null">
+    </div>
+  </div>
+  <br>
+
+  <div class="container-fluid">
+    <table class="table">
+      <tr >
+        <td class="col col-md-7">
+            <div class="form-check form-check-inline" *ngFor="let option of options; let idx = index">
+              <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option" (change)="onSelectionChange(option)">&nbsp; {{option}}
+            </div>
+        </td>
+
+
+
+<div class="form-row">
+<label>Ruolo</label>&nbsp;&nbsp;
+  <select formControlName="ruolo" class="form-select" aria-label="Default select example" #mySelect (change)='onOptionsSelected(mySelect.value)'     >
+
+    <option *ngFor="let prod of enabledProd" [value]="prod.value"  class="form-control" >{{prod.dEnable}}</option>
+  </select>
+
+
+</div>
+
+
+        <td>
+          <div *ngIf="trovatoRec"  class="col col-md-6">
+            <strong>Record :</strong>&nbsp;&nbsp; {{nRec}}
+          </div>
+        </td>
+      </tr>
+
+    </table>
+  </div>
+
+
+
+
+
+       <form #fm ="ngForm">
+
+       <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white ">
+
+         <tr>
+             <th>prog</th>
+             <th>Cognome</th>
+             <th>nome</th>
+             <th>Ruolo</th>
+
+             <th>Action</th>
+             <th></th>
+             <th></th>
+         </tr>
+
+         <tr app-persona *ngFor ="let user of users | paginate: { itemsPerPage: 10, currentPage: p_pers }; let i = index"
+         [persona-prog] = i+1
+         [persona-data] = "user" [style.color]="user.idRuolo_Day == 0 ? 'red' : null"
+         >
+
+
+       </tr>
+       </table>
+
+       <div class="row col-md-12">
+
+        <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Errore in elenco</h4>
+             <p>{{Message}}</p>
+             <hr>
+           </div>
+           <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+              <h4 class="alert-heading">Modifca Password</h4>
+             <p>{{Message}}</p>
+           </div>
+          </div>
+
+
+      <pagination-controls (pageChange)="p_pers = $event"></pagination-controls>
+       </form>
+
+
+
+-->
+
+</div>
+
+
+<!--  ----------------------------    visualizzazione della situazione delle persone -------------------------------------- -->
+
+  <div class="tab-pane p-4 fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+
+   merda 3
+   <!--
+    <div class="form-group row">
+      <label for="d_stato_cassa" class="col-sm-2 col-form-label">Stato Persone</label>
+      <div class="col-sm-4">
+        <input disabled #d_stato_cassa="ngModel"  [(ngModel)]="giornata.d_stato_utenti" class="form-control" name="d_stato_utenti" id="d_stato_utenti" [style.color]="giornata.statoUtenti == 0 ? 'red' : null">
+      </div>
+    </div>
+    <br>
+
+    <div class="container-fluid">
+      <table class="table">
+        <tr >
+          <td class="col col-md-7">
+              <div class="form-check form-check-inline" *ngFor="let option of options; let idx = index">
+                <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option" (change)="onSelectionChange(option)">&nbsp; {{option}}
+              </div>
+          </td>
+
+
+
+
+          <td>
+            <div *ngIf="trovatoRec"  class="col col-md-6">
+              <strong>Record :</strong>&nbsp;&nbsp; {{nRec}}
+            </div>
+          </td>
+        </tr>
+
+      </table>
+    </div>
+
+
+
+
+
+         <form #fm ="ngForm">
+
+         <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white ">
+
+           <tr>
+               <th>prog</th>
+               <th>Cognome</th>
+               <th>nome</th>
+               <th>Ruolo</th>
+
+               <th>Action</th>
+               <th></th>
+               <th></th>
+           </tr>
+
+           <tr app-persona *ngFor ="let user of users | paginate: { itemsPerPage: 10, currentPage: p_pers }; let i = index"
+           [persona-prog] = i+1
+           [persona-data] = "user" [style.color]="user.idRuolo_Day == 0 ? 'red' : null"
+           >
+
+
+         </tr>
+         </table>
+
+         <div class="row col-md-12">
+
+          <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+
+               <p>{{Message}}</p>
+               <hr>
+             </div>
+             <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+
+               <p>{{Message}}</p>
+             </div>
+            </div>
+
+
+        <pagination-controls (pageChange)="p_pers = $event"></pagination-controls>
+         </form>
+
+        -->
+
+
+
+  </div>
+  <!--  ----------------------------    visualizzazione della situazione dei Prodotti -------------------------------------- -->
+
+  <!--{{messa | json}}      -->
+
+  <div class="tab-pane p-4 fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+
+    merda 4
+    <!--
+    <div class="form-group row">
+      <label for="d_stato_magazzino" class="col-sm-2 col-form-label">Stato Prodotti</label>
+      <div class="col-sm-4">
+        <input disabled #d_stato_magazzino="ngModel"  [(ngModel)]="giornata.d_stato_magazzino" class="form-control" name="d_stato_magazzino" id="d_stato_magazzino" [style.color]="giornata.statoUtenti == 0 ? 'red' : null">
+      </div>
+    </div>
+    <div class="container-fluid">
+      <table class="table">
+        <tr>
+          <td >
+            <td class="col col-md-5">
+                <div class="form-check form-check-inline" *ngFor="let option1 of optionsProd; let idx = index">
+                  <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option1" (change)="onSelectionChangeProd(option1)">&nbsp; {{option1}}
+                </div>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <div *ngIf="trovatoRec"  class="col col-md-6">
+                    <strong>Record :</strong>&nbsp;&nbsp; {{nRec}}
+              </div>
+            </td>
+        </tr>
+      </table>
+    </div>
+    <form #fm ="ngForm">
+
+         <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white ">
+
+           <tr >
+               <th>prog</th>
+               <th>Descrizione</th>
+               <th>Tipologia</th>
+               <th>Categoria</th>
+               <th>Disp. Day</th>
+               <th>Prezzo Day</th>
+               <th>Venduto</th>
+               <th>Residuo</th>
+
+               <th></th>
+            </tr>
+
+           <tr app-prodotto2  *ngFor ="let prodotto of prodotti | paginate: { itemsPerPage: 10, currentPage: p_prod }; let i = index"
+           [prodotto2-prog] = i+1
+           [prodotto2-data] = "prodotto" [style.color]="prodotto.aMenu == '?' ? 'red' : null "
+
+           >
+
+
+         </tr>
+         </table>
+
+         <div class="row col-md-12">
+
+          <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+              <h4 class="alert-heading">Errore in elenco</h4>
+               <p>{{Message}}</p>
+               <hr>
+             </div>
+             <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+               <h4 class="alert-heading">Modifca Password</h4>
+               <p>{{Message}}</p>
+             </div>
+            </div>
+
+        <pagination-controls (pageChange)="p_prod = $event"></pagination-controls>
+         </form>
+
+
+-->
+
+  </div>
+

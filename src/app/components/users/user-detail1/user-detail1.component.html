@@ -1,0 +1,307 @@
+<p>user-detail1 works!</p>
+
+{{title}}   merdazza
+
+<div class="container borde">
+  <div class="header_Inqu" *ngIf="functionInqu">
+    <caption class="title_Inqu  col-sm-12">{{title}}</caption>
+  </div>
+  <div class="header_Edit" *ngIf="functionEdit || functionEdits">
+    <caption class="title_Edit  col-sm-12">{{title}}</caption>
+  </div>
+  <div class="header_New" *ngIf="functionNew">
+    <caption class="title_New  col-sm-12">{{title}}</caption>
+  </div>
+
+  <br>
+  <div >    <!--  <div class="row justify-content-md-center">                 class="row col-md-12 marginGmForm" -->
+    <div class="col-md-auto">
+      <form #fm ="ngForm"  method="POST">
+        <input hidden #id="ngModel"  [(ngModel)]="user.id" class="form-control" name="id" id="id">
+        <input hidden #key_utenti_operation="ngModel"  [(ngModel)]="user.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation">
+
+        <!--    eliminato temporaneamente la foto
+        <div class="col-6 " style="margin-top: 35px;">
+          <div class="row">
+            <div class="col-md-12 offset-6">
+      <--        <img src="assets/images/users/{{user.photo}}"  alt="user.photo" class="img-circle rounded-circle border p-1 img" width="150px" height="150px">
+              <img src="http://localhost:3000/storage/posts/{{user.photo}}"  alt="user.photo" class="img-circle rounded-circle border p-1 img" width="90px" height="90px">
+          </div>
+          </div>
+        </div>   -->
+
+
+        <button class="btn btn-info btn-md "  (click)="testshow()"> test messaggio</button>
+
+
+
+        <div class="form-row">
+              <div class="col-md-12 offset-6">
+                <img src="http://localhost:3000/upload/files/users/{{user.photo}}"  alt="user.photo" class="img-circle rounded-circle border p-1 centro" width="150px" height="150px">  <!-- assets/images/users/{{user.photo}} -->
+             <!--     <img src="http://localhost:3000/upload/files/{{user.photo}}"  alt="user.photo" class="img-circle rounded-circle border p-1 img" width="180px" height="180px">   -->
+              </div>
+        </div>
+        <br>
+<!--
+
+        <br>
+        <div class="row">
+        <div class="col-6 " style="margin-top: 35px;">
+          <div class="row">
+            <div class="col-md-12 offset-6">
+            <img src="http://localhost:3000/upload/files/users/{{user.photo}}"  alt="user.photo" class="img-circle rounded-circle border p-1 img" width="150px" height="150px">
+
+          </div>
+          </div>
+        </div>
+        </div>
+        <br>  -->
+
+        <!--  per upload files -->
+        <div class="row">
+          <div class="col-8">
+            <label class="btn btn-default p-0">
+              <input type="file" (change)="selectFile($event)" />
+            </label>
+          </div>
+
+          <div class="col-4">
+            <button class="btn btn-success btn-sm" [disabled]="!selectedFiles" (click)="upload()">
+              Upload
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="currentFile" class="progress my-3">
+          <div
+            class="progress-bar progress-bar-info progress-bar-striped"
+            role="progressbar"
+            attr.aria-valuenow="{{ progress }}"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            [ngStyle]="{ width: progress + '%' }"
+          >
+            {{ progress }}%
+          </div>
+        </div>
+
+        <div *ngIf="messageupload" class="alert alert-secondary" role="alert">{{ messageupload }}</div>
+<!--    lista dei files  -- non utilizzata in questa specifica situazione
+        <div class="card mt-3">
+          <div class="card-header">List of Files</div>
+          <ul
+            class="list-group list-group-flush"
+            *ngFor="let file of fileInfos | async"
+          >
+            <li class="list-group-item">
+              <a href="{{ file.url }}">{{ file.name }}</a>
+            </li>
+          </ul>
+        </div>    -->
+
+      <!--  per upload files ---------------------    fine  -->
+
+
+
+        <!--  per fare upload del file    ------------------------------   old   da buttare
+        <label class="image-upload-container btn btn-bwm">
+          <span>Select Image</span>
+          <input #imageInput
+                 type="file"
+                 accept="image/*"
+                 (change)="processFile(imageInput)">
+        </label>    -->
+
+        <!-- visualizzazione Inqu    [hidden]="!functionInqu" -->
+        <br>
+        <div >
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="cognome">Cognome</label>
+              <input #cognome="ngModel"  [(ngModel)]="user.cognome" class="form-control" name="cognome" id="cognome" required minlength="3" maxlength="40" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire cognome">
+              <div *ngIf="cognome.dirty && cognome.touched && cognome.invalid" class="alert alert-danger">
+                <!-- {{ demessa.errors | json }}  per editare gli errori e poi impostare il validatore corretto -->
+              <!--  validatore lato client -->
+                    <div  *ngIf="cognome.errors.required">    <!-- *ngIf="demessa.invalid"-->
+                      il campo cognome è obbligatorio
+                    </div>
+                    <div  *ngIf="cognome.errors.minlength">
+                      il campo deve essere lungo più di {{ cognome.errors.minlength.requiredLength }} caratteri
+                    </div>
+                    <div  *ngIf="cognome.errors.maxlength">
+                      il campo non deve essere lungo più di {{ cognome.errors.maxlength.requiredLength }} caratteri
+                    </div>
+                    <div *ngIf="cognome.errors?.pattern">
+                          inserire il formalismo corretto
+                    </div>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="nome">Nome</label>
+              <input #nome="ngModel"  [(ngModel)]="user.nome" class="form-control" name="nome" id="nome" required minlength="3" maxlength="40" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire nome">
+              <div *ngIf="nome.invalid && (nome.dirty || nome.touched)" class="alert alert-danger">
+                          <!--  validatore lato client -->
+                    <div  *ngIf="nome.errors.required">    <!-- *ngIf="demessa.invalid"-->
+                      il campo nome è obbligatorio
+                    </div>
+                    <div  *ngIf="nome.errors.minlength">
+                      il campo deve essere lungo più di {{ nome.errors.minlength.requiredLength }} caratteri
+                    </div>
+                    <div  *ngIf="nome.errors.maxlength">
+                      il campo non deve essere lungo più di {{ nome.errors.maxlength.requiredLength }} caratteri
+                    </div>
+                    <div *ngIf="nome.errors?.pattern">
+                          inserire il formalismo corretto
+                    </div>
+              </div>
+            </div>
+          </div>
+
+          <br>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="email">Email</label>
+              <input type="email" class="form-control"  #email="ngModel"  [(ngModel)]="user.email" name="email" id="email" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" placeholder="Inserire indirizzo email">
+              <div *ngIf="email.dirty && email.touched && email.invalid"  class="alert alert-danger">
+                <div  *ngIf="email.errors.required">
+                  inserire indirizzo email - campo Obbligatorio
+                </div>
+                <div *ngIf="email.errors?.pattern">
+                  <!-- non posso inserire lettere   {{postimax.errors.pattern.requiredPattern }}  -->
+                  inserire indirizzo email corretto
+                </div>
+
+          </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="username">Username</label>
+              <input #username="ngModel"  [(ngModel)]="user.username" class="form-control" name="username" id="username" required minlength="3" maxlength="40" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire username">
+              <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
+                    <div  *ngIf="username.errors.required">
+                      il campo nome è obbligatorio
+                    </div>
+                    <div  *ngIf="username.errors.minlength">
+                      il campo deve essere lungo più di {{ nome.errors.minlength.requiredLength }} caratteri
+                    </div>
+                    <div  *ngIf="username.errors.maxlength">
+                      il campo non deve essere lungo più di {{ nome.errors.maxlength.requiredLength }} caratteri
+                    </div>
+                    <div *ngIf="username.errors?.pattern">
+                          inserire il formalismo corretto
+                    </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+
+            <div  class="form-group col-md-4 was-validated">
+              <label for="stato"  class="col-sm-4 control-label ">Stato</label>
+              <select [(ngModel)]="selectedSta" ngModel name="stato" id="stato" class="form-select" required (change)="selectedStato($event.target.value)" aria-label="Default select example">
+                <option selected value=""  >Seleziona lo Stato</option>
+                <option *ngFor="let stato of stati" [value]="stato.id"  class="form-control"  >{{stato.d_stato_utente}}</option>
+              </select>
+            </div>
+
+
+            <div  class="form-group col-md-4 was-validated">
+              <label for="ruolo"  class="col-sm-4 control-label ">Ruolo</label>
+              <select [(ngModel)]="selectedRuo" ngModel name="ruolo" id="ruolo" class="form-select" required (change)="selectedRuolo($event.target.value)" aria-label="Default select example">
+                <option selected value=""  >Seleziona il Ruolo</option>
+                <option *ngFor="let ruolo of ruoli" [value]="ruolo.id"  class="form-control"  >{{ruolo.d_ruolo}}</option>
+              </select>
+            </div>
+
+
+          </div>
+        </div>
+
+        <br>
+
+<!--
+          <div class="form-row" >
+            <div  class="form-group col-sm-4">
+              <label for="d_ruolo" class="col-sm-2 control-label ">Ruolo</label>
+              <input disabled  #d_ruolo="ngModel"  [(ngModel)]="user.d_ruolo" class="form-control" name="d_ruolo" id="d_ruolo">
+            </div>
+
+            <div  class="form-group col-sm-4">
+              <label for="d_ruolo_web" class="col-sm-2 control-label ">Ruolo Web</label>
+              <input disabled  #d_ruolo_web="ngModel"  [(ngModel)]="user.d_ruolo_web" class="form-control" name="d_ruolo_web" id="d_ruolo_web">
+            </div>
+            <div  class="form-group col-sm-4">
+              <label for="d_Stato_Utente" class="col-sm-2 control-label ">Stato</label>
+              <input disabled  #d_Stato_Utente="ngModel"  [(ngModel)]="user.d_Stato_Utente" class="form-control" name="d_Stato_Utente" id="d_Stato_Utente">
+            </div>
+          </div>
+
+         visualizzazione Edit / New  -->
+
+
+
+
+<!-- Bottoni funzionali -->
+  <!--      N = {{functionNew}}   E = {{functionEdit}}   S = {{functionEdits}}  I = {{functionInqu}}  -->
+          <div class="footer" >
+
+
+            <div class="row col-sm-10 offset-2">
+
+              <div class="col-sm-3" *ngIf="functionNew || functionEdit || functionEdits ">
+                <button [disabled]="fm.invalid " class="btn btn-success btn-md " (click)="conferma()">Conferma
+                  <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+                </button>
+              </div>
+              <div class="col-sm-3" *ngIf="functionNew || functionEdit || functionEdits ">
+                <button [disabled]="fm.invalid " class="btn btn-primary btn-md " (click)="reset()">Reset
+                  <fa-icon [icon]="faTimes"  fixed="true"></fa-icon>
+                </button>
+              </div>
+              <div class="col-sm-3"  *ngIf="functionEdits ">
+                <button [disabled]="fm.invalid " class="btn btn-danger btn-md "  (click)="open(content)"> Cancella
+                  <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                </button>
+              </div>
+              <div class="col-sm-3" >
+                <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+                  <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+                </button>
+              </div>
+          </div>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+      <br>
+
+<!--   messaggio con esito operazione -->
+
+        <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+     <!--     <h4 class="alert-heading">Errore in Registrazione User</h4>   -->
+          <p>{{Message}}</p>
+          <hr>
+          <p class="mb-0">{{Message1err}}</p>
+        </div>
+        <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+   <!--       <h4 class="alert-heading">Registrazione User</h4>   -->
+          <p>{{Message}}</p>
+          <hr>
+          <p class="mb-0"></p>
+        </div>
+
+
+    </form>
+    </div>
+  </div>
+
+</div>
+

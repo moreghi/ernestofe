@@ -1,0 +1,26 @@
+.jumbotron-image {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;    /* cover */
+  width: 800px;
+  height: 800px;
+
+}
+
+.marginline1 {
+  margin-left: 30px;
+
+  color: white;
+  text-shadow: 2px 2px 4px violet;
+}
+.marginline2 {
+  margin-left: 30px;
+  margin-top: 50px;
+
+}
+
+.paddingx {
+  padding-top: 40px;
+  padding-left: 40px;
+  padding-bottom: 10px;
+}

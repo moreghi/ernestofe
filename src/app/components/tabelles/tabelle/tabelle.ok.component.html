@@ -1,0 +1,56 @@
+<div class="container">
+
+  <br>
+  <strong>{{title}}</strong>
+  <br>
+
+  <div class="container-fluid">
+     <div class="row col-md-8 offset-1">
+
+
+       <table class="table table-striped table-hover">
+         <thead>
+           <tr>
+             <th scope="col">#</th>
+             <th scope="col">Tabella</th>
+             <th style="text-align: center ">gestione</th>
+           </tr>
+         </thead>
+         <tbody>
+
+
+           <tr app-tabella *ngFor ="let tabella of tabelle | paginate: { itemsPerPage: 10, currentPage: p }; let i = index"
+             [tabella-prog] = i+1
+             [tabella-data] = "tabella"
+
+             >
+
+           </tr>
+         </tbody>
+       </table>
+       <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+
+     </div>
+
+  </div>
+
+
+     <div class="row col-md-12">
+       <!-- messaggi -->
+       <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+         <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+            <p>{{Message}}</p>
+            <hr>
+          </div>
+          <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+          <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+            <p>{{Message}}</p>
+          </div>
+     </div>
+
+
+
+
+ </div>
+ <notifier-container></notifier-container>

@@ -1,0 +1,70 @@
+
+
+<div class="modal-header " [style.background]="fase === 'M' ? 'red' : 'green'" [style.color]="fase === 'M' ? 'white' : 'yellow'">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-1">
+        <img src="assets/images/logoSanfra.png" width="40" height="40" alt="logo">
+        </div>
+      <div class="col-sm-4">
+        <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+        </div>
+      <div class="col-sm-6">
+        <h5 class="titleMoreno" id="modal-basic-title1">{{tabella}}</h5>
+      </div>
+      <div class="col-sm-1">
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<div class="modal-body">
+<!-- inserire i campi della form da gestire in popup  -->
+ <form [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="editForm" >   <!-- class="was-validated" -->
+<!--   inizio   -->
+      <!-- Chiave del record -->
+      <input hidden type="text" formControlName="id" class="form-control" />
+      <input hidden type="text" formControlName="idtabella" class="form-control" />
+      <!-- descrizione elemento tabella    -->
+      <div class="form-row">
+        <div class="mb-3 row margini">
+          <label for="descrizione" class="col-sm-3 col-form-label">Descrizione:</label>
+          <div class="col-sm-9">
+            <input required type="text" formControlName="descrizione" class="form-control" minlength="4" maxlength="50" placeholder="Inserire la descrizione"/>
+          <!--  <div class="valid-feedback">Campo corretto</div>
+            <div class="invalid-feedback">insersci un valore corretto</div> -->
+
+            <div *ngIf="editFormData.descrizione.invalid && (editFormData.descrizione.dirty || editFormData.descrizione.touched)" class="alert-danger">
+              <div *ngIf="editFormData.descrizione.errors.required">
+                  <span>la descrizione è obbligatoria</span>
+              </div>
+              <div *ngIf="editFormData.descrizione.errors.minlength">
+                 <span>la descrizione deve essere di almeno 4 caratteri</span>
+              </div>
+              <div *ngIf="editFormData.descrizione.errors.maxlength">
+                  <span>la descrizione non può essere più lunga di 50 caratteri</span>
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+</form>
+</div>
+
+<div class="modal-footer">
+
+
+  <button [disabled]="isLoading" class="btn btn-secondary mr-2" (click)="modal.dismiss('Cross click')">Cancel
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+  </button>   <!--(click)="modal.close('Merda')"-->
+  <button [disabled]="!editForm.valid" class="btn btn-primary mr-2" (click)="closeModal(1)" >Salva    <!-- onSubmit() -->
+    <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+  </button>   <!-- (click)="onSubmit()"     [disabled]="isLoading"  -->
+
+</div>

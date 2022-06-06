@@ -1,0 +1,27 @@
+.borde {
+  border: 3px solid red;
+}
+
+.info {
+  color: violet;
+}
+
+.textalign {
+  text-align: left;
+}
+
+.error {
+  color: red;
+}
+.correct {
+  color: blue;
+
+}
+
+.modal-header-Moreno {
+  background-color: palegoldenrod;
+}
+
+.modal-footer-moreno {
+  background-color:aquamarine;
+}

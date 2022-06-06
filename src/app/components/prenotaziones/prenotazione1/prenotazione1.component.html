@@ -1,0 +1,112 @@
+
+<!--{{prenotazione | json }} -->
+
+
+<td>{{i}}</td>
+<td>{{prenotazione.cognome}}</td>
+<td>{{prenotazione.nome}}</td>
+<td *ngIf="level != 0">{{prenotazione.telefono}}</td>
+<td *ngIf="level != 0">{{prenotazione.email}}</td>
+<td>{{prenotazione.datapren | date:'dd/MM/yyyy'}}</td>
+<td>{{prenotazione.persone}}</td>
+
+
+
+<td class="buttons">
+  <div class="row">
+    <div class="col-sm-4">
+          <button   class="btn btn-danger  btn-sm" (click)="open(content)">
+            <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+      </button>
+    </div>
+    <div class="col-sm-4">
+      <button   class="btn btn-success  btn-sm" (click)="openmod(contentmod)">
+        <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+  </button>
+</div>
+  </div>
+</td>
+
+<!--- popup per Cancellazione -->
+<ng-template #content let-modal>
+  <div class="modal-header modal-header-color">
+    <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <p>confermi la cancellazione della Prenotazione &nbsp;&nbsp;</p>
+      <p></p>
+      <p><strong>{{prenotazione.cognome}}&nbsp;&nbsp;{{prenotazione.nome}}</strong>&nbsp;?</p>
+      <p>per la serata del <strong>{{prenotazione.datapren | date:'dd/MM/yyyy' }}</strong>&nbsp;?</p>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+
+    <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+      <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+    </button>
+  </div>
+</ng-template>
+
+
+<!--- popup per Modifica -->
+<ng-template #contentmod let-modal>
+  <div class="modal-header modal-header-color">
+    <h4 class="modal-title" id="modal-basic-title">Modifica Prenotazione</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <p>Modifica numero di persone &nbsp;&nbsp;</p>
+      <p></p>
+      <p>cliente:&nbsp;&nbsp;<strong>{{prenotazione.cognome}}&nbsp;&nbsp;{{prenotazione.nome}}</strong>&nbsp;</p>
+      <p>serata del <strong>{{prenotazione.datapren | date:'dd/MM/yyyy' }}</strong>&nbsp;</p>
+      <br>
+      <br>
+      <div class="form-group row">
+        <label for="persone" class="col-sm-4 col-form-label">Numero Persone</label>
+        <div class="col-sm-2">
+          <input type="text" name="persone" class="form-control" id="persone" placeholder="Persone" [(ngModel)]="prenotazione.persone" required #persone="ngModel" ngModel pattern="^[1-9]*$">
+        <!--    <i (mouseup)="hide()" (mousedown) ="show()" class="fas fa-eye"></i>   -->
+            <br>
+            <div class="col-sm-10 alert alert-danger  has-error" *ngIf="persone.dirty && persone.touched && persone.invalid" >
+                  <div  *ngIf="persone.errors.required">
+                    il campo Numero Persone è obbligatorio
+                  </div>
+                  <div *ngIf="persone.errors?.pattern">
+                        inserire il numero delle persone
+                  </div>
+            </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+
+    <button type="button" class="btn btn-success btn-md " (click)="modal.close('Modifica click')">Conferma
+      <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+    </button>
+  </div>
+</ng-template>
+
+
+
+ <!--   esempio di calendario che funziona benissimo
+      <div class="form-group">
+        <label for="dateOfBirth">Date of birth</label>
+        <div class="input-group">
+          <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+      -->
