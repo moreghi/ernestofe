@@ -28,7 +28,7 @@ export class UserlevelService {
  getAuthHeader(): HttpHeaders {
   const headers = new HttpHeaders(
     {
-      Authorization : 'Bearer ' + this.auth.getToken()
+      authorization: 'Bearer ' + this.auth.getToken()
     }
   );
   return headers;

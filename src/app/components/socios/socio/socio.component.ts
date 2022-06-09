@@ -17,10 +17,15 @@ export class SocioComponent implements OnInit {
 */
 
 import { Component, Input, OnInit } from '@angular/core';
+// Services
 import { SocioService} from '../../../services/socio.service';
 import { TlocalitaService} from '../../../services/tlocalita.service';
+import { TesseramentoService} from '../../../services/tesseramento.service';
+// Model
 import { Socio} from '../../../classes/Socio';
 import { Tlocalita } from '../../../classes/T_localita';
+import { Tesseramento } from '../../../classes/Tesseramento';
+// Varie
 import { Router } from '@angular/router';
 // per gestire il popup con esito operazione
 import { NotifierService } from 'angular-notifier';
@@ -43,6 +48,7 @@ export class SocioComponent implements OnInit {
   @Input('socio-prog') i: number;
 
   public localita: Tlocalita;
+  public tesseramento: Tesseramento;
 
   faUserEdit = faUserEdit;
   faTrash = faTrash;
@@ -71,6 +77,7 @@ export class SocioComponent implements OnInit {
   public function = 0;
   public nRec = 0;
 
+  public statoTesseramento = '';
   public utenteFedele = false;
 
    // variabili per gestione inqu/edit/new
@@ -96,6 +103,9 @@ export class SocioComponent implements OnInit {
 
   public messagenull = 'Nessun record presente !!!';
 
+  public dataOdierna;
+  public anno  = 0;
+
   closeResult = '';
 
 // variabili per notifica esito operazione con Notifier
@@ -105,6 +115,7 @@ export class SocioComponent implements OnInit {
 
   constructor(private socioService: SocioService,
               private tlocalitaService: TlocalitaService,
+              private tesseramentoService: TesseramentoService,
               private modalService: NgbModal,
               private route: Router,
               private datePipe: DatePipe,
@@ -120,9 +131,54 @@ export class SocioComponent implements OnInit {
   //   this.textUser = this.messa.demessa;
      this.textMessage2 = 'Registrazione non possibile';
 
-   //  this.loadResidenza(this.socio.locNascita);
+     this.loadResidenza(this.socio.residenza);
+     this.loadTesseramento(this.socio);
+  }
+
+  async loadTesseramento(socio: Socio) {
+
+    const date = Date();
+    this.dataOdierna = new Date(date);
+
+    this.anno  = this.dataOdierna.getFullYear();
+    this.statoTesseramento = '?';
+    console.log('frontend-----socio - loadTesseramento: ' + socio.id);
+    let rc = await  this.tesseramentoService.getbySocioeAnno(socio.id,this.anno).subscribe(
+       response => {
+        if(response['rc'] === 'ok') {
+          this.tesseramento = response['data'];
+          this.statoTesseramento = 'tesserato';
+        }
+        if(response['rc'] === 'nf') {
+           this.statoTesseramento = 'Non tesserato';
+        }
+      },
+      error => {
+         alert('loadResidenza: ' + error.message);
+         console.log(error);
+         this.alertSuccess = false;
+         this.Message = error.message;
+         this.showNotification( this.type, this.Message);
+      });
 
   }
+
+
+
+  getColor(stato) {
+    switch (stato) {
+      case 'tesserato':
+        return 'green';
+      case 'Non tesserato':
+        return 'red';
+    }
+  }
+
+
+
+
+
+
 
 
   async loadResidenza(id: number) {

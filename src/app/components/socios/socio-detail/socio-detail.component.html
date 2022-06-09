@@ -1,12 +1,11 @@
 <p>socio-detail works!</p>
-
 <div class="container">
   <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
   <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
      <div >
       <form #fm ="ngForm">
         <input Hidden #id="ngModel"  [(ngModel)]="socio.id" class="form-control" name="id" id="id">
-        <!--  riga anagrafica  -->
+        <!--  riga anagrafica  prima riga -->
         <div class="row">
             <label for="cognome" class="col-sm-1 col-form-label">Cognome</label>
             <div class=" col-md-3">
@@ -47,11 +46,24 @@
                 <span>il nome non rispetta le regole sintattiche</span>
                </div>
             </div>
+            <!-- sesso -->
+            <div class="col-sm-1"><strong>Sesso</strong></div>
+            <div class="col-sm-2">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="sessom" value="M" [ngModel]="socio.sesso" (click)="selectSesso($event.target.value)">
+                    <label class="form-check-label" for="sessom">M</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="sessof" value="F"  [ngModel]="socio.sesso" (click)="selectSesso($event.target.value)">
+                    <label class="form-check-label" for="sessof">F</label>
+                  </div>
 
+            </div>
         </div>
-
         <br>
-        <!--  riga Nascita  -->
+
+        {{socio.datanascita | date:'dd/MM/yyyy'}}
+        <!-- seconda riga -->
         <div class="form-row">
           <div class="form-group row">
             <!-- prima colonna -->
@@ -61,7 +73,7 @@
                 <div class="row">
                     <label for="dtNascita" class="col-sm-2 col-form-label">Data</label>
                     <div class=" col-md-6">
-                      <input type="date" [(ngModel)]="socio.datanascita"  [ngModel]="socio.datanascita | date:'dd/MM/yyyy'"  #dtNascita="ngModel" class="form-control"  name="dtNascita" id="dtNascita" required placeholder="dd/mm/yyyy" />
+                      <input type="date" [(ngModel)]="socio.datanascita"  #dtNascita="ngModel" ngModel class="form-control"  name="dtNascita" id="dtNascita" required placeholder="dd/mm/yyyy" /> <!-- [(ngModel)]="socio.datanascita | date:'dd/MM/yyyy'"-->
                     </div>
                 </div>
             </div>
@@ -70,50 +82,20 @@
               <div class="row">
                 <label for="locNascita" class="col-sm-2 col-form-label">località</label>
                 <div class="dropdown col-sm-8">
-                  <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedLocalitaResidenza" ngModel name="locNascita" id="locNascita" class="form-select" required (change)="onSelectedLocalitaResidenza($event.target.value)" aria-label="Default select example">
+                  <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedLocalitaNascita" ngModel name="locNascita" id="locNascita" class="form-select" required (change)="onSelectedLocalitaNascita($event.target.value)" aria-label="Default select example">
                     <option selected value="9999"  >Seleziona la localita</option>
-                    <option *ngFor="let local1 of localitas" [value]="local1.id"  class="form-control"  >{{local1.d_localita}}</option>
+                    <option *ngFor="let local of localitas" [value]="local.id"  class="form-control"  >{{local.d_localita}}</option>
                   </select>
                 </div>
-                <div class="invalid-feedback">effettuare la scelta della località di Residenza</div>
+                <div class="invalid-feedback">effettuare la scelta della località di Nascita</div>
               </div>
-
-              <!--
-                <div class="row">
-
-
-
-                    <label for="locNascita" class="col-sm-2 col-form-label">località xx</label>
-                    <div class="dropdown col-sm-8">
-                      <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedLocalitaNascita" ngModel name="locNascita" id="locNascita" class="form-select" required (change)="onSelectedLocalitaResidenza($event.target.value)" aria-label="Default select example">
-                        <option selected value="9999"  >Seleziona la localita</option>
-                        <option *ngFor="let local1 of localitas" [value]="local1.id"  class="form-control"  >{{local1.id}}-{{local1.d_localita}}</option>
-                      </select>
-                    </div>  hh
-                    <div class="invalid-feedback">effettuare la scelta della località di Residenza</div>
-                </div>  riga  fine terza  -->
-
-
-
-<!--
-                  <label for="locNascita" class="col-sm-2 col-form-label">località</label>
-                  <div class="dropdown col-sm-8">
-                    <select class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" [(ngModel)]="selectedLocalitaNascita" ngModel name="localit" id="localit" class="form-select" required (change)="onSelectedLocalitaNascita($event.target.value)" aria-label="Default select example">
-
-                      <option selected value="9999"  >Seleziona la localita</option>
-                      <option *ngFor="let localit of localitas" [value]="localit.id"  class="form-control"  >{{localit.d_localita}}</option>
-                    </select>
-                  </div>
-
-                  <div class="invalid-feedback">effettuare la scelta della località di Nascita</div>
-                </div>   -->
-            </div>
+           </div>
             <!-- quarta colonna -->
             <div class="col-md-3">
                 <div class="row">
                   <div class="col-sm-6">
                     <button  class="btn btn-primary btn-rounded"  (click)="nuovaLocalita()">
-                      <fa-icon [icon]="faPlusSquare"  fixed="true"></fa-icon>&nbsp; Nuova
+                    <!--  <fa-icon [icon]="faPlusSquare"  fixed="true"></fa-icon>--> &nbsp; Nuova
                     </button>
                   </div>
                 </div>
@@ -123,18 +105,20 @@
           </div>
         </div>
         <br>
-       <!--  riga Residenza  -->
+
+              <!--  riga Residenza  -->
+
        <div class="form-row">
         <div class="form-group row">
           <div class="col-sm-1"><strong>Residenza</strong></div>
             <div class="col-sm-4">
-              {{localitas | json}}
+
                 <div class="row">
-                  <label for="locNascita" class="col-sm-2 col-form-label">località</label>
-                  <div class="dropdown col-sm-8">
-                    <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedLocalitaResidenza" ngModel name="locNascita" id="locNascita" class="form-select" required (change)="onSelectedLocalitaResidenza($event.target.value)" aria-label="Default select example">
+                  <label for="locResidenza" class="col-sm-2 col-form-label">località</label>
+                  <div class="dropdown col-sm-10">
+                    <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedLocalitaResidenza" ngModel name="locResidenza" id="locResidenza" class="form-select" required (change)="onSelectedLocalitaResidenza($event.target.value)" aria-label="Default select example">
                       <option selected value="9999"  >Seleziona la localita</option>
-                      <option *ngFor="let local1 of localitas" [value]="local1.id"  class="form-control"  >{{local1.d_localita}}      {{local1 | json}}</option>
+                      <option *ngFor="let local1 of localitas" [value]="local1.id"  class="form-control"  >{{local1.d_localita}}</option>
                     </select>
                   </div>
                   <div class="invalid-feedback">effettuare la scelta della località di Residenza</div>
@@ -158,162 +142,154 @@
         </div>
       </div>
       <br>
-    <!--  riga Residenza  Seconda riga -->
-    <div class="form-row">
-      <div class="form-group row">
-        <div class="col-sm-1"><strong><!-- vuoto --></strong></div>
-          <div class="col-sm-4">
-              <div class="row">
-                <label for="indirizzo" class="col-sm-2 col-form-label">Indirizzo</label>
-                <div class=" col-md-10">
-                  <input #indirizzo="ngModel"  [(ngModel)]="socio.indirizzo" class="form-control" name="indirizzo" id="indirizzo" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire Indirizzo"  style="text-transform : uppercase">
-                </div>
-                <br>
-                <div *ngIf="indirizzo.invalid && (indirizzo.dirty || indirizzo.touched)" class="alert-danger">
-                  <div *ngIf="indirizzo.errors.required">
-                      <span>il campo indirizzo è obbligatorio</span>
-                  </div>
-                  <div *ngIf="indirizzo.errors.minlength">
-                     <span>il campo indirizzo deve essere di almeno 4 caratteri</span>
-                  </div>
-                  <div *ngIf="indirizzo.errors.maxlength">
-                      <span>il campo indirizzo non può essere più lunga di 50 caratteri</span>
-                   </div>
-                   <div *ngIf="indirizzo.errors?.pattern">
-                    <span>il campo indirizzo non rispetta le regole sintattiche</span>
-                   </div>
-                </div>
-              </div>
-           </div>
 
-          <div class="col-md-4">
-            <div class="row">
-              <label for="cap" class="col-sm-1 col-form-label">Cap</label>&nbsp;
-              <div class=" col-md-3">
-                <input disabled #cap="ngModel"  [(ngModel)]="localita.cap" class="form-control" name="cap" id="cap">
+         <!--  riga Residenza  Seconda riga -->
+
+      <div class="form-row">
+        <div class="form-group row">
+          <div class="col-sm-1"><strong></strong></div>
+            <div class="col-sm-6">
+                <div class="row">
+                  <label for="indirizzo" class="col-sm-1 col-form-label">Indirizzo</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <div class=" col-md-10">
+                    <input #indirizzo="ngModel"  [(ngModel)]="socio.indirizzo" class="form-control" name="indirizzo" id="indirizzo" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z,'\s]*" placeholder="Inserire Indirizzo"  style="text-transform : uppercase">
+                  </div>
+                  <br>
+                  <div *ngIf="indirizzo.invalid && (indirizzo.dirty || indirizzo.touched)" class="alert-danger">
+                    <div *ngIf="indirizzo.errors.required">
+                        <span>il campo indirizzo è obbligatorio</span>
+                    </div>
+                    <div *ngIf="indirizzo.errors.minlength">
+                      <span>il campo indirizzo deve essere di almeno 4 caratteri</span>
+                    </div>
+                    <div *ngIf="indirizzo.errors.maxlength">
+                        <span>il campo indirizzo non può essere più lunga di 50 caratteri</span>
+                    </div>
+                    <div *ngIf="indirizzo.errors?.pattern">
+                      <span>il campo indirizzo non rispetta le regole sintattiche</span>
+                    </div>
+                  </div>
+                </div>
+            </div>
+<!---
+            <div class="col-md-4">
+              <div class="row">
+                <label for="cap" class="col-sm-1 col-form-label">Cap</label>&nbsp;
+                <div class=" col-md-3">
+
+                  <input readonly #cap="ngModel"  [(ngModel)]="localita.cap" class="form-control" name="cap" id="cap">
+                </div>
+              </div>
+            </div>   -->
+            <!--
+            <div class="col-md-3">
+              <div class="row">
+
+
+              </div>
+            </div>  -->
+        </div>
+        <br>
+
+      <div class="row">
+        <label for="email" class="col-sm-1 col-form-label">email</label>
+        <div class="col-md-6">
+          <input type="email" name="email" class="form-control lowertxt" id="email" placeholder="Email" [(ngModel)]="socio.email" required email #email="ngModel" ngModel  style="text-transform : lowercase">
+          <br>
+          <div *ngIf="email.dirty && email.touched && email.invalid">
+                  <div  *ngIf="email.errors.required"  class="alert alert-danger">
+                    il campo email è obbligatorio
+                  </div>
+                  <div *ngIf="email.errors?.email"  class="alert alert-danger">
+                    Email non valida
+            </div>
+          </div>
+        </div>
+    </div>
+    <br>
+      <div class="form-row">
+        <div class="form-group row">
+          <div class="col-sm-1"><strong>telefono</strong></div>
+            <div class="col-sm-4">
+                <div class="row">
+                  <label for="telcasa" class="col-sm-2 col-form-label">fisso</label>
+                  <div class=" col-md-5">
+                    <input type="text" #telcasa="ngModel"  [(ngModel)]="socio.telcasa" class="form-control" name="telcasa" id="telcasa">
+                  </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="row">
+                <label for="cell" class="col-sm-2 col-form-label">cellulare</label>&nbsp;
+                <div class=" col-md-5">
+                  <input type="text" #cell="ngModel"  [(ngModel)]="socio.cell" class="form-control" name="cell" id="cell" pattern="[0-9]*" minlength="10" maxlength="10" placeholder="Inserire cellulare">
+                </div>
+
+                <br>
+                <div *ngIf="cell.dirty || cell.touched">
+
+
+                  <div *ngIf="cell.invalid && (cell.dirty || cell.touched)" class="alert-danger">
+                    <div *ngIf="cell.errors.required">
+                        <span>il cellulare è obbligatorio</span>
+                    </div>
+                    <div *ngIf="cell.errors.length">
+                      <span>il cellulare deve essere di 10 caratteri - nessuno spazio</span>
+                    </div>
+                    <div *ngIf="cell.errors.maxlength">
+                        <span>il cellulare non può essere più lunga di 10 caratteri</span>
+                    </div>
+                    <div *ngIf="cell.errors?.pattern">
+                      <span>il cellulare non rispetta le regole sintattiche</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-3">
-            <div class="row">
-            <!--  vuoto -->
+            <div class="col-md-3">
+              <div class="row">
+
+              </div>
             </div>
-          </div>
+        </div>
       </div>
       <br>
-    <!--  riga email  -->
-    <div class="row">
-      <label for="email" class="col-sm-1 col-form-label">email</label>
-      <div class="col-md-6">
-        <input type="email" name="email" class="form-control lowertxt" id="email" placeholder="Email" [(ngModel)]="socio.email" required email #email="ngModel" ngModel  style="text-transform : lowercase">
-        <br>
-        <div *ngIf="email.dirty && email.touched && email.invalid">
-                <div  *ngIf="email.errors.required"  class="alert alert-danger">
-                  il campo email è obbligatorio
-                </div>
-                <div *ngIf="email.errors?.email"  class="alert alert-danger">
-                  Email non valida
+
+
+
+
+  <div class="form-row">
+    <div class="form-group row">
+      <div class="col-sm-1"><strong>operativo</strong></div>
+        <div class="col-sm-4">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"  [(ngModel)]="socio.operativo" value="S" (click)="selectOperativo($event.target.value)">
+                <label class="form-check-label" for="inlineRadio1">Si</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"  [(ngModel)]="socio.operativo" value="N" (click)="selectOperativo($event.target.value)">
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+
+        </div>
+
+        <div class="col-md-4">
+          <div class="row">
+
           </div>
         </div>
-      </div>
-  </div>
-  <br>
-  <!--  riga telefono  -->
-    <div class="form-row">
-      <div class="form-group row">
-        <div class="col-sm-1"><strong>telefono</strong></div>
-          <div class="col-sm-4">
-              <div class="row">
-                <label for="telcasa" class="col-sm-2 col-form-label">fisso</label>
-                <div class=" col-md-5">
-                  <input type="text" #telcasa="ngModel"  [(ngModel)]="socio.telcasa" class="form-control" name="telcasa" id="telcasa">
-                </div>
-              </div>
-           </div>
-          <!-- Cellulare -->
-          <div class="col-md-4">
-            <div class="row">
-              <label for="cell" class="col-sm-2 col-form-label">cellulare</label>&nbsp;
-              <div class=" col-md-5">
-                <input type="text" #cell="ngModel"  [(ngModel)]="socio.cell" class="form-control" name="cell" id="cell" pattern="[0-9]*" placeholder="Inserire cellulare">
-              </div>
+        <div class="col-md-3">
+          <div class="row">
 
-              <br>
-              <div *ngIf="cell.dirty || cell.touched">
-                <!-- se inserito il campo cellulare -->
-
-                <div *ngIf="cell.invalid && (cell.dirty || cell.touched)" class="alert-danger">
-                  <div *ngIf="cell.errors.required">
-                      <span>il cellulare è obbligatorio</span>
-                  </div>
-                  <div *ngIf="cell.errors.length">
-                     <span>il cellulare deve essere di 10 caratteri - nessuno spazio</span>
-                  </div>
-                  <div *ngIf="cell.errors.maxlength">
-                      <span>il cellulare non può essere più lunga di 10 caratteri</span>
-                   </div>
-                   <div *ngIf="cell.errors?.pattern">
-                    <span>il cellulare non rispetta le regole sintattiche</span>
-                   </div>
-                </div>
-              </div>
-            </div>
           </div>
-          <div class="col-md-3">
-            <div class="row">
-            <!--  vuoto -->
-            </div>
-          </div>
-      </div>
+        </div>
     </div>
-    <br>
-
-
-
- <!--  riga operativo  -->
- <div class="form-row">
-  <div class="form-group row">
-    <div class="col-sm-1"><strong>operativo</strong></div>
-      <div class="col-sm-4">
-
-<!--
-            <div class="form-check form-check-inline borde" *ngFor="let option of options; let idx = index">
-              <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option" (change)="onSelectionChange(option)">&nbsp; {{option}}
-            </div>     -->
-
-
-
-
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="S" (click)="selectOperativo($event.target.value)">
-              <label class="form-check-label" for="inlineRadio1">Si</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="N" (click)="selectOperativo($event.target.value)">
-              <label class="form-check-label" for="inlineRadio2">No</label>
-            </div>
-
-       </div>
-
-      <div class="col-md-4">
-        <div class="row">
-          <!--  vuoto -->
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="row">
-        <!--  vuoto -->
-        </div>
-      </div>
   </div>
-</div>
-<br>
 
-
-
-    </div>
-    <br>
-    <hr>
+      </div>
+      <br>
+      <hr>
 <!-- Bottoni funzionali -->
 <div class="footer" >
   <div class="row col-sm-10 offset-2">
@@ -373,11 +349,9 @@
     </div>
   </div>
 
-</form>
+    </form>
+     </div>
+   </div>
 </div>
-</div>
-</div>
-
-
 
 

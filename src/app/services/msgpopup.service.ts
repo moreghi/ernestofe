@@ -29,7 +29,7 @@ private APIURL = environment.APIURL + this.rotta;  // definisco l'url su cui eff
       getAuthHeader(): HttpHeaders {
         const headers = new HttpHeaders(
           {
-            Autorization: 'Bearer ' + this.auth.getToken()
+            authorization: 'Bearer ' + this.auth.getToken()
           }
         );
         return headers;

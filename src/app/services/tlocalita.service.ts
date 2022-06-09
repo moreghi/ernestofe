@@ -28,7 +28,7 @@ private APIURL = environment.APIURL + this.rotta;  // definisco l'url su cui eff
       getAuthHeader(): HttpHeaders {
         const headers = new HttpHeaders(
           {
-            Autorization: 'Bearer ' + this.auth.getToken()
+            authorization: 'Bearer ' + this.auth.getToken()
           }
         );
         return headers;
@@ -46,6 +46,12 @@ private APIURL = environment.APIURL + this.rotta;  // definisco l'url su cui eff
           });
         }
 
+        getbylocalita(local: string) {
+          this.rottafunction = 'getbydlocalita';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + local, {
+            headers: this.getAuthHeader()
+          });
+        }
 
         delete(localita: Tlocalita) {
           this.rottafunction = 'deletebyid';

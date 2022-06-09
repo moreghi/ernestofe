@@ -62,8 +62,9 @@ import { TabelleComponent } from './components/tabelles/tabelle/tabelle.componen
 import { SociComponent } from './components/socios/soci/soci.component';
 import { TesseramentoDetailComponent } from './components/tesseramentos/tesseramento-detail/tesseramento-detail.component';
 import { TesseramentoDataComponent } from './components/tesseramentos/tesseramento-data/tesseramento-data.component';
-import { SocioDetailComponent } from './components/socios/socio-detail/socio-detail.component';
+
 import { SocioDetail1Component } from './components/socios/socio-detail1/socio-detail1.component';
+import { SocioDetailComponent } from './components/socios/socio-detail/socio-detail.component';
 
 const routes: Routes = [
   {
@@ -111,6 +112,7 @@ const routes: Routes = [
   path: 'socio',
   component: SociComponent
 },
+
 {
   path: 'socio/edit/:id',
    component: SocioDetailComponent
@@ -119,6 +121,7 @@ const routes: Routes = [
   path: 'socio/new',
    component: SocioDetailComponent
 },
+
 {
   path: 'test/edit/:id',
    component: SocioDetail1Component

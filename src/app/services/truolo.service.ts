@@ -27,7 +27,7 @@ export class TruoloService {
 
    const headers = new HttpHeaders(
        {
-           Authorization: 'Bearer ' +  this.auth.getToken()
+        authorization: 'Bearer ' + this.auth.getToken()
        }
      );
      return headers;

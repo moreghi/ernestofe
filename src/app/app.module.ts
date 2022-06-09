@@ -142,8 +142,10 @@ import { SocioComponent } from './components/socios/socio/socio.component';
 import { TesseramentoComponent } from './components/tesseramentos/tesseramento/tesseramento.component';
 import { TesseramentoDetailComponent } from './components/tesseramentos/tesseramento-detail/tesseramento-detail.component';
 import { TesseramentoDataComponent } from './components/tesseramentos/tesseramento-data/tesseramento-data.component';
-import { SocioDetailComponent } from './components/socios/socio-detail/socio-detail.component';
+
 import { SocioDetail1Component } from './components/socios/socio-detail1/socio-detail1.component';
+import { SocioDetailComponent } from './components/socios/socio-detail/socio-detail.component';
+import { LocalitapopComponent } from './components/popups/localitapop/localitapop.component';
 
 
 
@@ -292,8 +294,10 @@ const customNotifierOptions: NotifierOptions = {
     TesseramentoComponent,
     TesseramentoDetailComponent,
     TesseramentoDataComponent,
-    SocioDetailComponent,
+
     SocioDetail1Component,
+    SocioDetailComponent,
+    LocalitapopComponent,
 
 
 

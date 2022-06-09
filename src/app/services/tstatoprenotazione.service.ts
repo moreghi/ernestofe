@@ -30,7 +30,7 @@ export class TstatoprenotazioneService {
     // passo il token dentro a header per non farlo passare in chiaro su url
     const headers = new HttpHeaders(
         {
-            Authorization: 'Bearer ' +  this.auth.getToken()
+          authorization: 'Bearer ' + this.auth.getToken()
         }
       );
       return headers;

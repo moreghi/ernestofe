@@ -27,7 +27,7 @@ constructor(private http: HttpClient, private auth: AuthService) { }
       getAuthHeader(): HttpHeaders {
         const headers = new HttpHeaders(
           {
-            Autorization: 'Bearer ' + this.auth.getToken()
+            authorization: 'Bearer ' + this.auth.getToken()
           }
         );
         return headers;

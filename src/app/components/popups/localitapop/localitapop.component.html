@@ -1,0 +1,144 @@
+<p>localitapop works!</p>
+
+<div class="modal-header " [style.background]="fase === 'M' ? 'red' : 'green'" [style.color]="fase === 'M' ? 'white' : 'yellow'">
+  <div class="col-sm-3">
+    <img src="assets/images/logobandieragialla.jpg" width="40" height="40" alt="logo">
+  </div>
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+
+<div class="modal-body">
+ <form [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="editForm" >
+      <!-- Chiave del record -->
+      <input hidden type="text" formControlName="id" class="form-control" />
+
+        <br>
+          <div class="form-row">
+              <div class="form-group col-sm-9">
+                    <label for="d_localita">Localita</label>
+                    <input   type="text" formControlName="d_localita" class="form-control"  minlength="4" maxlength="50"  pattern="[0-9a-zA-Z\s]*" placeholder="Inserire la località" style="text-transform : uppercase"/>
+                    <div *ngIf="editFormData.d_localita.dirty && editFormData.d_localita.touched && editFormData.d_localita.invalid "  class="alert alert-danger">
+                      <div  *ngIf="editFormData.d_localita.errors.required">
+                        inserire la localita  - campo Obbligatorio
+                      </div>
+                      <div  *ngIf="editFormData.d_localita.errors.minlength">
+                        il campo deve avere almeno {{editFormData.d_localita.errors.minlength.requiredLength }} caratteri
+                      </div>
+                      <div  *ngIf="editFormData.d_localita.errors.maxlength">
+                        il campo non può essere più lungo di {{editFormData.d_localita.errors.maxlength.requiredLength }} caratteri
+                      </div>
+                      <div *ngIf="editFormData.d_localita.errors?.pattern">
+                        <span>la località non rispetta le regole sintattiche</span>
+                       </div>
+                  </div>
+              </div>
+          </div>
+          <div class="form-row">
+                <div class="form-group col-sm-5">
+                      <label for="cap">Cap</label>
+                      <input   type="text" formControlName="cap" class="form-control"  minlength="5" maxlength="5" placeholder="Inserire cap"   pattern="[0-9]{5}"/>
+                      <div *ngIf="editFormData.cap.dirty && editFormData.cap.touched && editFormData.cap.invalid "  class="alert alert-danger">
+                        <div  *ngIf="editFormData.cap.errors.required">
+                          inserire il cap  - campo Obbligatorio
+                        </div>
+                        <div  *ngIf="editFormData.cap.errors.minlength">
+                          il campo deve avere almeno {{editFormData.cap.errors.minlength.requiredLength }} caratteri
+                        </div>
+                        <div  *ngIf="editFormData.cap.errors.maxlength">
+                          il campo non può essere più lungo di {{editFormData.cap.errors.maxlength.requiredLength }} caratteri
+                        </div>
+                        <div *ngIf="editFormData.cap.errors?.pattern">
+                          <span>il cap non rispetta le regole sintattiche</span>
+                         </div>
+                    </div>
+                </div>
+          </div>
+          <div class="form-row">
+                  <div class="form-group col-sm-5">
+                        <label for="pr">Provincia</label>
+                        <input   type="text" formControlName="pr" class="form-control"  minlength="2" maxlength="2"  pattern="[a-zA-Z\s]*" placeholder="Inserire provincia" style="text-transform : uppercase"/>
+                        <div *ngIf="editFormData.pr.dirty && editFormData.pr.touched && editFormData.pr.invalid "  class="alert alert-danger">
+                          <div  *ngIf="editFormData.pr.errors.required">
+                            inserire il cap  - campo Obbligatorio
+                          </div>
+                          <div  *ngIf="editFormData.pr.errors.minlength">
+                            il campo deve avere almeno {{editFormData.pr.errors.minlength.requiredLength }} caratteri
+                          </div>
+                          <div  *ngIf="editFormData.pr.errors.maxlength">
+                            il campo non può essere più lungo di {{editFormData.pr.errors.maxlength.requiredLength }} caratteri
+                          </div>
+                          <div *ngIf="editFormData.pr.errors?.pattern">
+                            <span>la provincia non rispetta le regole sintattiche</span>
+                           </div>
+                      </div>
+                  </div>
+
+          </div>
+
+
+
+
+
+
+
+
+      <!-- messaggi -->
+         <div class="row col-md-12">
+             <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+               <p>{{Message}}</p>
+               <hr>
+             </div>
+             <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+               <p>{{Message}}</p>
+             </div>
+          </div>
+</form>
+</div>
+
+<div class="modal-footer">
+
+
+  <button [disabled]="isLoading" class="btn btn-danger mr-2" (click)="modal.close('cancel')">Cancel
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+  </button>
+  <button [disabled]="!editForm.valid" class="btn btn-primary mr-2" (click)="onSubmit()" >Salva    <!--   contrDate()  manipData()-->
+    <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+  </button>
+
+</div>
+
+
+
+
+<ng-template #templateConfirmDelete>
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Cancellazione Località</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef2.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  confermi la cancellazione della località selezionata ?<br />
+</div>
+  <div class="modal-footer">
+   <button type="button" class="btn btn-secondary" (click)="closeModal(2)">Annulla
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+   </button>
+  <button type="button" class="btn btn-danger" (click)="closeModal(3)">Conferma
+    <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+  </button>
+</div>
+</ng-template>
+
+
+
+
+
+
+
+

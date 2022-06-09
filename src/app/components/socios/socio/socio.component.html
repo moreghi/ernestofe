@@ -1,10 +1,10 @@
 <td>{{i}}</td>
   <td>{{socio.cognome}}</td>
   <td>{{socio.nome}}</td>
-  <td>{{socio.d_localita}}</td>
+  <td>{{localita.d_localita}}</td>
   <td>{{socio.tessera}}</td>
-  <td class="statoMan">{{socio.d_stato_utente}}</td>    <!--  {{socio.statosocioestazione}} - -->
-
+     <!--  <td class="statoMan">{{statoTesseramento}}</td>  - -->
+  <td [style.color]="getColor(statoTesseramento)"><strong>{{statoTesseramento}}</strong></td>
 
 
 <!--
