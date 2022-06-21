@@ -1,0 +1,45 @@
+<td>{{i}}</td>
+  <td  [style.color]="getColor(tipo)">{{quota.anno}}</td>
+  <td>{{quota.importo  | currency}}</td>
+ <td *ngIf="quota.anno === anno">
+    <button class="btn btn-sm  btn-danger" (click)="open(content, quota)">
+      <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+    </button>
+</td>
+<td *ngIf="quota.anno === anno">
+    <button class="btn btn-sm  btn-primary" (click)="navigateQuota(quota)">
+      <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+    </button>
+</td>
+
+
+
+<ng-template #content let-modal>
+  <div class="modal-header modal-header-color">
+  <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+  <div class="modal-body">
+  <form>
+  <p>confermi la cancellazione della quota ?</p>
+
+
+  </form>
+  </div>
+  <div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel
+    <fa-icon [icon]="faWindowClose" fixed="true"></fa-icon>
+
+  </button>
+
+  <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+    <fa-icon [icon]="faTrash" fixed="true"></fa-icon>
+  </button>
+  </div>
+</ng-template>
+
+
+
+

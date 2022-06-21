@@ -1,0 +1,219 @@
+
+
+<div class="modal-header headerMoreno">
+  <div class="col-sm-3">
+    <img src="assets/images/logobandieragialla.jpg" width="40" height="40" alt="logo">
+  </div>
+  <h4 class="modal-title titleMoreno" id="modal-basic-title">{{title}}</h4>
+<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+
+<div class="modal-body">
+ <form [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="editForm" >
+      <!-- Chiave del record -->
+      <input hidden type="text" formControlName="id" class="form-control" />
+
+        <br>
+        <!-- tessere -->
+        <div class="row">
+
+          <div class="col-md-2">
+            <label for="tessere">tessere:</label>
+          </div>
+          <div class="col-md-8  form-check form-check-inline">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="tessere" id="tessere1"  [(ngModel)]="tessere" value="T" (click)="selectTessere($event.target.value)">
+                <label class="form-check-label" for="inlineRadiot1">Tutte</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="tessere" id="tessere2"  [(ngModel)]="tessere" value="N" (click)="selectTessere($event.target.value)">
+                <label class="form-check-label" for="inlineRadiot2">da Rinnovare</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="tessere" id="tessere3"  [(ngModel)]="tessere" value="R" (click)="selectTessere($event.target.value)">
+                <label class="form-check-label" for="inlineRadiot3">Rinnovate</label>
+              </div>
+          </div>
+
+        </div>
+        <br>
+
+        <div class="row" *ngIf="sociosearch.tessere !== 'T'">
+          <label for="stato" class="col-sm-2 col-form-label">Stato</label>
+          <div class="dropdown col-sm-6">
+            <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedStato" ngModel name="stato" id="stato" class="form-select" required (change)="onSelectedStato($event.target.value)" aria-label="Default select example">
+              <option selected value="9999"  >Seleziona lo stato</option>
+              <option *ngFor="let stato of stati" [value]="stato.id"  class="form-control"  >{{stato.d_stato_utente}}</option>
+            </select>
+          </div>
+          <div class="invalid-feedback">effettuare la scelta dello stato</div>
+        </div>
+        <br>
+
+          <div class="row" *ngIf="sociosearch.tessere !== 'T'">
+                    <label for="localita" class="col-sm-2 col-form-label">località</label>
+                    <div class="dropdown col-sm-6">
+                      <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedLocalita" ngModel name="localita" id="localita" class="form-select" required (change)="onSelectedLocalita($event.target.value)" aria-label="Default select example">
+                        <option selected value="9999"  >Seleziona la localita</option>
+                        <option *ngFor="let local1 of localitas" [value]="local1.id"  class="form-control"  >{{local1.d_localita}}</option>
+                      </select>
+                    </div>
+                    <div class="invalid-feedback">effettuare la scelta della località di Residenza</div>
+          </div>
+          <div class="form-row">
+            <!--
+                <div class="form-group col-sm-5">
+                      <label for="cap">Cap</label>
+                      <input   type="text" formControlName="cap" class="form-control"  minlength="5" maxlength="5" placeholder="Inserire cap"   pattern="[0-9]{5}"/>
+                      <div *ngIf="editFormData.cap.dirty && editFormData.cap.touched && editFormData.cap.invalid "  class="alert alert-danger">
+                        <div  *ngIf="editFormData.cap.errors.required">
+                          inserire il cap  - campo Obbligatorio
+                        </div>
+                        <div  *ngIf="editFormData.cap.errors.minlength">
+                          il campo deve avere almeno {{editFormData.cap.errors.minlength.requiredLength }} caratteri
+                        </div>
+                        <div  *ngIf="editFormData.cap.errors.maxlength">
+                          il campo non può essere più lungo di {{editFormData.cap.errors.maxlength.requiredLength }} caratteri
+                        </div>
+                        <div *ngIf="editFormData.cap.errors?.pattern">
+                          <span>il cap non rispetta le regole sintattiche</span>
+                         </div>
+                    </div>
+                </div>  -->
+          </div>
+          <br>
+          <!-- operativo -->
+          <div class="row"  *ngIf="sociosearch.tessere !== 'T'">
+            <div class="col-md-2">
+              <label for="email">Operativo:</label>
+            </div>
+            <div class="col-md-8  form-check form-check-inline">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="operativo" id="operativo1"  [(ngModel)]="operativo" value="S" (click)="selectOperativo($event.target.value)">
+                  <label class="form-check-label" for="inlineRadio1">Si</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="operativo" id="operativo2"  [(ngModel)]="operativo" value="N" (click)="selectOperativo($event.target.value)">
+                  <label class="form-check-label" for="inlineRadio2">No</label>
+                </div>
+            </div>
+          </div>
+          <br>
+          <!-- sesso -->
+          <div class="row"  *ngIf="sociosearch.tessere !== 'T'">
+            <div class="col-md-2">
+              <label for="email">sesso:</label>
+            </div>
+            <div class="col-md-8 form-check form-check-inline">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="sesso" id="sesso1"  [(ngModel)]="operativo" value="M" (click)="selectSesso($event.target.value)">
+                <label class="form-check-label" for="inlineRadio3">M</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="sesso" id="sesso2"  [(ngModel)]="operativo" value="F" (click)="selectSesso($event.target.value)">
+                <label class="form-check-label" for="inlineRadio4">F</label>
+              </div>
+            </div>
+          </div>
+          <br>
+          <!-- email -->
+          <div class="row"  *ngIf="sociosearch.tessere !== 'T'">
+            <div class="col-md-2">
+              <label for="email">email:</label>
+            </div>
+            <div class="col-md-8 form-check form-check-inline">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="email" id="email1"  [(ngModel)]="email" value="S" (click)="selectEmail($event.target.value)">
+                <label class="form-check-label" for="inlineRadio5">Si</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="email" id="email2"  [(ngModel)]="email" value="N" (click)="selectEmail($event.target.value)">
+                <label class="form-check-label" for="inlineRadio6">No</label>
+              </div>
+            </div>
+          </div>
+          <br>
+          <!-- cellulare -->
+          <div class="row"  *ngIf="sociosearch.tessere !== 'T'">
+            <div class="col-md-2">
+              <label for="cell">cellulare:</label>
+            </div>
+              <div class="col-md-8  form-check form-check-inline">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="cell" id="cell1"  [(ngModel)]="cell" value="S" (click)="selectCell($event.target.value)">
+                  <label class="form-check-label" for="inlineRadio5">Si</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="cell" id="cell2"  [(ngModel)]="cell" value="N" (click)="selectCell($event.target.value)">
+                  <label class="form-check-label" for="inlineRadio6">No</label>
+                </div>
+              </div>
+          </div>
+          <hr>
+        <!-- ordinamento -->
+        <div class="row">
+          <div class="col-md-2">
+            <label for="ordinamento">ordinamento:</label>
+          </div>
+            <div class="col-md-8  form-check form-check-inline">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="orderby" id="order1"  [(ngModel)]="cell" value="A" (click)="selectOrder($event.target.value)">
+                <label class="form-check-label" for="inlineRadio7">Alfabetico</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="orderby" id="order2"  [(ngModel)]="cell" value="T" (click)="selectOrder($event.target.value)">
+                <label class="form-check-label" for="inlineRadio8">Tessera</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="orderby" id="order2"  [(ngModel)]="cell" value="R" (click)="selectOrder($event.target.value)">
+                <label class="form-check-label" for="inlineRadio8">Residenza</label>
+              </div>
+            </div>
+        </div>
+        <hr>
+
+
+
+      <!-- messaggi -->
+         <div class="row col-md-12">
+             <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+               <p>{{Message}}</p>
+               <hr>
+             </div>
+             <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+               <p>{{Message}}</p>
+             </div>
+          </div>
+</form>
+</div>
+
+<div class="modal-footer">
+
+<!--
+  <button [disabled]="isLoading" class="btn btn-danger mr-2" (click)="modal.close('cancel')">Cancel
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+  </button>   -->
+
+  <button [disabled]="activeSelection === false" class="btn btn-primary mr-2" (click)="onSubmit()" >Salva    <!--   contrDate()  manipData()-->
+    <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+  </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

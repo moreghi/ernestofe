@@ -1,0 +1,220 @@
+<p>quotatessera-detail works!</p>
+
+<div class="container">
+  <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
+     <div >
+      <form #fm ="ngForm">
+        <input Hidden #id="ngModel"  [(ngModel)]="quotatessera.id" class="form-control" name="id" id="id">
+
+        {{bandieragialla | json}}
+        <br>
+        <div class="row">
+          <label for="nomeassociazione" class="col-sm-1 col-form-label">R. Sociale</label>
+          <div class=" col-md-6">
+            <input disabled #nomeassociazione="ngModel"  [(ngModel)]="bandieragialla.nomeassociazione" class="form-control" name="nomeassociazione" id="nomeassociazione" >
+          </div>
+
+        </div>
+        <br>
+
+
+        <!-- seconda riga -->
+        <div class="row">
+        <label for="indirizzo" class="col-sm-1 col-form-label">Indirizzo</label>
+        <div class=" col-md-6">
+          <input disabled  #indirizzo="ngModel"  [(ngModel)]="bandieragialla.indirizzo" class="form-control" name="indirizzo" id="indirizzo" >
+        </div>
+        </div>
+        <br>
+
+        <!-- terza riga -->
+        <div class="row">
+          <label for="cellulare" class="col-sm-1 col-form-label">telefono</label>
+          <div class=" col-md-3">
+              <input disabled type="text" #telefono="ngModel"  [(ngModel)]="bandieragialla.telefono" class="form-control" name="telefono" id="telefono">
+          </div>
+
+
+          <!-- cellulare -->
+          <label for="cellulare" class="col-sm-1 col-form-label">cellulare</label>
+          <div class=" col-md-2">
+              <input disabled type="text" #cellulare="ngModel"  [(ngModel)]="bandieragialla.cellulare" class="form-control" name="cellulare" id="cellulare" >
+          </div>
+
+
+        </div>
+        <br>
+        <div class="row">
+        <label for="email" class="col-sm-1 col-form-label">email</label>
+        <div class="col-md-6">
+        <input disabled type="email" name="email" class="form-control lowertxt" id="email" [(ngModel)]="bandieragialla.email" email #email="ngModel" ngModel>
+
+
+        </div>
+        </div>
+        <br>
+        <!-- terza riga -->
+        <div class="row">
+        <label for="cellulare" class="col-sm-1 col-form-label">cod.Fisc</label>
+        <div class=" col-md-3">
+        <!--  pattern="/^(?:[A-Z][AEIOU][AEIOUX]|[AEIOU]X{2}|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$/i" non funziona-->
+        <input disabled type="text" #codfisc="ngModel"  [(ngModel)]="bandieragialla.codfisc" class="form-control" name="codfisc" id="codfisc" >
+        </div>
+
+
+        <!-- cellulare -->
+        <div class="col-sm-1">par. iva</div>
+        <div class=" col-md-2">
+        <!--  pattern="/^[0-9]{11}$/" -->
+        <input disabled type="text" #piva="ngModel"  [(ngModel)]="bandieragialla.piva" class="form-control" name="piva" id="piva" >
+        </div>
+        </div>
+        <br>
+
+        <div class="row">
+        <div class="col-sm-1">IBAN</div>
+        <div class=" col-md-3">
+        <!--  pattern="^([A-Z]{2}[ \-]?[0-9]{2})(?=(?:[ \-]?[A-Z0-9]){9,30}$)((?:[ \-]?[A-Z0-9]{3,5}){2,7})([ \-]?[A-Z0-9]{1,3})?$" non funziona -->
+        <input disabled type="text" #iban="ngModel"  [(ngModel)]="bandieragialla.iban" class="form-control" name="iban" id="iban" >
+        </div>
+        <!-- banca -->
+        <div class="col-sm-1">banca</div>
+        <div class=" col-md-6">
+        <input disabled type="text" #banca="ngModel"  [(ngModel)]="bandieragialla.banca" class="form-control" name="banca" id="banca" >
+        </div>
+
+
+        </div>
+        <hr>
+
+      </form>
+  </div>
+</div>
+
+
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <label for="anno" class="col-sm-1 col-form-label">Anno</label>
+    <div class=" col-md-2">
+      <input #anno="ngModel"  [(ngModel)]="quotatessera.anno" class="form-control" name="anno" id="anno" required minlength="4" maxlength="4" pattern="[0-9]*" placeholder="Inserire anno" style="text-transform : uppercase">
+    </div>
+    <br>
+    <div *ngIf="anno.invalid && (anno.dirty || anno.touched)" class="alert-danger">
+      <div *ngIf="anno.errors.required">
+          <span>annoè obbligatorio</span>
+      </div>
+      <div *ngIf="anno.errors.minlength">
+         <span>anno deve essere di 4 caratteri</span>
+      </div>
+      <div *ngIf="anno.errors.maxlength">
+          <span>anno non può essere più lunga di 4 caratteri</span>
+       </div>
+       <div *ngIf="anno.errors?.pattern">
+        <span>anno errato</span>
+       </div>
+    </div>
+</div>
+<br>
+<div class="row">
+  <label for="importo" class="col-sm-1 col-form-label">Importo</label>
+  <div class=" col-md-2">
+    <input #importo="ngModel"  [(ngModel)]="quotatessera.importo" class="form-control" name="importo" id="importo" required minlength="1" maxlength="5" pattern="[0-9]*" placeholder="Inserire importo" style="text-transform : uppercase">
+  </div>
+  <br>
+  <div *ngIf="importo.invalid && (importo.dirty || importo.touched)" class="alert-danger">
+    <div *ngIf="importo.errors.required">
+        <span>importo è obbligatorio</span>
+    </div>
+    <div *ngIf="importo.errors.minlength">
+       <span>importo deve essere di almeno 1 caratteri</span>
+    </div>
+    <div *ngIf="importo.errors.maxlength">
+        <span>importo non può essere più lunga di 5 caratteri</span>
+     </div>
+     <div *ngIf="importo.errors?.pattern">
+      <span>importo errato</span>
+     </div>
+  </div>
+</div>
+<br>
+
+
+<div class="footer" >
+  <div class="row col-sm-10 offset-2">
+
+
+
+    <div class="col-sm-3" *ngIf="functionUser === 'edit'">
+      <button [disabled]="fm.invalid" class="btn btn-danger btn-md "  (click)="open(content)"> Cancella
+        <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+      </button>
+    </div>
+
+    <div class="col-sm-3">
+      <button [disabled]="fm.invalid" class="btn btn-success btn-md " (click)="conferma()">Conferma
+        <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+      </button>
+    </div>
+    <div class="col-sm-3" >
+      <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+        <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<br>
+<div class="row col-md-12">
+<!-- messaggi -->
+<div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+<!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+ <p>{{Message}}</p>
+ <hr>
+</div>
+<div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+<!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+ <p>{{Message}}</p>
+</div>
+</div>
+</div>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header modal-header-color">
+    <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <p>confermi la cancellazione della quota annuale  &nbsp;&nbsp;</p>
+      <p></p>
+      <p><strong>{{quotatessera.anno}}&nbsp;&nbsp; di € &nbsp;{{quotatessera.importo}}</strong>&nbsp;?</p>
+      <!--   esempio di calendario che funziona benissimo
+      <div class="form-group">
+        <label for="dateOfBirth">Date of birth</label>
+        <div class="input-group">
+          <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+      -->
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+
+    <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+      <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+    </button>
+  </div>

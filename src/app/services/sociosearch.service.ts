@@ -1,24 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Tlocalita } from '../classes/T_localita';    // ../../../classes/user
+import { SocioSearch } from '../classes/Sociosearch';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
-
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class TlocalitaService {
+export class SociosearchService {
 
-  private rotta = "/tlocalita";
+  private rotta = "/sociosearch";
   private rottafunction = '';
 
 // vecchia versione senza environment
 //  private APIURL = 'http://localhost:8000/users';  // definisco l'url su cui effettuare la lettura sul server
 
 private APIURL = environment.APIURL + this.rotta;  // definisco l'url su cui effettuare la lettura sul server
+
 
   constructor(private http: HttpClient, private auth: AuthService) { }
 
@@ -46,44 +47,32 @@ private APIURL = environment.APIURL + this.rotta;  // definisco l'url su cui eff
           });
         }
 
-        getbylocalita(local: string) {
-          this.rottafunction = 'getbydlocalita';
-          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + local);
-        }
 
-
-        delete(localita: Tlocalita) {
+        delete(sociosearch: SocioSearch) {
           this.rottafunction = 'deletebyid';
-          return this.http.delete(this.APIURL + '/' + this.rottafunction + '/' + localita.id,  {
+          return this.http.delete(this.APIURL + '/' + this.rottafunction + '/' + sociosearch.id,  {
             headers: this.getAuthHeader()
           });
 
         }
 
 
-        update(localita: Tlocalita) {
+        update(sociosearch: SocioSearch) {
           this.rottafunction = 'updatebyid';
-          return this.http.put(this.APIURL + '/' + this.rottafunction + '/' + localita.id, localita,  {
+          return this.http.put(this.APIURL + '/' + this.rottafunction + '/' + sociosearch.id, sociosearch,  {
             headers: this.getAuthHeader()
           });
 
         }
 
 
-         create(localita: Tlocalita){
+         create(sociosearch: SocioSearch){
           this.rottafunction = 'create';
-          return this.http.post(this.APIURL + '/' + this.rottafunction, localita,  {
+          return this.http.post(this.APIURL + '/' + this.rottafunction, sociosearch,  {
             headers: this.getAuthHeader()
           });
         }
-
-        getLastLocalitaid() {
-          this.rottafunction = 'localitalast/lastid';
-          return this.http.get(this.APIURL + '/' + this.rottafunction  ,  {
-            headers: this.getAuthHeader()
-          });      // ok;
-        }
-
 
 }
+
 

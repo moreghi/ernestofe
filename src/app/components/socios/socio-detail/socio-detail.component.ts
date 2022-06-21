@@ -460,3 +460,5 @@ async loadlocalitaResidenza(id: number) {
 
 }
 
+
+

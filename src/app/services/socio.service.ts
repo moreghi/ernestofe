@@ -20,6 +20,7 @@ import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
 import { map } from 'rxjs/operators';
 import 'rxjs/add/operator/map';    // per gestire i grafici
+import { stringify } from 'querystring';
 
 
 
@@ -101,8 +102,20 @@ private APIURLSEARCH = '';
           return this.http.get(this.APIURL + '/' + this.rottafunction ,  {
             headers: this.getAuthHeader()
           });      // ok;
-
         }
+
+        getsociobyCognomeNomeCell(cognome: string, nome: string, cell: string) {
+            this.rottafunction = 'cognNomeCellulare';
+            return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + cognome + '/' + nome + '/' + cell);      // ok;
+        }
+
+
+        getsociobyFilter(strsql: string) {
+          this.rottafunction = 'filterSearch/strsql';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + strsql);      // ok;
+      }
+
+
 
 
         /*   da sistemare

@@ -1,0 +1,301 @@
+<p>request-adesione works!</p>
+
+<div class="mt-4 col-10 offset-2">
+
+  <div class="card col-sm-10">    <!-- card -->
+    <div class="row">
+      <div class="col-md-5">
+        <div class="card-header centrata textbold">Richiesta adesione</div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <form name="adesioneForm"  #adesioneForm=ngForm (ngSubmit)="onSubmit(adesioneForm)">
+        <!-- prima riga -->
+        <div class="row">
+          <!---  <div class="form-group row lowertxt">  -->
+                  <label for="cognome"  class="col-sm-2 col-form-label">Cognome</label>
+                  <div class="col-sm-4">
+                     <input type="text" name="cognome" class="form-control lowertxt" id="cognome" placeholder="cognome" [(ngModel)]="form.cognome" required maxlength="50"  #cognome="ngModel" ngModel pattern="[0-9a-zA-Z\s]*" placeholder="Inserire Cognome" style="text-transform : uppercase" >
+                  <br>
+                  <div *ngIf="cognome.dirty && cognome.touched && cognome.invalid" class="alert alert-danger">
+                          <div  *ngIf="cognome.errors.required">
+                            il campo cognome è obbligatorio
+                          </div>
+                          <div  *ngIf="cognome.errors.maxlength">
+                            il campo non deve essere lungo più di {{ cognome.errors.maxlength.requiredLength }} caratteri
+                          </div>
+                          <div *ngIf="cognome.errors?.pattern">
+                            <span>il cognome non rispetta le regole sintattiche</span>
+                          </div>
+                  </div>
+               <!--   </div>  -->
+                  </div>
+
+          <!--  <div class="form-group row lowertxt">  -->
+                    <label for="nome"  class="col-sm-1 col-form-label">Nome</label>
+                    <div class="col-sm-4">
+                    <input type="text" name="nome" class="form-control lowertxt" id="nome" placeholder="inserire Nome" [(ngModel)]="form.nome" required  minlength="5" maxlength="40" #nome="ngModel" ngModel   pattern="[0-9a-zA-Z,\s]*"  style="text-transform : uppercase" >
+                    <br>
+                    <div  *ngIf="nome.dirty && nome.touched && nome.invalid" class="alert alert-danger">
+                            <div  *ngIf="nome.errors.required">
+                              il nome è obbligatorio
+                            </div>
+                            <div  *ngIf="nome.errors.minlength">
+                              il campo deve essere lungo più di {{ nome.errors.minlength.requiredLength }} caratteri
+                            </div>
+                            <div  *ngIf="nome.errors.maxlength">
+                              il campo non deve essere lungo più di {{ nome.errors.maxlength.requiredLength }} caratteri
+                            </div>
+                            <div *ngIf="nome.errors?.pattern">
+                              <span>il nome non rispetta le regole sintattiche</span>
+                            </div>
+                      </div>
+                  </div>
+        <!--    </div>   -->
+
+         </div>
+         <!-- seconda riga -->
+         <div class="row">
+             <label for="luogonascita"  class="col-sm-1 col-form-label">nato</label>
+             <!-- data di Nascita -->
+             <div class="col-sm-5">
+                 <div class="row">
+                     <div class=" col-md-6">
+                       <input type="date" [(ngModel)]="form.datanascita"  #datanascita="ngModel" ngModel class="form-control"  name="datanascita" id="datanascita" required placeholder="dd/mm/yyyy" /> <!-- [(ngModel)]="socio.datanascita | date:'dd/MM/yyyy'"-->
+                     </div>
+                 </div>
+             </div>
+             <!-- localita di nascita -->
+             <label for="luogonascita"  class="col-sm-1 col-form-label">loc.</label>
+             <div class="col-sm-5">
+             <input type="text" name="luogonascita" class="form-control lowertxt" id="luogonascita" placeholder="inserire luogo di nascita" [(ngModel)]="form.luogonascita" required  maxlength="50" #luogonascita="ngModel" ngModel  pattern="[0-9a-zA-Z,\s]*"  style="text-transform : uppercase" >
+             <br>
+             <div  *ngIf="luogonascita.dirty && luogonascita.touched && luogonascita.invalid" class="alert alert-danger">
+                     <div  *ngIf="luogonascita.errors.required">
+                       luogo di nascita è obbligatorio
+                     </div>
+                     <div  *ngIf="luogonascita.errors.maxlength">
+                       il campo non deve essere lungo più di {{ luogonascita.errors.maxlength.requiredLength }} caratteri
+                     </div>
+                     <div *ngIf="luogonascita.errors?.pattern">
+                       <span>il luogo di nascita non rispetta le regole sintattiche</span>
+                     </div>
+             </div>
+           </div>
+
+         </div>
+          <!-- terza riga -->
+        <div class="row">
+             <!--residenza -->
+            <label for="residenza"  class="col-sm-2 col-form-label">Residenza</label>
+            <div class="col-sm-4">
+               <input type="text" name="residenza" class="form-control lowertxt" id="residenza"  [(ngModel)]="form.residenza" required maxlength="50"  #residenza="ngModel" ngModel pattern="[0-9a-zA-Z\s]*" placeholder="Inserire Residenza" style="text-transform : uppercase" >
+                <br>
+                <div *ngIf="residenza.dirty && residenza.touched && residenza.invalid" class="alert alert-danger">
+                        <div  *ngIf="residenza.errors.required">
+                          la residenza è obbligatorio
+                        </div>
+                        <div  *ngIf="residenza.errors.maxlength">
+                          il campo non deve essere lungo più di {{ residenza.errors.maxlength.requiredLength }} caratteri
+                        </div>
+                        <div *ngIf="residenza.errors?.pattern">
+                          <span>la residenza non rispetta le regole sintattiche</span>
+                        </div>
+                </div>
+            </div>
+            <!-- indirizzo -->
+            <label for="indirizzo"  class="col-sm-1 col-form-label">indir.</label>
+            <div class="col-sm-5">
+            <input type="text" name="indirizzo" class="form-control lowertxt" id="indirizzo" placeholder="inserire indirizzo" [(ngModel)]="form.indirizzo" required  maxlength="50" #indirizzo="ngModel" ngModel  pattern="[0-9a-zA-Z,\s]*"  style="text-transform : uppercase" >
+            <br>
+            <div  *ngIf="indirizzo.dirty && indirizzo.touched && indirizzo.invalid" class="alert alert-danger">
+                    <div  *ngIf="indirizzo.errors.required">
+                      indirizzo è obbligatorio
+                    </div>
+                    <div  *ngIf="indirizzo.errors.maxlength">
+                      il campo indirizzo non deve essere lungo più di {{ indirizzo.errors.maxlength.requiredLength }} caratteri
+                    </div>
+                    <div *ngIf="indirizzo.errors?.pattern">
+                      <span>indirizzo non rispetta le regole sintattiche</span>
+                    </div>
+            </div>
+          </div>
+        </div>
+         <!-- quarta riga -->
+         <div class="row">
+          <!--email -->
+          <label for="email"  class="col-sm-2 col-form-label">email</label>
+          <div class="col-sm-8">
+            <input type="email" name="email" class="form-control lowertxt" id="email" placeholder="Email" [(ngModel)]="form.email" email #email="ngModel" ngModel  style="text-transform : lowercase">
+            <br>
+            <div *ngIf="email.dirty || email.touched">
+              <div *ngIf="email.dirty && email.touched && email.invalid">
+                <div  *ngIf="email.errors.required"  class="alert alert-danger">
+                  il campo email è obbligatorio
+                </div>
+                <div  *ngIf="email.errors.maxlength">
+                  il campo non deve essere lungo più di {{ email.errors.maxlength.requiredLength }} caratteri
+                </div>
+                <div *ngIf="email.errors?.email"  class="alert alert-danger">
+                  Email non valida
+                </div>
+                      </div>
+            </div>
+
+          </div>
+        </div>
+         <!-- quinta riga -->
+         <div class="row">
+          <!---  <div class="form-group row lowertxt">  -->
+            <label for="telcasa"  class="col-sm-2 col-form-label">tel Casa</label>
+            <div class="col-sm-4">
+               <input type="text" name="telcasa" class="form-control lowertxt" id="telcasa" placeholder="telcasa" [(ngModel)]="form.telcasa" maxlength="10"  #telcasa="ngModel" ngModel pattern="[0-9]" placeholder="Inserire tel casa" >
+            <br>
+            <div *ngIf="telcasa.dirty || telcasa.touched">
+                  <div *ngIf="telcasa.dirty && telcasa.touched && telcasa.invalid" class="alert alert-danger">
+                          <div  *ngIf="telcasa.errors.maxlength">
+                            il campo non deve essere lungo più di {{ telcasa.errors.maxlength.requiredLength }} caratteri
+                          </div>
+                          <div *ngIf="telcasa.errors?.pattern">
+                            <span>il telcasa errato</span>
+                          </div>
+                  </div>
+               <!--   </div>  -->
+                  </div>
+            </div>
+
+          <label for="cell"  class="col-sm-2 col-form-label">cell.</label>
+            <div class="col-sm-4">
+               <input type="text" name="cell" class="form-control lowertxt" id="cell" placeholder="cellulare" [(ngModel)]="form.cell" maxlength="10"  #cell="ngModel" ngModel pattern="[0-9]{10}" placeholder="Inserire tel casa" >
+            <br>
+            <div *ngIf="cell.dirty || cell.touched">
+                  <div *ngIf="cell.dirty && cell.touched && cell.invalid" class="alert alert-danger">
+                          <div  *ngIf="cell.errors.maxlength">
+                            il campo non deve essere lungo più di {{ cell.errors.maxlength.requiredLength }} caratteri
+                          </div>
+                          <div *ngIf="cell.errors?.pattern">
+                            <span>il cell errato</span>
+                          </div>
+                  </div>
+               <!--   </div>  -->
+                  </div>
+            </div>
+
+         </div>
+        <!-- sesta riga -->
+        <div class="row">
+
+
+          <div class="col-sm-1"><strong>Sesso</strong></div>
+          <div class="col-sm-2">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="sesso" id="sessom" value="M" [ngModel]="ade.sesso" (click)="selectSesso($event.target.value)">
+                  <label class="form-check-label" for="sessom">M</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="sesso" id="sessof" value="F"  [ngModel]="ade.sesso" (click)="selectSesso($event.target.value)">
+                  <label class="form-check-label" for="sessof">F</label>
+                </div>
+
+          </div>
+
+
+
+          <!--   operativo -->
+          <div class="col-sm-2"><strong>operativo</strong></div>
+          <div class="col-sm-4">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="operativo" id="inlineRadio1"  [(ngModel)]="ade.operativo" value="S" (click)="selectOperativo($event.target.value)">
+                  <label class="form-check-label" for="inlineRadio1">Si</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="operativo" id="inlineRadio2"  [(ngModel)]="ade.operativo" value="N" (click)="selectOperativo($event.target.value)">
+                  <label class="form-check-label" for="inlineRadio2">No</label>
+                </div>
+          </div>
+
+        </div>
+
+
+
+
+
+         <!--
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-sm-3 col-form-label">Email</label>
+          <div class="col-sm-9">
+            <input type="email" name="email" class="form-control lowertxt" id="inputEmail3" placeholder="Email" [(ngModel)]="form.email" required email #email="ngModel" ngModel>
+            <br>
+            <div *ngIf="email.dirty && email.touched && email.invalid">
+                    <div  *ngIf="email.errors.required"  class="alert alert-danger">
+                      il campo email è obbligatorio
+                    </div>
+                    <div *ngIf="email.errors?.email"  class="alert alert-danger">
+                      Primary Email not valid.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputtelefono3"  class="col-sm-3 col-form-label">telefono</label>
+          <div class="col-sm-9">
+            <input type="text" name="telefono" class="form-control" id="inputtelefono3" placeholder="telefono" [(ngModel)]="form.telefono" required #telefono="ngModel" ngModel pattern="^[0-9]*$">
+            <br>
+            <div *ngIf="telefono.dirty && telefono.touched && telefono.invalid" class="alert alert-danger">
+                  <div  *ngIf="telefono.errors.required">
+                    il campo telefono è obbligatorio
+                  </div>
+                  <div  *ngIf="telefono.errors.pattern">
+                    il campo telefono deve contenere solo numeri
+                  </div>
+            </div>
+          </div>
+        </div>
+
+    -->
+
+        <br>
+
+        <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+            <p>{{Message}}</p>
+        </div>
+        <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+           <p>{{Message}}</p>
+        </div>
+
+        <hr>
+
+        <div class="form-group row">
+          <div class="col-sm-10 offset-3">
+            <div class="row">
+                <div class="col-sm-3">
+                  <button type="submit" class="btn btn-success btn-sm-2" (click)="nuovaAdesione()" >Nuova
+                    <fa-icon [icon]="faPlus"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+                <div class="col-sm-3">
+                  <button type="submit" class="btn btn-primary">Conferma
+                    <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+
+
+
+            </div>
+
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+
+
+
+
+
+
+

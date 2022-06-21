@@ -22,18 +22,27 @@
     <li><a  href="#">Prenotazioni</a>
       <ul>
         <li><a   class="nav-link"  (click)="showInfoPrenotazionePopup()"  >Info</a></li>  <!-- [routerLink]="['prenotazione/infor']" -->
-        <!-- se non aperta Sanfra va inviato popup di avviso -->
 
-    <!--    <li><a  *ngIf="!manifActive"   class="nav-link" [routerLink]="['/notopenSanfra']" href="#">Prenotazione</a></li>   --->
-
-        <li><a   class="nav-link"  (click)="verifyPresentiGiornate()">Prenotazione</a></li>  <!--  [routerLink]="['/requestConfirmPrenotazione']" -->
+<!--
+        <li><a   class="nav-link"  (click)="verifyPresentiGiornate()">Prenotazione</a></li>
         <li><a *ngIf="isUserLoggedIn && ruoloUser === 0"  class="nav-link" href="#"  [routerLink]="['/prenotazioni']">Elenco Prenotazioni</a></li>
-     <!--   <li><a  *ngIf="manifActive" class="nav-link" href="#"  [routerLink]="['/prenotazioni']">Elenco Prenotazioni</a></li>  -->
+   -->
       </ul>
     </li>
+    <li><a  href="#">Adesioni</a>
+      <ul>
+        <li><a   class="nav-link"  [routerLink]="['requestConfirmAdesione']"  >Richiesta</a></li>
+        </ul>
+    </li>
+
+
     <li><a class="nav-link"  href="#"  >Funzioni</a>
       <ul>
-        <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/manif']">Manifestazioni</a></li>
+
+        <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/yellowFlat']">Oganizzazione</a></li>
+        <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/quotat']">Quote Annuali</a></li>
+        <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/socio']">Soci</a></li>
+        <!--
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/prodotto']">Prodotti</a></li>
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/persona']">Persone</a></li>
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/commanda']">Commande</a></li>
@@ -51,7 +60,7 @@
           <ul>
             <li><a  class="nav-link"  [routerLink]="['/tabella']">tabelle</a></li>
           </ul>
-        </li>
+        </li>  -->
 
      </ul>
     </li>

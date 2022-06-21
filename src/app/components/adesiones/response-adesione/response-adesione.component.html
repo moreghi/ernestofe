@@ -1,0 +1,205 @@
+<p>response-adesione works!</p>
+
+<div class="mt-4 col-10 offset-2">
+
+  <div class="card col-sm-10">    <!-- card -->
+    <div class="row">
+      <div class="col-md-4">
+        <div class="center-block centrata">
+          <img src="assets/images/logobandieragialla.jpg"   alt="logo" class="img-circle" width="30px" height="30px">
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="card-header centrata textbold">Conferma Richiesta Adesione</div>
+      </div>
+    </div>
+    <div class="card-body" >  <!-- *ngIf="confermataPrenotazione === false" -->
+      <form name="confAdesioneForm"  #confAdesioneForm=ngForm (ngSubmit)="onSubmit(confAdesioneForm)">
+        <input hidden type="text" name="token" class="form-control" id="inputtoken3" placeholder="token" [(ngModel)]="form.token" #token="ngModel" ngModel>
+        <div class="row">
+            <label for="cognome"  class="col-sm-2 col-form-label">Cognome</label>
+            <div class="col-sm-4">
+              <input disabled type="text" name="cognome" class="form-control lowertxt" id="cognome" [(ngModel)]="form.cognome"  #cognome="ngModel" ngModel >
+            </div>
+            <label for="nome"  class="col-sm-1 col-form-label">Nome</label>
+            <div class="col-sm-4">
+              <input disabled type="text" name="nome" class="form-control lowertxt" id="nome" [(ngModel)]="form.nome"  #nome="ngModel" ngModel  >
+          </div>
+        </div>
+        <br>
+        <div class="row">
+
+          <label for="luogonascita"  class="col-sm-1 col-form-label">nato</label>
+          <!-- data di Nascita -->
+          <div class="col-sm-5">
+              <div class="row">
+                  <div class=" col-md-6">
+                    <input disabled type="date" [(ngModel)]="form.datanascita"  #datanascita="ngModel" ngModel class="form-control"  name="datanascita" id="datanascita"/>
+                  </div>
+              </div>
+          </div>
+          <!-- localita di nascita -->
+          <label for="luogonascita"  class="col-sm-1 col-form-label">loc.</label>
+          <div class="col-sm-5">
+             <input disabled type="text" name="luogonascita" class="form-control lowertxt" id="luogonascita" [(ngModel)]="form.luogonascita" #luogonascita="ngModel" ngModel >
+          </div>
+        </div>
+        <br>
+        <div class="row">
+
+            <!--residenza -->
+            <label for="residenza"  class="col-sm-2 col-form-label">Residenza</label>
+            <div class="col-sm-4">
+              <input disabled type="text" name="residenza" class="form-control lowertxt" id="residenza"  [(ngModel)]="form.residenza"  #residenza="ngModel" ngModel >
+            </div>
+           <!-- indirizzo -->
+           <label for="indirizzo"  class="col-sm-1 col-form-label">indir.</label>
+          <div class="col-sm-5">
+              <input disabled type="text" name="indirizzo" class="form-control lowertxt" id="indirizzo" [(ngModel)]="form.indirizzo" #indirizzo="ngModel" ngModel >
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <!--email -->
+          <label for="email" class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-7">
+            <input disabled type="email" name="email" class="form-control" id="email" [(ngModel)]="form.email" #email="ngModel" ngModel>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <!--tel fisso  -->
+          <label for="telcasa"  class="col-sm-2 col-form-label">tel Casa</label>
+          <div class="col-sm-4">
+             <input disabled type="text" name="telcasa" class="form-control lowertxt" id="telcasa" [(ngModel)]="form.telcasa"  #telcasa="ngModel" ngModel  >
+          </div>
+          <!--tel fisso  -->
+          <label for="cell"  class="col-sm-1 col-form-label">cell.</label>
+            <div class="col-sm-4">
+              <input disabled type="text" name="cell" class="form-control lowertxt" id="cell" [(ngModel)]="form.cell" #cell="ngModel" ngModel  >
+            </div>
+        </div>
+        <br>
+        <div class="row">
+          <!-- sesso  -->
+          <label for="sesso"  class="col-sm-2 col-form-label">Sesso</label>
+          <div class="col-sm-4">
+             <input disabled type="text" name="sesso" class="form-control lowertxt" id="sesso" [(ngModel)]="form.sesso"  #sesso="ngModel" ngModel  >
+          </div>
+          <!-- Operativo  -->
+          <label for="operativo"  class="col-sm-1 col-form-label">Ruolo</label>
+          <div class="col-sm-4">
+             <input disabled type="text" name="operativo" class="form-control lowertxt" id="operativo" [(ngModel)]="form.operativo"  #operativo="ngModel" ngModel  >
+          </div>
+        </div>
+        <br>
+
+
+        <div class="form-group row">
+          <label for="codade" class="col-sm-3 col-form-label">Cod. Conferma Adesione</label>
+          <div class="col-sm-7">
+            <input type="text" name="codade" class="form-control" id="codade" placeholder="codice di conferma adesione" [(ngModel)]="form.codade" required #codade="ngModel" ngModel  minlength="5" maxlength="5">
+          <!--    <i (mouseup)="hide()" (mousedown) ="show()" class="fas fa-eye"></i>   -->
+              <div class="col-sm-10 alert alert-danger  has-error" *ngIf="codade.dirty && codade.touched && codade.invalid" >
+                    <div  *ngIf="codade.errors.required">
+                      il campo Codice Conferma Richiesta Adesione è obbligatorio
+                    </div>
+                    <div  *ngIf="codade.errors.minlength">
+                      il campo deve essere lungo più di {{ codade.errors.minlength.requiredLength }} caratteri
+                    </div>
+                    <div  *ngIf="codade.errors.maxlength">
+                      il campo non deve essere lungo più di {{ codade.errors.maxlength.requiredLength }} caratteri
+                    </div>
+              </div>
+          </div>
+        </div>
+        <br>
+
+
+        <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+            <p>{{Message}}</p>
+        </div>
+        <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+           <p>{{Message}}</p>
+        </div>
+
+
+
+        <br>
+
+        <div class="form-group row">
+          <div class="col-sm-10 offset-2">
+
+            <div class="row">
+
+              <div class="col-sm-3">
+                <button type="submit" class="btn btn-primary btn-sm-2" [disabled]="!confAdesioneForm.valid  && visibleConferma === true">Conferma
+                  <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+                </button>
+              </div>
+              <div class="col-sm-3">
+                <button  class="btn btn-danger float-right "  (click)="open(content)"> Cancella
+                  <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <div class="card-body" *ngIf="confermataAdesione === true">
+        <p></p>
+        <p> grazie <strong>{{form.cognome}} &nbsp; {{form.name}} &nbsp;</strong> di aver confermato la tua richiesta di adesione a Bandiera Gialla.</p>
+        <p>Ti ricordiamo che la tua richiesta, per essere completa, necessita che regolarizzi, verdando la quota annuale</p>
+        <p></p>
+        <p>Ti preghiamo pertanto di passare presso i nostri uffici</p>
+        <p></p>
+        <p>ti aspettiamo</p>
+        <p></p>
+        <p>Bandiera Gialla</p>
+    </div>
+
+
+
+  </div>
+</div>
+
+<!-- form popup di conferma cancellazio0ne -->
+<ng-template #content let-modal>
+  <div class="modal-header modal-header-color">
+    <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione Adesione</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <p>confermi {{form.cognome}}&nbsp;{{form.name}}  &nbsp;&nbsp;</p>
+      <p>la cancellazione della Adesione a Bandiera Gialla ?</p>
+      <p></p>
+
+      <!--   esempio di calendario che funziona benissimo
+      <div class="form-group">
+        <label for="dateOfBirth">Date of birth</label>
+        <div class="input-group">
+          <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+      -->
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+
+    <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+      <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+    </button>
+  </div>
+</ng-template>
+
+

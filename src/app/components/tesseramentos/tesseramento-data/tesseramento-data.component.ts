@@ -3,11 +3,13 @@ import { faPlusSquare, faSearch, faInfoCircle, faUserEdit, faSave } from '@forta
 import { SocioService} from './../../../services/socio.service';
 import { TesseramentoService } from './../../../services/tesseramento.service';
 import { BandieragiallaService } from './../../../services/bandieragialla.service';
+import { QuotatesseraService } from './../../../services/quotatassera.service';
+
 // classi
 import { Socio} from '../../../classes/Socio';
 import { Tesseramento} from '../../../classes/Tesseramento';
 import { Bandieragialla} from '../../../classes/BandieraGialla';
-
+import { Quotatessera} from '../../../classes/Quotatessera';
 import { ActivatedRoute, Router } from '@angular/router';
 // per gestire inserimento/Modifica con popup
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -34,6 +36,8 @@ export class TesseramentoDataComponent implements OnInit {
   public socio: Socio;
   public tesseramento: Tesseramento;
   public bandieragialla: Bandieragialla;
+  public quotatessera: Quotatessera;
+  public quotatesseranull: Quotatessera;
 
   public tipoRichiesta = '?';
   public ricManif = 0;
@@ -119,6 +123,7 @@ public dataOdierna;
 constructor(private socioService: SocioService,
             private tesseramentoService: TesseramentoService,
             private bandieragiallaService: BandieragiallaService,
+            private quotatesseraService: QuotatesseraService,
             private route: ActivatedRoute,
             private router: Router,
             private modalService: NgbModal,
@@ -159,6 +164,7 @@ goApplication() {
     console.log('id recuperato: ' + this.idpassed);
     this.loadSocio(this.idpassed);
     this.loadBandieraGialla(this.idBg);
+    this.loadQuotatessera(this.idBg, this.anno);
    });
 }
 
@@ -198,11 +204,7 @@ async loadBandieraGialla(id: number) {
       console.log('letto bandieragialla: ' + JSON.stringify(response['data']));
       if(response['rc'] === 'ok') {
         this.bandieragialla = response['data'];
-        this.trovatoRec = true;
-        this.alertSuccess = true;
-        this.type = 'success';
-        this.Message = 'Conferma il rinnovo della tessera';
-      }
+        }
       if(response['rc'] === 'nf') {
         this.alertSuccess = false;
         this.trovatoRec = false;
@@ -220,6 +222,45 @@ async loadBandieraGialla(id: number) {
     });
 
   }
+
+async loadQuotatessera(idbg: number, anno: number) {
+  console.log('frontend - loadQuotatessera: ' + idbg + ' per anno: ' + anno);
+  this.trovatoRec = false;
+  this.isVisible = true;
+  let rc = await  this.quotatesseraService.getbyanno(idbg, anno).subscribe(
+     response => {
+
+      console.log('letto quota: ' + JSON.stringify(response['data']));
+      if(response['rc'] === 'ok') {
+        this.quotatessera = response['data'];
+        this.trovatoRec = true;
+        this.alertSuccess = true;
+        this.type = 'success';
+        this.Message = 'Conferma il rinnovo della tessera';
+      }
+      if(response['rc'] === 'nf') {
+        this.quotatesseranull = new Quotatessera();
+        this.quotatessera = this.quotatesseranull;
+        this.alertSuccess = false;
+        this.trovatoRec = false;
+        this.Message = 'Inesistente Quota annuale - avvisare Amministratore';
+        this.type = 'error';
+        return;
+      }
+      this.showNotification( this.type, this.message);
+    },
+    error => {
+       alert('TesseramentoData  -- loadQuotatessera: ' + error.message);
+       console.log(error);
+       this.alertSuccess = false;
+       this.Message = error.message;
+       this.showNotification( this.type, this.message);
+    });
+}
+
+
+
+
 
 
 

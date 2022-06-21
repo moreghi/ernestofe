@@ -15,7 +15,7 @@
  <div class="container-fluid">
     <div class="row">
 
-      <div class="col-md-4 ">
+      <div class="col-md-4">
 
           <div class="form-group row">
             <div class="col-sm-1">
@@ -24,7 +24,7 @@
 
               </div>
             </div>
-            <div class="col-sm-8 ">
+            <div class="col-sm-11">
               <div class="search-hero">
                 <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="inserisci campo di ricerca">
               </div>
@@ -33,19 +33,39 @@
       </div>
 
       <div class="col-md-8">
-        <div class="form-group row">
-          <div class="col-sm-8">
+        <div class="row">
+          <div class="col-sm-4">
             <div class="form-check form-check-inline" *ngFor="let option of options; let idx = index">
               <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option" (change)="onSelectionChange(option)">&nbsp; {{option}}
             </div>
           </div>
+          <div class="col-sm-3" *ngIf="activeFilter">
+            <button  class="btn btn-success btn-rounded"  (click)="startFiltri()">Filtri
+              <fa-icon [icon]="faPlusSquare"  fixed="true"></fa-icon>
+             </button>
+          </div>
+
+
           <div *ngIf="trovatoRec"  class="col col-md-2 ">
-                        <strong>Record :</strong>&nbsp;&nbsp; {{nRec}}
+               <strong>Record :</strong>&nbsp;&nbsp; {{nRec}}
           </div>
 
         </div>
       </div>
     </div>
+
+    <!--
+<div class="row">
+  <div class="row col-sm-6">
+    <div class="col-sm-6">
+         <button  class="btn btn-success btn-rounded"  (click)="startFiltri()">Filtri
+           <fa-icon [icon]="faPlusSquare"  fixed="true"></fa-icon>
+          </button>
+     </div>
+  </div>
+</div>
+
+
     <div class="row">
 
 
@@ -61,7 +81,8 @@
 
         </div>
       </div>
-    </div>
+    </div>  -->
+
  </div>
 
 

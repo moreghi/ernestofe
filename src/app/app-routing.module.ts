@@ -65,6 +65,11 @@ import { TesseramentoDataComponent } from './components/tesseramentos/tesseramen
 
 import { SocioDetail1Component } from './components/socios/socio-detail1/socio-detail1.component';
 import { SocioDetailComponent } from './components/socios/socio-detail/socio-detail.component';
+import { RequestAdesioneComponent } from './components/adesiones/request-adesione/request-adesione.component';
+import { ResponseAdesioneComponent } from './components/adesiones/response-adesione/response-adesione.component';
+import { BandieragiallaDetailComponent } from './components/bandieragiallas/bandieragialla-detail/bandieragialla-detail.component';
+import { QuotetesseraComponent } from './components/quotatesseras/quotetessera/quotetessera.component';
+import { QuotatesseraDetailComponent } from './components/quotatesseras/quotatessera-detail/quotatessera-detail.component';
 
 const routes: Routes = [
   {
@@ -96,7 +101,34 @@ const routes: Routes = [
     path: 'jumbotron',
     component: JumbotronComponent
   },
-
+  // -------------------------------------------------------  Bandiera Gialla
+{
+  path: 'yellowFlat',
+   component: BandieragiallaDetailComponent
+},
+// -------------------------------------------------------  Quota Tessera
+{
+  path: 'quotat',
+   component: QuotetesseraComponent
+},
+// -------------------------------------------------------  Quota Tessera - dettaglio
+{
+  path: 'quotat/new',
+   component: QuotatesseraDetailComponent
+},
+{
+  path: 'quotat/:id',
+   component: QuotatesseraDetailComponent
+},
+// -------------------------------------------------------  Richiesta adesione
+{
+  path: 'requestConfirmAdesione',
+   component: RequestAdesioneComponent
+},
+{
+  path: 'adesioneConferma',
+   component: ResponseAdesioneComponent
+},
 
 // dettaglio giornata della manifestazione  -- dettaglio Info
 

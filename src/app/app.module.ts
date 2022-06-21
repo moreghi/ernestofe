@@ -44,6 +44,8 @@ import { RouteGuardService } from './services/route-guard.service';
 import { UploadFilesService } from './services/upload-files.service';
 
 import { UserlevelService } from './services/userlevel.service';
+import { AdesioneConfirmService } from './services/adesione-confirm.service';
+import { QuotatesseraService } from './services/quotatassera.service';
 
 
 
@@ -146,6 +148,13 @@ import { TesseramentoDataComponent } from './components/tesseramentos/tesseramen
 import { SocioDetail1Component } from './components/socios/socio-detail1/socio-detail1.component';
 import { SocioDetailComponent } from './components/socios/socio-detail/socio-detail.component';
 import { LocalitapopComponent } from './components/popups/localitapop/localitapop.component';
+import { SocioSearchpopComponent } from './components/popups/socio-searchpop/socio-searchpop.component';
+import { RequestAdesioneComponent } from './components/adesiones/request-adesione/request-adesione.component';
+import { ResponseAdesioneComponent } from './components/adesiones/response-adesione/response-adesione.component';
+import { BandieragiallaDetailComponent } from './components/bandieragiallas/bandieragialla-detail/bandieragialla-detail.component';
+import { QuotetesseraComponent } from './components/quotatesseras/quotetessera/quotetessera.component';
+import { QuotatesseraComponent } from './components/quotatesseras/quotatessera/quotatessera.component';
+import { QuotatesseraDetailComponent } from './components/quotatesseras/quotatessera-detail/quotatessera-detail.component';
 
 
 
@@ -298,6 +307,13 @@ const customNotifierOptions: NotifierOptions = {
     SocioDetail1Component,
     SocioDetailComponent,
     LocalitapopComponent,
+    SocioSearchpopComponent,
+    RequestAdesioneComponent,
+    ResponseAdesioneComponent,
+    BandieragiallaDetailComponent,
+    QuotetesseraComponent,
+    QuotatesseraComponent,
+    QuotatesseraDetailComponent
 
 
 
@@ -320,7 +336,7 @@ const customNotifierOptions: NotifierOptions = {
   ],
   providers: [AuthService, DatePipe, UserService, TruoloService,TokenStorageService,ForgotconfirmedService,ForgotconfirmedtestService,
               ChangepassService,RouteGuardService,TstatoutenteService,UploadFilesService,
-              UserlevelService, SocioService],
+              UserlevelService, SocioService, AdesioneConfirmService,QuotatesseraService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

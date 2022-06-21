@@ -50,11 +50,11 @@
             <div class="col-sm-1"><strong>Sesso</strong></div>
             <div class="col-sm-2">
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="sessom" value="M" [ngModel]="socio.sesso" (click)="selectSesso($event.target.value)">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptionssesso" id="sessom" value="M" [ngModel]="socio.sesso" (click)="selectSesso($event.target.value)">
                     <label class="form-check-label" for="sessom">M</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="sessof" value="F"  [ngModel]="socio.sesso" (click)="selectSesso($event.target.value)">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptionssesso" id="sessof" value="F"  [ngModel]="socio.sesso" (click)="selectSesso($event.target.value)">
                     <label class="form-check-label" for="sessof">F</label>
                   </div>
 
@@ -62,7 +62,7 @@
         </div>
         <br>
 
-        {{socio.datanascita | date:'dd/MM/yyyy'}}
+
         <!-- seconda riga -->
         <div class="form-row">
           <div class="form-group row">
@@ -74,6 +74,9 @@
                     <label for="dtNascita" class="col-sm-2 col-form-label">Data</label>
                     <div class=" col-md-6">
                       <input type="date" [(ngModel)]="socio.datanascita"  #dtNascita="ngModel" ngModel class="form-control"  name="dtNascita" id="dtNascita" required placeholder="dd/mm/yyyy" /> <!-- [(ngModel)]="socio.datanascita | date:'dd/MM/yyyy'"-->
+                    </div>
+                    <div class="col-md-4">
+                      {{socio.datanascita}}
                     </div>
                 </div>
             </div>
@@ -152,7 +155,7 @@
                 <div class="row">
                   <label for="indirizzo" class="col-sm-1 col-form-label">Indirizzo</label>&nbsp;&nbsp;&nbsp;&nbsp;
                   <div class=" col-md-10">
-                    <input #indirizzo="ngModel"  [(ngModel)]="socio.indirizzo" class="form-control" name="indirizzo" id="indirizzo" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z,'\s]*" placeholder="Inserire Indirizzo"  style="text-transform : uppercase">
+                    <input #indirizzo="ngModel"  [(ngModel)]="socio.indirizzo" class="form-control" name="indirizzo" id="indirizzo" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z,\s]*" placeholder="Inserire Indirizzo"  style="text-transform : uppercase">   <!--         " -->
                   </div>
                   <br>
                   <div *ngIf="indirizzo.invalid && (indirizzo.dirty || indirizzo.touched)" class="alert-danger">
@@ -194,14 +197,16 @@
       <div class="row">
         <label for="email" class="col-sm-1 col-form-label">email</label>
         <div class="col-md-6">
-          <input type="email" name="email" class="form-control lowertxt" id="email" placeholder="Email" [(ngModel)]="socio.email" required email #email="ngModel" ngModel  style="text-transform : lowercase">
+          <input type="email" name="email" class="form-control lowertxt" id="email" placeholder="Email" [(ngModel)]="socio.email" email #email="ngModel" ngModel  style="text-transform : lowercase">
           <br>
-          <div *ngIf="email.dirty && email.touched && email.invalid">
-                  <div  *ngIf="email.errors.required"  class="alert alert-danger">
-                    il campo email è obbligatorio
-                  </div>
-                  <div *ngIf="email.errors?.email"  class="alert alert-danger">
-                    Email non valida
+          <div *ngIf="email.dirty || email.touched">
+            <div *ngIf="email.dirty && email.touched && email.invalid">
+              <div  *ngIf="email.errors.required"  class="alert alert-danger">
+                il campo email è obbligatorio
+              </div>
+              <div *ngIf="email.errors?.email"  class="alert alert-danger">
+                Email non valida
+              </div>
             </div>
           </div>
         </div>
@@ -315,6 +320,28 @@
         <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
       </button>
     </div>
+
+    <div class="col-sm-3" >
+
+
+        <INPUT TYPE="button" VALUE="Torna Indietro"
+        onClick="history.go(-1);return true;"
+        style="background-color: #ce401c;
+        width: 10em;
+        padding: .5em;
+        color: #ffffff;
+        text-shadow: 1px 1px 1px #000;
+        font: 16px Arial, Helvetica, sans-serif;
+        border: solid thin #882d13;
+        -webkit-border-radius: .7em;
+        -moz-border-radius: .7em;
+        border-radius: .7em;
+        background-image: -webkit-gradient(linear, left top, left bottom,
+        from(#e9ede8), to(#ce401c),color-stop(0.4, #8c1b0b));">
+
+    </div>
+
+
   </div>
 </div>
 

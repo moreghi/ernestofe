@@ -20,17 +20,20 @@ import { Component, OnInit } from '@angular/core';
 import { faPlusSquare, faSearch } from '@fortawesome/free-solid-svg-icons';    //  @fortawesome/free-regular-svg-icons
 // service
 import { SocioService } from '../../../services/socio.service';
+import { SociosearchService } from './../../../services/sociosearch.service';
 
 // import { CtrfuncService } from '../../../services/ctrfunc.service';
 // classi
 import { Socio} from '../../../classes/Socio';
+import { SocioSearch } from '../../../classes/SocioSearch';
 // import { Abilfunctione} from '../../../classes/Abilfunctione';
 // per gestire la notifica esito
 import { NotifierService } from 'angular-notifier';
 import { ActivatedRoute, Router, RouterStateSnapshot } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
-
+// popup per gestione filtri su ricerca soci
+import { SocioSearchpopComponent } from '../../../components/popups/socio-searchpop/socio-searchpop.component';
 
 
 @Component({
@@ -44,6 +47,7 @@ export class SociComponent implements OnInit {
   public alertSuccess = false;
 
   public soci: Socio[] = [];
+  public socioSearch: SocioSearch;
 
   // public abilfunctione: Abilfunctione;
 
@@ -100,12 +104,22 @@ public Message = '';
 
  options = [
     'Tutte',
+    'Selettiva'
+  ];
+
+
+/*
+
+ options = [
+    'Tutte',
     'da Rinnovare',
     'Rinnovate'
   ];
 
 
-  options1 = [
+*/
+
+options1 = [
     'Alfabetico',
     'Tessera',
     'Residenza'
@@ -120,11 +134,27 @@ public Message = '';
   public enabledFunc = false;
   public ruoloSearch = 0;
   public testRuoloday = 0;     // test per simulare il ruolo web utente
+  public idSearch = 1;
+  public strsql = '';
+  public orderby = '';
+  public where = '';
+  public dataOdierna;
+  public anno  = 0;
+  public whereStato = '';
+  public whereTessere = '';
+  public whereLocalita = '';
+  public whereOperativo = '';
+  public whereSesso = '';
+  public whereEmail = '';
+  public whereCell = '';
+  public whereparam = '';
+  public activeFilter = false;
 
 constructor(private xsocioService: SocioService,
+            private sociosearchService: SociosearchService,
             private router: Router,
             private route: ActivatedRoute,
-            private modal: NgbModal,
+            private modalService: NgbModal,
             private notifier: NotifierService) {
               this.notifier = notifier;
             }
@@ -181,6 +211,7 @@ constructor(private xsocioService: SocioService,
 
 
           goApplication() {
+            this.activeFilter = false;
             this.loadSoci();
 
           }
@@ -232,12 +263,197 @@ showNotification( type: string, message: string ): void {
     alert(' ordinamento da fare');
   }
 
+  startFiltri() {
+
+     //  lancio con popup
+
+     this.socioSearch = new SocioSearch();
+     const ref = this.modalService.open(SocioSearchpopComponent, {size:'lg'});
+     ref.componentInstance.selectedUser = this.socioSearch;
+
+     ref.result.then(
+        (yes) => {
+          console.log('Click YES');
+          // leggo la selezione e preparo la strsql da passare a backend
+          this.loadSearch(this.idSearch);
+
+         /*
+
+         creare stringa di selezione e fare select
+          this.loadlocalita();
+          //this.router.navigate(['/socio/edit/' + this.socio.id]);   // per aggiornare elenco richiamo la stessa pagina
+          */
+        },
+        (cancel) => {
+          console.log('click Cancel');
+        }
+      );
+  }
+
+  async loadSearch(id: number) {
+
+    console.log('loadSearch -- appena entrato ');
+
+    let rc =  await  this.sociosearchService.getbyId(id).subscribe(
+      (res: any) => {
+
+         console.log('loadSearch ' + JSON.stringify(res['data']));
+         this.socioSearch = res['data'];
+         this.creaStrsql(this.socioSearch);
+     },
+     error => {
+        alert('Soci  -- loadSoci - errore: ' + error.message);
+        console.log(error);
+        this.Message = error.message;
+        this.alertSuccess = false;
+     });
+
+  }
+
+
+async creaStrsql(socioSearch: SocioSearch) {
+
+  console.log('createStrsql -- appena entrato ' + JSON.stringify(socioSearch));
+  this.strsql = '';
+  this.orderby = '';
+  this.where = '';
+
+  this.whereStato = '';
+  this.whereTessere = '';
+  this.whereLocalita = '';
+  this.whereOperativo = '';
+  this.whereSesso = '';
+  this.whereEmail = '';
+  this.whereCell = '';
+  this.whereparam = '';
+
+  const date = Date();
+  this.dataOdierna = new Date(date);
+
+  this.anno  = this.dataOdierna.getFullYear();
+
+  switch (socioSearch.orderby)  {
+    case 'T':   // Tessera
+      this.orderby = ' order by `socios`.`tessera` asc';
+      break;
+    case 'A':   // Alfabetico
+      this.orderby = ' order by `socios`.`cognome` asc';
+      break;
+    case 'R':   // Residenza
+      this.orderby = ' order by `t_localitas`.`d_localita` asc';
+      break;
+  default:
+      this.orderby = ' order by `socios`.`cognome` asc';
+      break;
+}
+
+  if(socioSearch.tessere === `T`) {
+  this.strsql = `select 'socios'.*, 't_localitas'.'d_localita' from 'socios' ` +
+                ` inner join 't_localitas' ON 't_localitas'.'id' = 'socios'.'residenza' ` + this.orderby;
+} else {
+
+  this.strsql = `select distinct 'socios'.*, 't_localitas'.'d_localita', 'tesseramentos'.*, 't_stato_utentes'.* from 'socios' ` +
+                ` inner join 't_localitas' ON 't_localitas'.'id' = 'socios'.'residenza' ` +
+                ` inner join 'tesseramentos' ON 'tesseramentos'.'idTessera' = 'socios'.'tessera' ` +
+                ` inner join 't_stato_utentes' ON 't_stato_utentes'.'id' = 'socios'.'stato' `;
+
+// ---- selezione per tessere
+  if(socioSearch.tessere === `R`) {    // rinnovate
+    this.whereTessere  = ` 'tesseramentos'.'stato' = 1 and 'tesseramentos'.'anno' = ` + this.anno;
+  }
+  if(socioSearch.tessere === `D`) {    // da rinnovare
+    this.whereTessere  = ` 'tesseramentos'.'stato' = 1 and 'tesseramentos'.'anno' != ` + this.anno;
+  }
+// ---- selezione per stato
+  if(socioSearch.stato !== 0) {    // impostato uno stato
+    this.whereStato  = ` socios.stato = ` + socioSearch.stato;
+  }
+// ---- selezione per località di Residenza
+  if(socioSearch.localita !== 0) {    // impostato uno stato
+    this.whereLocalita  = ` socios.residenza = ` + socioSearch.localita;
+  }
+  // ---- selezione per ruolo Operativo o solo nominale
+  if(socioSearch.operativo !== ``) {    // impostato uno stato
+    this.whereOperativo  = ` socios.operativo = '` + socioSearch.operativo + `' `;
+  }
+  // ---- selezione per Sesso
+  if(socioSearch.sesso !== ``) {    // impostato uno stato
+    this.whereSesso  = ` socios.sesso = '` + socioSearch.sesso + `' `;
+  }
+  // ---- selezione per email
+  if(socioSearch.email !== ``) {    // impostato uno stato
+
+    if(socioSearch.email === 'S') {
+      this.whereEmail  = ` socios.email !=  null or socios.email != ''`;
+    }
+    if(socioSearch.email === 'N') {
+      this.whereEmail  = ` socios.email =  null or socios.email = ''`;
+    }
+  }
+ // ---- selezione per cellulare
+  if(socioSearch.cell !== '') {    // impostato uno stato
+    if(socioSearch.cell === 'S') {
+      this.whereCell  = ` socios.cell !=  null or socios.cell != ''`;
+    }
+    if(socioSearch.cell === 'N') {
+      this.whereCell  = ` socios.cell =  null or socios.cell = ''`;
+    }
+  }
+  // costruzione finale della where
+  if(this.whereTessere === '') {
+        this.strsql = 'select `socios`.*, `t_localitas`.`d_localita` from `socios` ' +
+                  ' inner join `t_localitas` ON `t_localitas`.`id` = `socios`.`residenza` ';
+  }
+  this.whereparam = this.whereparam + this.whereTessere + this.whereStato + this.whereLocalita +
+                      this.whereOperativo + this.whereSesso + this.whereEmail + this.whereCell;
+  this.where = ' where ' + this.whereparam;
+  this.strsql = this.strsql + this.where + this.orderby;
+
+  console.log('merda ' + this.whereTessere);
+  console.log('creataa la strsql ' + this.strsql);
+
+  }
+
+
+
+
+
+
+  this.trovatoRec = false;
+  this.nRec = 0;
+  this.isVisible = true;
+  let rc =  await  this.xsocioService.getsociobyFilter(this.strsql).subscribe(
+       (res: any) => {
+
+          console.log('Frontend -Soci  ---  getsociobyFilter ' + JSON.stringify(res['data']));
+          this.soci = res['data'];
+          this.nRec = res['number'];
+          this.trovatoRec = true;
+          this.Message = 'Situazione Attuale';
+          this.alertSuccess = true;
+      },
+      error => {
+         alert('Soci  -- loadSoci - errore: ' + error.message);
+         console.log(error);
+         this.Message = error.message;
+         this.alertSuccess = false;
+      });
+}
 
 
 
   onSelectionChange(tipo: string)   {
 
-    alert('da fare');
+   // alert('da fare' + tipo);
+
+    if(tipo = 'Tutte') {
+      this.activeFilter = false;
+      this.loadSoci();
+    }
+    if(tipo = 'Selettiva') {
+      this.activeFilter = true;
+    }
+
 
     /*
     this.tipoRichiesta = tipo;  //tifedel.substring(0,1);
