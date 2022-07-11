@@ -1,0 +1,39 @@
+<td>{{i}}</td>
+<td>{{logSettore.dsettore}}</td>
+<td>{{logFila.dfila}}</td>
+<td>{{eventosettfila.postoStart}}</td>
+<td>{{eventosettfila.postoEnd}}</td>
+
+<td [style.color]="eventosettfila.stato == 0 ? 'green' : 'red'"
+    [style.background]="eventosettfila.stato == 0 ? 'yellow' : 'black'" >{{eventosettfila.utilizzo}}</td>
+
+
+
+
+
+<td >
+  <button class="btn btn-sm  btn-danger" (click)="modifica(eventosettfila, disattiva)">disabilita
+      <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+  </button>
+</td>
+<td > <!-- *ngIf="functionUser === navigateEdit" -->
+<button class="btn btn-sm btn-success" (click)="modifica(eventosettfila, attiva)">abilita
+<fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+</button>
+</td>
+
+<td > <!-- *ngIf="functionUser === navigateEdit" -->
+<button class="btn btn-sm btn-primary" (click)="navigate(navigatePosti,eventosettfila)">Posti
+<fa-icon [icon]="faTicketAlt"  fixed="true"></fa-icon>
+</button>
+</td>
+
+
+<!--
+<td >
+<button class="btn btn-sm btn-warning" (click)="navigate(navigateDays,manif)">eventi
+<fa-icon [icon]="faList"  fixed="true"></fa-icon>
+</button>
+</td>  -->
+
+

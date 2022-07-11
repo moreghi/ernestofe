@@ -1,5 +1,8 @@
 
 <nav class="navbar  navbar-expand-lg navbar-light justify-content-between bg-primary">
+
+  eventoAttivo: &nbsp;{{eventoAttivo}}<br>
+
   <div class="container-fluid d-flex flex-wrap">
   <ul id="menu">
     <a  href="#">
@@ -34,7 +37,12 @@
         <li><a   class="nav-link"  [routerLink]="['requestConfirmAdesione']"  >Richiesta</a></li>
         </ul>
     </li>
-
+    <!--
+    <li><a  href="#">Eventi</a>
+      <ul>
+        <li><a   class="nav-link"  [routerLink]="['requestConfirmAdesione']"  >Biglietto</a></li>   <-- mettere la funzione di richiesta evento
+        </ul>
+    </li>  -->
 
     <li><a class="nav-link"  href="#"  >Funzioni</a>
       <ul>
@@ -42,6 +50,8 @@
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/yellowFlat']">Oganizzazione</a></li>
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/quotat']">Quote Annuali</a></li>
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/socio']">Soci</a></li>
+        <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/manif']">Manifestazioni</a></li>
+        <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/logistica']">Logistica</a></li>
         <!--
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/prodotto']">Prodotti</a></li>
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/persona']">Persone</a></li>
@@ -64,6 +74,19 @@
 
      </ul>
     </li>
+
+<!--  se faccio la verifica sul singolo evento creando emit
+  (eventoOpen)=controllaEvento($event)
+
+-->
+
+
+    <li ><a *ngIf="eventoAttivo" class="nav-link"  href="#"  >Eventi All</a>&nbsp;
+    <li ><a (eventoOpen)=controllaEvento($event) class="nav-link"  href="#"  >Eventi 2</a>
+
+
+
+
 <!--
     <li>
       {{isUserLoggedIn}} &nbsp; {{userAnonimus}} &nbsp; {{manifActive}}

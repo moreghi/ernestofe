@@ -1,0 +1,255 @@
+<p>logistica-detail works!</p>
+<br>
+<div class="container ">
+  <div class="header_Edit title_Edit" *ngIf="fase  ===  'M'">
+      <strong>{{title}}</strong>
+  </div>
+  <div class="header_New" *ngIf="fase  ===  'N'">
+    <caption class="title_New  col-md-12 ">{{title}}</caption>
+  </div>
+
+
+<br>
+  <div >
+    <div class="col-md-auto">
+      <form #fm ="ngForm"  method="POST">
+        <input hidden #id="ngModel"  [(ngModel)]="logistica.id" class="form-control" name="id" id="id">
+        <input hidden #key_utenti_operation="ngModel"  [(ngModel)]="logistica.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation">
+
+        <div class="row">
+              <label for="statoe" class="col-sm-1 col-form-label">Stato</label>
+              <div class=" col-md-3">
+                <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+                    <div>
+                      <input disabled #d_stato_logistica="ngModel"  [(ngModel)]="logistica.d_stato_logistica" class="form-control" name="d_stato_logistica" id="d_stato_logistica" [style.color]="logistica.stato == 0 ? 'red' : 'white'"  [style.background-color]="logistica.stato == 0 ? 'yellow' : 'red'">
+                    </div>
+              </div>
+
+
+
+
+
+<!--
+              <label for="statoe" class="col-sm-2 col-form-label">Stato</label>
+              <div class="dropdown col-sm-8">
+                <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedStato" ngModel name="statoe" id="statoe" class="form-select" required (change)="onSelectedStato($event.target.value)" aria-label="Default select example">
+                  <option selected value="9999"  >Seleziona lo stato</option>
+                  <option *ngFor="let stato of statilogistica" [value]="stato.id"  class="form-control"  >{{stato.d_stato_logistica}}</option>
+                </select>
+              </div>
+              <div class="invalid-feedback">effettuare la scelta dello stato</div>
+            -->
+
+
+
+
+        </div>
+         <br>
+         <div class="row">
+              <!-- localita -->
+              <label for="localita" class="col-sm-1 col-form-label">Localita</label>
+              <div class="col-md-3">
+                <input #localita="ngModel"  [(ngModel)]="logistica.localita" class="form-control" name="localita" id="localita" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire localita" style="text-transform : uppercase">
+              </div>
+              <br>
+              <div *ngIf="localita.invalid && (localita.dirty || localita.touched)" class="alert-danger">
+                <div *ngIf="localita.errors.required">
+                    <span>la localita è obbligatoria</span>
+                </div>
+                <div *ngIf="localita.errors.minlength">
+                  <span>la localita deve essere di almeno  {{localita.errors.minlength.requiredLength }} caratteri</span>
+                </div>
+                <div *ngIf="localita.errors.maxlength">
+                    <span>la localita non può essere più lunga di {{localita.errors.maxlength.requiredLength }} caratteri</span>
+                </div>
+                <div *ngIf="localita.errors?.pattern">
+                  <span>localita errata</span>
+                </div>
+
+            </div>
+
+         </div>
+         <br>
+
+
+
+        <!-- localita  -->
+        <div class="row">
+          <!-- localita -->
+          <label for="luogo" class="col-sm-1 col-form-label">Luogo</label>
+          <div class="col-md-3">
+            <input #luogo="ngModel"  [(ngModel)]="logistica.luogo" class="form-control" name="luogo" id="luogo" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire luogo" style="text-transform : uppercase">
+          </div>
+          <br>
+          <div *ngIf="luogo.invalid && (luogo.dirty || luogo.touched)" class="alert-danger">
+            <div *ngIf="luogo.errors.required">
+                <span>luogo è obbligatorio</span>
+            </div>
+            <div *ngIf="luogo.errors.minlength">
+              <span>luogo deve essere di almeno  {{luogo.errors.minlength.requiredLength }} caratteri</span>
+            </div>
+            <div *ngIf="luogo.errors.maxlength">
+                <span>luogo non può essere più lunga di {{luogo.errors.maxlength.requiredLength }} caratteri</span>
+            </div>
+            <div *ngIf="lugo.errors?.pattern">
+              <span>luogo errato</span>
+            </div>
+
+          </div>
+
+          <!-- visualizza -->
+          <div class="col-sm-2" *ngIf="fase  ===  'M'">
+            <button  class="btn btn-primary btn-rounded"  (click)="viewlogistica()">
+              <fa-icon [icon]="faSearch"  fixed="true"></fa-icon> &nbsp; visualizza
+            </button>
+          </div>
+
+
+
+          <!-- foto -->
+           <!-- <img src={{pathimage}}  alt="selezionare foto"  width="480px" height="300px">  --><!-- class="img-circle rounded-circle border p-1 centro" width="150px" height="150px" -->
+         <!--
+           <div class="form-row">
+            <div class="col-md-12 offset-6">
+               <lib-ngx-image-zoom
+               [thumbImage]=pathimage
+               [fullImage]=pathimage
+               [magnification]="1"
+               [enableScrollZoom]="true"
+               [enableLens]="true"
+               [lensWidth]="200"
+             ></lib-ngx-image-zoom>
+
+              </div>
+          </div>  -->
+          <!-- [fullImage]=myFullresImage -->
+
+
+
+
+          <div class="col-8">
+            <label class="btn btn-default p-0">
+              <input type="file" (change)="selectFile($event)" />
+            </label>
+          </div>
+
+          <div class="col-4">
+            <button class="btn btn-success btn-sm" [disabled]="!selectedFiles" (click)="upload()">
+              Upload
+            </button>
+          </div>
+        </div>
+        <br>
+      <br>
+
+      <br>
+      <!--   non serve più. i posti sono registrati dall'elenco con apposito bottone
+      <div class="form-row" *ngIf="fase === 'M'">
+        <div class="row col-sm-6">
+          <div class="col-sm-6">
+               <button  class="btn btn-primary btn-rounded"  (click)="Nuovo()">Registrazione
+                 <fa-icon [icon]="faPlusSquare"  fixed="true"></fa-icon>
+                </button>
+           </div>
+        </div>
+      </div>
+      <br>    -->
+
+
+
+
+
+
+
+       <div class="footer" >
+            <div class="row "> <!-- col-sm-10 offset-2 -->
+              <div class="col-sm-2" *ngIf="fase  ===  'N' || fase  ===  'M' ">
+                <button [disabled]="fm.invalid " class="btn btn-success btn-md " (click)="conferma()">Conferma
+                  <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+                </button>
+              </div>
+              <div class="col-sm-2" *ngIf="fase  ===  'N' || fase  ===  'M' ">
+                <button [disabled]="fm.invalid " class="btn btn-primary btn-md " (click)="reset()">Reset
+                  <fa-icon [icon]="faTimes"  fixed="true"></fa-icon>
+                </button>
+              </div>
+              <div class="col-sm-2"  *ngIf="fase  ===  'M'">
+                <button [disabled]="fm.invalid " class="btn btn-danger btn-md "  (click)="open(content)">Cancella
+                  <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                </button>
+              </div>
+              <div class="col-sm-2" >
+                <button  class="btn btn-info btn-md "  (click)="goback()">Ritorna
+                  <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+                </button>
+              </div>
+              <div class="col-sm-2" *ngIf="logistica.stato == 1 ">
+                <button  class="btn btn-warning btn-md "  (click)="rilascia()">Rilascia
+                  <fa-icon [icon]="faCoins"  fixed="true"></fa-icon>
+                </button>
+              </div>
+            </div>
+       </div>
+       <br>
+  <!--   messaggio con esito operazione -->
+
+       <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+    <!--     <h4 class="alert-heading">Errore in Registrazione User</h4>   -->
+         <p>{{Message}}</p>
+         <hr>
+         <p class="mb-0">{{Message1err}}</p>
+       </div>
+       <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+  <!--       <h4 class="alert-heading">Registrazione User</h4>   -->
+         <p>{{Message}}</p>
+         <hr>
+         <p class="mb-0"></p>
+       </div>
+
+
+
+
+
+
+
+     </form>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header modal-header-color">
+    <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <p>confermi la cancellazione del collaboratore &nbsp;&nbsp;</p>
+      <p></p>
+      <p><strong>{{manif.cognome}}&nbsp;&nbsp;{{manif.nome}}</strong>&nbsp;?</p>
+      <!--   esempio di calendario che funziona benissimo
+      <div class="form-group">
+        <label for="dateOfBirth">Date of birth</label>
+        <div class="input-group">
+          <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+      -->
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+
+    <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+      <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+    </button>
+  </div>
+</ng-template>
+
+
+

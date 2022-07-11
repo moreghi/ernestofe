@@ -29,6 +29,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPrintModule } from 'ngx-print';    // per fare la stampa commanda da Angular
 import { ModalModule } from 'ngx-bootstrap/modal';  // per aprire una seconda popup dentro alla prima  (conferma Cancellazione)
+import { NgxImageZoomModule } from 'ngx-image-zoom';  // per fare zoom su foto
 
 // services
 import { AuthService } from './services/auth.service';
@@ -155,6 +156,26 @@ import { BandieragiallaDetailComponent } from './components/bandieragiallas/band
 import { QuotetesseraComponent } from './components/quotatesseras/quotetessera/quotetessera.component';
 import { QuotatesseraComponent } from './components/quotatesseras/quotatessera/quotatessera.component';
 import { QuotatesseraDetailComponent } from './components/quotatesseras/quotatessera-detail/quotatessera-detail.component';
+import { ManifestazioniComponent } from './components/manifestaziones/manifestazioni/manifestazioni.component';
+import { ManifestazioneComponent } from './components/manifestaziones/manifestazione/manifestazione.component';
+import { ManifestazioneDetailComponent } from './components/manifestaziones/manifestazione-detail/manifestazione-detail.component';
+import { ManifestazioneDaysComponent } from './components/manifestaziones/manifestazione-days/manifestazione-days.component';
+import { EventoComponent } from './components/eventos/evento/evento.component';
+import { EventoDetailComponent } from './components/eventos/evento-detail/evento-detail.component';
+import { EventoTicketComponent } from './components/eventos/evento-ticket/evento-ticket.component';
+import { TipobigliettoComponent } from './components/tipobigliettos/tipobiglietto/tipobiglietto.component';
+import { TipobigliettoDetailComponent } from './components/tipobigliettos/tipobiglietto-detail/tipobiglietto-detail.component';
+import { LogisticheComponent } from './components/logisticas/logistiche/logistiche.component';
+import { LogisticaComponent } from './components/logisticas/logistica/logistica.component';
+import { LogisticaDetailComponent } from './components/logisticas/logistica-detail/logistica-detail.component';
+import { LogisticaDetailPostiComponent } from './components/logisticas/logistica-detail-posti/logistica-detail-posti.component';
+import { LogisticapopComponent } from './components/popups/logisticapop/logisticapop.component';
+import { ElempopComponent } from './components/popups/elempop/elempop.component';
+import { LogsettfilapostiComponent } from './components/logisticas/logsettfilaposti/logsettfilaposti.component';
+import { LogpostipopComponent } from './components/popups/logpostipop/logpostipop.component';
+import { LogimagepopComponent } from './components/popups/logimagepop/logimagepop.component';
+import { EventoPostiComponent } from './components/eventos/evento-posti/evento-posti.component';
+import { EventoSettfilaComponent } from './components/eventos/evento-settfila/evento-settfila.component';
 
 
 
@@ -313,7 +334,27 @@ const customNotifierOptions: NotifierOptions = {
     BandieragiallaDetailComponent,
     QuotetesseraComponent,
     QuotatesseraComponent,
-    QuotatesseraDetailComponent
+    QuotatesseraDetailComponent,
+    ManifestazioniComponent,
+    ManifestazioneComponent,
+    ManifestazioneDetailComponent,
+    ManifestazioneDaysComponent,
+    EventoComponent,
+    EventoDetailComponent,
+    EventoTicketComponent,
+    TipobigliettoComponent,
+    TipobigliettoDetailComponent,
+    LogisticheComponent,
+    LogisticaComponent,
+    LogisticaDetailComponent,
+    LogisticaDetailPostiComponent,
+    LogisticapopComponent,
+    ElempopComponent,
+    LogsettfilapostiComponent,
+    LogpostipopComponent,
+    LogimagepopComponent,
+    EventoPostiComponent,
+    EventoSettfilaComponent
 
 
 
@@ -332,6 +373,7 @@ const customNotifierOptions: NotifierOptions = {
     NotifierModule.withConfig(customNotifierOptions),
     Ng2SearchPipeModule,
     NgxPrintModule,
+    NgxImageZoomModule,
     ModalModule.forRoot(),
   ],
   providers: [AuthService, DatePipe, UserService, TruoloService,TokenStorageService,ForgotconfirmedService,ForgotconfirmedtestService,

@@ -70,6 +70,16 @@ import { ResponseAdesioneComponent } from './components/adesiones/response-adesi
 import { BandieragiallaDetailComponent } from './components/bandieragiallas/bandieragialla-detail/bandieragialla-detail.component';
 import { QuotetesseraComponent } from './components/quotatesseras/quotetessera/quotetessera.component';
 import { QuotatesseraDetailComponent } from './components/quotatesseras/quotatessera-detail/quotatessera-detail.component';
+import { ManifestazioniComponent } from './components/manifestaziones/manifestazioni/manifestazioni.component';
+import { ManifestazioneDetailComponent } from './components/manifestaziones/manifestazione-detail/manifestazione-detail.component';
+import { ManifestazioneDaysComponent } from './components/manifestaziones/manifestazione-days/manifestazione-days.component';
+import { EventoDetailComponent } from './components/eventos/evento-detail/evento-detail.component';
+import { EventoTicketComponent } from './components/eventos/evento-ticket/evento-ticket.component';
+import { TipobigliettoDetailComponent } from './components/tipobigliettos/tipobiglietto-detail/tipobiglietto-detail.component';
+import { LogisticheComponent } from './components/logisticas/logistiche/logistiche.component';
+import { LogisticaDetailComponent } from './components/logisticas/logistica-detail/logistica-detail.component';
+import { LogisticaDetailPostiComponent } from './components/logisticas/logistica-detail-posti/logistica-detail-posti.component';
+import { EventoPostiComponent } from './components/eventos/evento-posti/evento-posti.component';
 
 const routes: Routes = [
   {
@@ -128,6 +138,80 @@ const routes: Routes = [
 {
   path: 'adesioneConferma',
    component: ResponseAdesioneComponent
+},
+// ----------------------------------------------------------------  Manifestazione
+{
+  path: 'manif',
+  component: ManifestazioniComponent
+},
+{
+  path: 'manif/edit/:id',
+  component: ManifestazioneDetailComponent
+},
+{
+  path: 'manif/new',
+  component: ManifestazioneDetailComponent
+},
+{
+  path: 'manif/:id',
+  component: ManifestazioneDaysComponent
+},
+// ----------------------------------------------------------------  Eventi
+{
+  path: 'evento/new/:idManif',
+  component: EventoDetailComponent
+},
+{
+  path: 'evento/edit/:id/:idManif',
+  component: EventoDetailComponent
+},
+{
+  path: 'evento/:id/Posti',
+  component: EventoPostiComponent
+},
+
+
+
+
+
+// ----------------------------------------------------------------  tipo biglietto per eventi
+{
+  path: 'evento/:id/tipobiglietti',
+  component: EventoTicketComponent
+},
+{
+  path: 'tbiglietto/new/:idEvento',
+  component: TipobigliettoDetailComponent
+},
+{
+  path: 'tbiglietto/edit/:id',
+  component: TipobigliettoDetailComponent
+},
+// ----------------------------------------------------------------  logistiche
+{
+  path: 'logistica',
+  component: LogisticheComponent
+},
+{
+  path: 'logistica/new',
+  component: LogisticaDetailComponent
+},
+{
+  path: 'logistica/edit/:id',
+  component: LogisticaDetailComponent
+},
+// ----------------------------------------------------------------  logistica - mappatura posti
+{
+  path: 'logposti/:id/new',
+  component: LogisticaDetailPostiComponent
+},
+{
+  path: 'logposti/:id/edit',
+  component: LogisticaDetailPostiComponent
+},
+{
+  path: 'logposti/:id/edit/:idp/posti',
+  component: LogisticaDetailPostiComponent
 },
 
 // dettaglio giornata della manifestazione  -- dettaglio Info

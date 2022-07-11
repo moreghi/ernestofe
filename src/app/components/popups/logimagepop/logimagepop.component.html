@@ -1,0 +1,102 @@
+
+
+<div class="modal-header " [style.background]="fase === 'M' ? 'red' : 'green'" [style.color]="fase === 'M' ? 'white' : 'yellow'">
+  <div class="col-sm-3">
+    <img src="assets/images/logobandieragialla.jpg" width="40" height="40" alt="logo">
+  </div>
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+
+<div class="modal-body">
+ <form [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="editForm" >
+      <!-- Chiave del record -->
+      <input hidden type="text" formControlName="id" class="form-control" />
+
+        <br>
+
+
+        <div class="row">
+          <!-- localita -->
+          <label for="localita" class="col-sm-1 col-form-label">Localita</label>&nbsp;
+          <div class="col-md-5">
+            <input disabled type="text" formControlName="localita" class="form-control col-sm-3" style="text-transform : uppercase"/>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+            <label for="localita" class="col-sm-1 col-form-label">Luogo</label>&nbsp;
+            <div class="col-md-5">
+              <input disabled type="text" formControlName="luogo" class="form-control col-sm-3" style="text-transform : uppercase"/>
+            </div>
+        </div>
+        <br>
+
+<!--     soluzione 1 con foto fissa senza zoom
+          <div class="form-row">
+                  <div class="form-group col-sm-12">
+                      <img src={{pathimage}}  alt="selezionare foto"  width="480px" height="300px">
+                  </div>
+          </div>
+          <br>    -->
+
+          <!-- soluzione 2 con foto zoomata -->
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+                  <lib-ngx-image-zoom
+                  [thumbImage]=pathimage
+                  [fullImage]=pathimage
+                  [magnification]="1"
+                  [enableScrollZoom]="true"
+                  [enableLens]="true"
+                  [lensWidth]="200"
+                ></lib-ngx-image-zoom>
+            </div>
+    </div>
+    <br>
+<br>
+
+
+
+
+
+      <!-- messaggi -->
+         <div class="row col-md-12">
+             <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+               <p>{{Message}}</p>
+               <hr>
+             </div>
+             <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+               <p>{{Message}}</p>
+             </div>
+          </div>
+</form>
+</div>
+
+<div class="modal-footer">
+
+
+  <button [disabled]="isLoading" class="btn btn-danger mr-2" (click)="modal.close('cancel')">Cancel
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+  </button>
+  <button [disabled]="!editForm.valid" class="btn btn-primary mr-2" (click)="onSubmit()" >Chiudi   <!--   contrDate()  manipData()-->
+    <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+  </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

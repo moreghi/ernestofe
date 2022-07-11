@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { faUserPlus, faUserFriends, faUser, faUserCheck } from '@fortawesome/free-solid-svg-icons';
 // classes
 import { User } from '../../classes/User';
+import { Evento } from '../../classes/Evento';
 import { Userlevel } from '../../classes/UserLevel';
 
 import { Prenotazione } from '../../classes/Prenotazione';
@@ -16,6 +17,8 @@ import { MessageComponent } from './../../components/popups/message/message.comp
 // services
 import { AuthService } from './../../services/auth.service';
 import { UserlevelService } from './../../services/userlevel.service';
+import { EventoService } from './../../services/evento.service';
+
 
 import { MessageService } from './../../services/message.service';
 // import { ManifestazioneService } from './../../services/manifestazione.service';
@@ -35,6 +38,7 @@ export class NavComponent implements OnInit {
   @Output() onNewUser = new EventEmitter();
 
   public isUserLoggedIn = false;
+  public isActiveEvent = false;      // 2022/07/06   per attivare dinamicamente la voce eventi
   faUserPlus = faUserPlus;
   faUserFriends = faUserFriends;
   faUser = faUser;
@@ -59,7 +63,7 @@ export class NavComponent implements OnInit {
   public manifActive = false;
   public prenotazione: Prenotazione;
   public message: Message;
-
+  public eventi: Evento[] = [];
 
   public ruoloUser: number;
   public functionAdmin: number;
@@ -80,10 +84,14 @@ export class NavComponent implements OnInit {
   public Message = '';
   closeResult = '';
 
+  public eventoAttivo = false;
+  public isreload = false;
+
   constructor(private route: Router,
               private auth: AuthService,
               private userlevelService: UserlevelService,
               private messageService: MessageService,
+              private eventoService: EventoService,
               private notifier: NotifierService,
               public modal: NgbModal,
              // private manifestazioneService: ManifestazioneService,
@@ -130,14 +138,22 @@ export class NavComponent implements OnInit {
       }
   );
 
+    this.verificaEventiOpen();
+
+
   // alert('nav-Costruttore ---------------------------   prima di abilityButton');
   // this.abilityButton();
  // alert('nav-Costruttore --------    fine ----------------   finito abilityButton');
+
+
+
+
+
   }
 
   ngOnInit() {
 
-    let data = new Date();
+    const data = new Date();
     this.anno = data.getFullYear();
 
     this.verificaseManifestazioneAttiva();
@@ -165,10 +181,10 @@ export class NavComponent implements OnInit {
         if(user.idRuolo_Day === -1) {
           this.funcEnabled = true;
         }
+        // effettuo reload per rendere visibili subito le voci sulla combo funzioni  2022/07/02
+        window.location.reload();
 
       }
-
-
 
   //  ------    alert('nav-OnInit - ruolo: ' + this.ruoloUser);
       // recupero da localstorage il livello utente loggato
@@ -178,7 +194,39 @@ export class NavComponent implements OnInit {
      // this.abilityButton();
 
     }
+
   }
+
+
+  controllaEvento($event) {
+      this.eventoAttivo = $event;
+
+      alert('controllaEvento - lo stato è: ' + this.eventoAttivo);
+  }
+
+
+async verificaEventiOpen() {
+    let res = await this.eventoService.getAllActive().subscribe(
+      response => {
+           console.log('verificaEventiOpen -- dati: ' + JSON.stringify(response['data']));
+           if(response['rc'] === 'ok') {
+             this.eventoAttivo = true;
+            }
+           if(response['rc'] === 'nf') {
+              this.eventoAttivo = false;
+             }
+        },
+      error => {
+        alert('nav  -- verificaEventiOpen - errore: ' + error.message);
+        console.log(error);
+      });
+  }
+
+
+
+
+
+
 
    async loadProfiloLogged(idruolo: number) {
 

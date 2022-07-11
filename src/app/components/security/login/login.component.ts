@@ -129,6 +129,11 @@ onSubmit(form: NgForm): void {       // funziona alla perfezione
 */
 
 
+// controllo email prima di fare signin
+
+
+
+
 
 
 
@@ -137,35 +142,43 @@ onSubmit(form: NgForm): void {       // funziona alla perfezione
 
   try {
 
-  this.auth.signIn(form.value.email.toLowerCase(), form.value.password.toLowerCase());
 
-  this.type = 'success';
-  this.Message = 'utente   Loggato con successo';
-  this.showNotification(this.type, this.Message);
+    this.auth.controlemail(form.value.email.toLowerCase()).subscribe(
+      res => {
+          if(res['rc'] === 'nf') {
+            this.type = 'error';
+            this.Message = res['message'];
+            this.showNotification(this.type, this.Message);
+            return;
+          }
+          if(res['rc']  === 'ok') {
+            this.eseguilogin(form);
+          }
+     },
+     error => {
+        alert('Auth  -- controlemail - errore: ' + error.message);
+        console.log(error);
+        this.Message = error.message;
+        this.alertSuccess = false;
+     });
 
-  // alert(resp.cognome + ' loggatao correttamente');
-  this.Message = 'utente   Loggato con successo';
-  this.isVisible = true;
-  this.alertSuccess = true;
-
+    console.log('--------------------------------------------------  merdaaaaaaa ---------------------------------');
 
 } catch (e) {
   switch(e.status) {
-    case 401:
-       this.Message = 'email e/o password errati';
-       break;
-    case 404:
-       this.Message = e.error.message;
-       break;
-    case 500:
-      this.Message = 'errore server - contattare amministratore';
-      break;
-    default:
-       this.Message = 'errore non identificato: ' + e.status;
-       break;
-  }
-
-
+      case 401:
+         this.Message = 'email e/o password errati';
+         break;
+      case 404:
+         this.Message = e.error.message;
+         break;
+      case 500:
+        this.Message = 'errore server - contattare amministratore';
+        break;
+      default:
+         this.Message = 'errore non identificato: ' + e.status;
+         break;
+    }
   this.type = 'error';
   this.showNotification(this.type, this.Message);
 //  messaggio sulla barra
@@ -173,11 +186,32 @@ onSubmit(form: NgForm): void {       // funziona alla perfezione
   this.isVisible = true;
   this.alertSuccess = false;
 
+  }
+
+}
+
+
+
+
+eseguilogin(form: NgForm) {
+
+
+  this.auth.signIn(form.value.email.toLowerCase(), form.value.password.toLowerCase());
+
+  this.type = 'success';
+  this.Message = 'utente   Loggato con successo';
+  this.showNotification(this.type, this.Message);
+
+// alert(resp.cognome + ' loggatao correttamente');
+  this.Message = 'utente   Loggato con successo';
+  this.isVisible = true;
+  this.alertSuccess = true;
+
+
 }
 
 
 
-}
 
 
 

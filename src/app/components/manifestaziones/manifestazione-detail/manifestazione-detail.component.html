@@ -1,0 +1,186 @@
+
+<br>
+<div class="container ">
+  <div class="header_Edit title_Edit" *ngIf="fase  ===  'M'">
+      <strong>{{title}}</strong>
+  </div>
+  <div class="header_New" *ngIf="fase  ===  'N'">
+    <caption class="title_New  col-md-12 ">{{title}}</caption>
+  </div>
+
+
+<br>
+
+
+  <div >
+    <div class="col-md-auto">
+      <form #fm ="ngForm"  method="POST">
+        <input hidden #id="ngModel"  [(ngModel)]="manif.id" class="form-control" name="id" id="id">
+        <input hidden #key_utenti_operation="ngModel"  [(ngModel)]="manif.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation">
+        <!-- Descrizione  -->
+         <div class="row">
+            <div class="col-md-8">
+                  <div class="mb-3 row margini">
+                    <label for="descManif" class="col-sm-2 col-form-label">Descrizione:</label>
+                    <div class="col-sm-7">
+                    <input type="text" #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z,\s]*" placeholder="Inserire Descrizione Manifestazione"  style="text-transform : uppercase">
+                    <br>
+                    <div *ngIf="descManif.invalid && (descManif.dirty || descManif.touched)" class="alert-danger">
+                        <div *ngIf="descManif.errors.required">
+                            <span>la descrizione è obbligatoria</span>
+                        </div>
+                        <div *ngIf="descManif.errors.minlength">
+                          <span>la descrizione deve essere di almeno 4 caratteri</span>
+                        </div>
+                        <div *ngIf="descManif.errors.maxlength">
+                            <span>la descrizione non può essere più lunga di 50 caratteri</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+             </div>
+
+
+            <div class="col-md-4">
+              <div class=" col-md-6">
+                <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+                    <div>
+                      <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : 'white'"  [style.background-color]="manif.stato == 2 ? 'yellow' : 'red'"  style="text-transform : uppercase">
+                    </div>
+              </div>
+
+
+            </div>
+          </div>
+          <br>
+
+
+        <!-- stato  -->
+
+          <!--  riga date inizio e fine  -->
+          <div class="row" *ngIf="fase  ===  'M'">
+            <label for="dtInizio" class="col-sm-2 col-form-label">Data Inizio</label>
+            <div class=" col-md-2">
+              <input  disabled [(ngModel)]="manif.dtInizio" [ngModel]="manif.dtInizio | date:'dd/MM/yyyy'" #dtInizio="ngModel" class="form-control"  name="dtInizio" id="dtInizio" placeholder="sel. data Inizio">
+            </div>
+            <label for="dtFine" class="col-sm-2 col-form-label">Data Fine</label>
+            <div class=" col-md-2">
+              <input disabled [(ngModel)]="manif.dtFine"  [ngModel]="manif.dtFine | date:'dd/MM/yyyy'" #dtFine="ngModel" class="form-control"  name="dtFine" id="dtFine"  placeholder="sel. data Fine" >
+            </div>
+          </div>
+        <br>
+
+
+        <div class="row"  *ngIf="fase  ===  'M'">
+          <div class="col-md-4">
+            <div class="row">
+              <label for="stato" class="col-sm-2 col-form-label">Stato</label>
+              <div class="dropdown col-sm-8">
+                <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedStato" ngModel name="stato" id="stato" class="form-select" required (change)="onSelectedStato($event.target.value)" aria-label="Default select example">
+                  <option selected value="9999"  >Seleziona lo stato</option>
+                  <option *ngFor="let stato of statimanif" [value]="stato.id"  class="form-control"  >{{stato.d_stato_manifestazione}}</option>
+                </select>
+              </div>
+              <div class="invalid-feedback">effettuare la scelta dello stato</div>
+            </div>
+          </div>
+
+
+        </div>
+         <br>
+
+
+  <!-- Note  -->
+       <div class="input-group">
+          <div for="note" class="input-group-prepend">
+              <span class="input-group-text">Note</span>
+          </div>&nbsp;&nbsp;
+          <textarea  aria-label="With textarea"  #note="ngModel"  [(ngModel)]="manif.noteManifestazione" class="form-control" name="note" id="note"  placeholder="Inserire eventuali note"  style="text-transform : uppercase"></textarea>
+      </div>
+      <br>
+       <div class="footer" >
+            <div class="row col-sm-10 offset-2">
+              <div class="col-sm-3" *ngIf="fase  ===  'N' || fase  ===  'M' ">
+                <button [disabled]="fm.invalid " class="btn btn-success btn-md " (click)="conferma()">Conferma
+                  <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+                </button>
+              </div>
+              <div class="col-sm-3" *ngIf="fase  ===  'N' || fase  ===  'M' ">
+                <button [disabled]="fm.invalid " class="btn btn-primary btn-md " (click)="reset()">Reset
+                  <fa-icon [icon]="faTimes"  fixed="true"></fa-icon>
+                </button>
+              </div>
+              <div class="col-sm-3"  *ngIf="fase  ===  'M'">
+                <button [disabled]="fm.invalid " class="btn btn-danger btn-md "  (click)="open(content)"> Cancella
+                  <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                </button>
+              </div>
+              <div class="col-sm-3" >
+                <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+                  <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+                </button>
+              </div>
+            </div>
+       </div>
+       <br>
+  <!--   messaggio con esito operazione -->
+
+       <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+    <!--     <h4 class="alert-heading">Errore in Registrazione User</h4>   -->
+         <p>{{Message}}</p>
+         <hr>
+         <p class="mb-0">{{Message1err}}</p>
+       </div>
+       <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+  <!--       <h4 class="alert-heading">Registrazione User</h4>   -->
+         <p>{{Message}}</p>
+         <hr>
+         <p class="mb-0"></p>
+       </div>
+
+
+
+
+
+
+
+     </form>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header modal-header-color">
+    <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <p>confermi la cancellazione del collaboratore &nbsp;&nbsp;</p>
+      <p></p>
+      <p><strong>{{manif.cognome}}&nbsp;&nbsp;{{manif.nome}}</strong>&nbsp;?</p>
+      <!--   esempio di calendario che funziona benissimo
+      <div class="form-group">
+        <label for="dateOfBirth">Date of birth</label>
+        <div class="input-group">
+          <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+      -->
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+
+    <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+      <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+    </button>
+  </div>
+</ng-template>
+
+

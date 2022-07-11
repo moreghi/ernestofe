@@ -105,7 +105,7 @@ export class SocioDetailComponent implements OnInit {
      this.fase = 'N';
      this.title = 'Inserimento nuovo Socio';
      this.Message = 'inserire i dati del nuovo Socio';
-     this. socio = new Socio();
+     this.socio = new Socio();
      this.socio.key_utenti_operation = +localStorage.getItem('id');
    } else {
        this.fase = 'M';

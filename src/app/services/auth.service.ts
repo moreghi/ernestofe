@@ -335,6 +335,10 @@ sendConfirmPrenotazione(email: string, cognome: string, nome: string, dataserata
   });
 }
 
+controlemail(email: string) {
+   return this.http.post(this.APIAUTHURL + "controlemail", { email });
+}
+
 
 
 

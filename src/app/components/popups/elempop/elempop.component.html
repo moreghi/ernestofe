@@ -1,0 +1,96 @@
+<p>elempop works!</p>
+
+<div class="modal-header " [style.background]="fase === 'M' ? 'red' : 'green'" [style.color]="fase === 'M' ? 'white' : 'yellow'">
+  <div class="col-sm-3">
+    <img src="assets/images/logobandieragialla.jpg" width="40" height="40" alt="logo">
+  </div>
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+
+<div class="modal-body">
+ <form [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="editForm" >
+      <!-- Chiave del record -->
+      <input hidden type="text" formControlName="id" class="form-control" />
+      <input hidden type="text" formControlName="idsettore" class="form-control" />
+        <br>
+        <div class="row" *ngIf="elemento.idsettore !== 0">
+          <!-- dsettore -->
+          <label for="dsettore" class="col-sm-3 col-form-label">Settore</label>&nbsp;
+          <div class="col-md-5">
+            <input disabled type="text" formControlName="dsettore" class="form-control col-sm-5" style="text-transform : uppercase"/>
+          </div>
+        </div>
+        <br>
+
+
+
+
+        <div class="row">
+          <!-- localita -->
+          <label for="delemento" class="col-sm-3 col-form-label">Descrizione {{delemento}}</label>&nbsp;
+          <div class="col-md-5">
+            <input type="text" formControlName="delemento" class="form-control col-sm-5" style="text-transform : uppercase"/>
+          </div>
+        </div>
+        <br>
+      <!-- messaggi -->
+         <div class="row col-md-12">
+             <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+               <p>{{Message}}</p>
+               <hr>
+             </div>
+             <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+               <p>{{Message}}</p>
+             </div>
+          </div>
+</form>
+</div>
+
+<div class="modal-footer">
+
+
+  <button [disabled]="isLoading" class="btn btn-danger mr-2" (click)="modal.close('cancel')">Cancel
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+  </button>
+  <button [disabled]="!editForm.valid" class="btn btn-primary mr-2" (click)="onSubmit()" >Salva  <!--   contrDate()  manipData()-->
+    <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+  </button>
+
+</div>
+
+
+
+
+<ng-template #templateConfirmDelete>
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Cancellazione Località</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef2.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  confermi la cancellazione della località selezionata ?<br />
+</div>
+  <div class="modal-footer">
+   <button type="button" class="btn btn-secondary" (click)="closeModal(2)">Annulla
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+   </button>
+  <button type="button" class="btn btn-danger" (click)="closeModal(3)">Conferma
+    <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+  </button>
+</div>
+</ng-template>
+
+
+
+
+
+
+
+
+

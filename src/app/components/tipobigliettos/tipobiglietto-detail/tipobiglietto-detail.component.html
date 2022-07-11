@@ -1,0 +1,256 @@
+
+<br>
+<div class="container">
+
+  <div class="header_Edit title_Edit" *ngIf="fase  ===  'M'">
+    <strong>{{title}}</strong>
+  </div>
+ <div class="header_New" *ngIf="fase  ===  'N'">
+    <caption class="title_New  col-md-12 ">{{title}}</caption>
+  </div>
+
+  <br>
+
+
+  <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
+     <div >
+      <form #fm ="ngForm">
+        <input Hidden #id="ngModel"  [(ngModel)]="manif.id" class="form-control" name="id" id="id">
+
+        <div class="row">
+            <label for="descManif" class="col-sm-2 col-form-label">Manifestazione</label>
+            <div class=" col-md-6">
+              <input disabled #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif"  style="text-transform : uppercase">
+            </div>
+
+          <div class=" col-md-2">
+        <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+            <div>
+              <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : 'white'"  [style.background-color]="manif.stato == 2 ? 'yellow' : 'red'">
+            </div>
+          </div>
+        </div>
+
+        <br>
+        <!--  riga date inizio e finei  -->
+        <div class="row">
+          <label for="dtInizio" class="col-sm-2 col-form-label">Data Inizio</label>
+          <div class=" col-md-2">
+            <input  disabled [(ngModel)]="manif.dtInizio" [ngModel]="manif.dtInizio | date:'dd/MM/yyyy'" #dtInizio="ngModel" class="form-control"  name="dtInizio" id="dtInizio" placeholder="sel. data Inizio">
+          </div>
+          <label for="dtFine" class="col-sm-1 col-form-label"></label>
+          <label for="dtFine" class="col-sm-1 col-form-label">Data Fine</label>
+          <div class=" col-md-2">
+            <input disabled [(ngModel)]="manif.dtFine"  [ngModel]="manif.dtFine | date:'dd/MM/yyyy'" #dtFine="ngModel" class="form-control"  name="dtFine" id="dtFine"  placeholder="sel. data Fine" >
+          </div>
+      </div>
+      </form>
+    </div>
+   </div>
+<br>
+
+<hr>
+<div class="row">
+  <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
+  <div class=" col-md-6">
+    <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"  style="text-transform : uppercase">
+  </div>
+  <div class=" col-md-2">
+<!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+      <div>
+        <input disabled #d_stato_evento="ngModel"  [(ngModel)]="evento.d_stato_evento" class="form-control" name="d_stato_evento" id="d_stato_evento" [style.color]="evento.stato == 2 ? 'red' : 'white'"  [style.background-color]="evento.stato == 2 ? 'yellow' : 'red'">
+      </div>
+    </div>
+</div>
+<br>
+<div class="row">
+  <label for="localita" class="col-sm-2 col-form-label">Localita</label>
+  <div class=" col-md-6">
+    <input disabled #localita="ngModel"  [(ngModel)]="evento.localita" class="form-control" name="localita" id="localita"  style="text-transform : uppercase">
+  </div>
+  <div class=" col-md-2">
+<!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+      <div>
+        <input  disabled [(ngModel)]="evento.data" [ngModel]="evento.data | date:'dd/MM/yyyy'" #data="ngModel" class="form-control"  name="data" id="data">
+      </div>
+    </div>
+</div>
+
+<br>
+<div class="row">
+  <div class="col-md-4">
+    <div class="row">
+      <label for="taglio" class="col-sm-2 col-form-label">Taglio</label>
+      <div class="dropdown col-sm-8">
+        <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedTaglio" ngModel name="taglio" id="taglio" class="form-select" required (change)="onSelectedTaglio($event.target.value)" aria-label="Default select example">
+          <option selected value="9999"  >Seleziona lo stato</option>
+          <option *ngFor="let taglio of tagli" [value]="taglio.id"  class="form-control"  >{{taglio.d_taglia}}</option>
+        </select>
+      </div>
+      <div class="invalid-feedback">effettuare la scelta del taglio</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="row">
+      <label for="stato" class="col-sm-2 col-form-label">Stato</label>
+      <div class="dropdown col-sm-8">
+        <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedStato" ngModel name="stato" id="stato" class="form-select" required (change)="onSelectedStato($event.target.value)" aria-label="Default select example">
+          <option selected value="9999"  >Seleziona lo stato</option>
+          <option *ngFor="let statotaglia of statitaglia" [value]="statotaglia.id"  class="form-control"  >{{statotaglia.d_stato_taglia_biglietto}}</option>
+        </select>
+      </div>
+      <div class="invalid-feedback">effettuare la scelta dello stato</div>
+    </div>
+  </div>
+
+
+</div>
+ <br>
+ <div class="row">
+  <!-- localita -->
+    <label for="importo" class="col-sm-1 col-form-label">Prezzo</label>
+      <div class="col-sm-1">
+        <input  type="text" required #importo="ngModel"  [(ngModel)]="tipobiglietto.importo"  minlength="1" maxlength="3" pattern="[0-9]{1,3}" class="form-control col-md-2" name="importo" id="importo" placeholder="Inserire importo">
+        <br>
+        <div *ngIf="importo.dirty && importo.touched && importo.invalid"  class="alert alert-danger">
+            <div  *ngIf="importo.errors.required">
+              inserire importo - campo Obbligatorio
+            </div>
+            <div  *ngIf="importo.errors.minlength">
+              il campo deve avere almeno {{importo.errors.minlength.requiredLength }} caratteri
+            </div>
+
+            <div *ngIf="importo.errors?.pattern">
+              <!-- non posso inserire lettere   {{postimax.errors.pattern.requiredPattern }}  -->
+              importo non valido
+            </div>
+        </div>
+      </div>
+   <!-- numero massimo da emettere -->
+    <label for="ntot" class="col-sm-2 col-form-label">Num Totale</label>
+        <div class="col-sm-1">
+          <input  type="text" required #ntot="ngModel"  [(ngModel)]="tipobiglietto.ntot"  minlength="1" maxlength="5" pattern="[0-9]{1,5}" class="form-control col-md-2" name="ntot" id="ntot" placeholder="Inserire n. disponibili">
+          <br>
+          <div *ngIf="ntot.dirty && ntot.touched && ntot.invalid"  class="alert alert-danger">
+              <div  *ngIf="ntot.errors.required">
+                inserire n. totale vendibile - campo Obbligatorio
+              </div>
+              <div  *ngIf="ntot.errors.minlength">
+                il campo deve avere almeno {{ntot.errors.minlength.requiredLength }} caratteri
+              </div>
+
+              <div *ngIf="ntot.errors?.pattern">
+                <!-- non posso inserire lettere   {{postimax.errors.pattern.requiredPattern }}  -->
+                numero totale disponibile non valido
+              </div>
+          </div>
+        </div>
+
+      <!-- serie -->
+      <label for="serie" class="col-sm-1 col-form-label">Serie</label>
+      <div class="col-sm-1">
+        <input  type="text" required #serie="ngModel"  [(ngModel)]="tipobiglietto.serie"  minlength="1" maxlength="5" pattern="[0-9a-zA-Z\s]*" class="form-control col-md-2" name="serie" id="serie" placeholder="Inserire Serie"   style="text-transform : uppercase">
+        <br>
+        <div *ngIf="serie.dirty && serie.touched && serie.invalid"  class="alert alert-danger">
+            <div  *ngIf="serie.errors.required">
+              inserire serie - campo Obbligatorio
+            </div>
+            <div  *ngIf="serie.errors.minlength">
+              il campo deve avere almeno {{serie.errors.minlength.requiredLength }} caratteri
+            </div>
+	    <div  *ngIf="serie.errors.maxlength">
+              il campo deve avere almeno {{serie.errors.maxlength.requiredLength }} caratteri
+            </div>
+            <div *ngIf="serie.errors?.pattern">
+               serie non valida
+            </div>
+        </div>
+ </div>
+
+
+
+ </div>
+
+ <hr>
+ <!-- Bottoni funzionali -->
+ <div class="footer" >
+   <div class="row col-sm-10 offset-2">
+
+
+     <div class="col-sm-3">
+       <button [disabled]="fm.invalid" class="btn btn-success btn-md " (click)="conferma()">Conferma
+         <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+       </button>
+     </div>
+     <!--
+     <div class="col-sm-3">
+       <button [disabled]="fm.invalid" class="btn btn-danger btn-md "  (click)="open(content)"> Cancella
+         <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+       </button>
+     </div>  -->
+     <div class="col-sm-3" >
+       <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+         <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+       </button>
+     </div>
+   </div>
+ </div>
+
+
+
+   <!--  fine personaizzazione  -->
+
+
+
+
+   <br>
+   <div class="form-row col-md-12">
+     <div class="row col-md-12">
+
+        <div class="form-row">
+         <div class="col-md-12">
+            <!-- messaggi -->
+           <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+             <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+                   <div class="col md-12">
+                     <p>{{Message}}</p>
+                   </div>
+            </div>
+            <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+              <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+                   <div class="col md-12">
+                     <p>{{Message}}</p>
+                   </div>
+             </div>
+           </div>
+        </div>
+     </div>
+   </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

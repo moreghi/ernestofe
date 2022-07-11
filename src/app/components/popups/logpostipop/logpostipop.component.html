@@ -1,0 +1,154 @@
+<p>logpostipop works!</p>
+
+<div class="modal-header " [style.background]="fase === 'M' ? 'red' : 'green'" [style.color]="fase === 'M' ? 'white' : 'yellow'">
+  <div class="col-sm-3">
+    <img src="assets/images/logobandieragialla.jpg" width="40" height="40" alt="logo">
+  </div>
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+
+<div class="modal-body">
+ <form [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="editForm"  novalidate>
+      <!-- Chiave del record -->
+      <input hidden type="text" formControlName="id" class="form-control" />
+      <input hidden type="text" formControlName="stato" class="form-control" />
+
+        <br>
+
+        <div class="row">
+
+          <label for="dsettore" class="col-sm-3 col-form-label">Settore</label>&nbsp;
+          <div class="col-md-5">
+            <input hidden type="text" formControlName="idSettore" class="form-control" />
+            <input disabled type="text" formControlName="dsettore" class="form-control col-sm-5" style="text-transform : uppercase"/>
+          </div>
+        </div>
+        <br>
+
+       <!-- {{selectedUser | json}} -->
+
+        <div class="row">
+
+          <label for="delemento" class="col-sm-3 col-form-label">Fila</label>&nbsp;
+          <div class="col-md-5">
+            <input hidden type="text" formControlName="idFila" class="form-control" />
+            <input disabled type="text" formControlName="dfila" class="form-control col-sm-5" style="text-transform : uppercase"/>
+          </div>
+        </div>
+        <br>
+
+        <div class="row"   >
+
+          <label for="posti" class="col-sm-1 col-form-label"><strong>Posti</strong></label>
+
+          <label for="postoStart" class="col-sm-1 col-form-label">Inizio</label>
+          <div class="col-md-2">
+            <input type="text" class="form-control" formControlName="postoStart" [pattern]="postiPattern"  > <!-- [ngClass]="{'is-invalid': postoStart.errors && (postoStart.touched || postoStart.dirty), 'is-valid':postoStart.valid}"  -->
+          </div>
+          <br>
+
+          <div *ngIf="editForm.controls['postoStart'].invalid && (editForm.controls['postoStart'].dirty || editForm.controls['postoStart'].touched)" class="alert alert-danger">
+            <div *ngIf="editForm.controls['postoStart'].errors.required">
+              il posto iniziale è obbligatorio
+            </div>
+            <div *ngIf="editForm.controls['postoStart'].errors.pattern">
+              il posto iniziale è errato
+            </div>
+        </div>
+
+          <!--
+          <div class="invalid-feedback" >
+
+            <strong *ngIf="postoStart.errors?.required">il numero iniziale è obbligatorio</strong>
+            <strong *ngIf="postoStart.errors?.minlength">il numero ha una lunghezza minima {{postoStart.errors?.minlength.requiredLength}} character.
+                      {{postoStart.errors?.minlength.requiredLength - postStart.errors?.minlength.actualLength}} more character required. </strong>
+
+            <strong *ngIf="postoStart.errors?.pattern">numero iniziale errato</strong>
+          </div>
+-->
+
+          <label for="postoEnd" class="col-sm-1 col-form-label">Fine</label>
+          <div class="col-md-2">
+            <input type="text" class="form-control" formControlName="postoEnd" [pattern]="postiPattern"> <!--  [ngClass]="{'is-invalid': postoEnd.errors && (postoEnd.touched || postoEnd.dirty), 'is-valid':postoEnd.valid}"  -->
+          </div>
+          <br>
+          <div *ngIf="editForm.controls['postoEnd'].invalid && (editForm.controls['postoEnd'].dirty || editForm.controls['postoEnd'].touched)" class="alert alert-danger">
+            <div *ngIf="editForm.controls['postoEnd'].errors.required">
+              il Posto Finale è obbligatorio
+            </div>
+            <div *ngIf="editForm.controls['postoEnd'].errors.pattern">
+              il posto Finale è errato
+            </div>
+        </div>
+
+
+
+
+        </div>
+        <br>
+
+
+
+
+      <!-- messaggi -->
+         <div class="row col-md-12">
+             <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+               <p>{{Message}}</p>
+               <hr>
+             </div>
+             <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+               <p>{{Message}}</p>
+             </div>
+          </div>
+</form>
+</div>
+
+<div class="modal-footer">
+
+
+  <button [disabled]="isLoading" class="btn btn-danger mr-2" (click)="modal.close('cancel')">Cancel
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+  </button>
+  <button [disabled]="!editForm.valid" class="btn btn-primary mr-2" (click)="onSubmit()" >Salva  <!--   contrDate()  manipData()-->
+    <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+  </button>
+
+</div>
+
+
+
+
+<ng-template #templateConfirmDelete>
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Cancellazione Località</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef2.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  confermi la cancellazione della località selezionata ?<br />
+</div>
+  <div class="modal-footer">
+   <button type="button" class="btn btn-secondary" (click)="closeModal(2)">Annulla
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+   </button>
+  <button type="button" class="btn btn-danger" (click)="closeModal(3)">Conferma
+    <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+  </button>
+</div>
+</ng-template>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,60 @@
+
+  <td>{{i}}</td>
+  <td>{{manif.descManif}}</td>
+  <td>{{manif.dtInizio | date: 'dd-MM-yyyy'}}</td>
+  <td>{{manif.dtFine | date: 'dd-MM-yyyy'}}</td>
+  <td>{{manif.numUtentiTot}}</td>
+  <td class="statoMan">{{manif.d_stato_manifestazione}}</td>    <!--  {{manif.statoManifestazione}} - -->
+
+
+
+
+<!--  versione 2 -->
+<td >   <!--  *ngIf="functionUser === navigateEdits" -->
+  <button class="btn btn-sm  btn-danger" (click)="open(content, manif)">
+  <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+</button>
+</td>
+<td > <!-- *ngIf="functionUser === navigateEdit" -->
+  <button class="btn btn-sm btn-success" (click)="navigate(navigateEdit,manif)">Update
+  <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+</button>
+</td>
+<td >   <!---*ngIf="functionUser === navigateEdit || functionUser === navigateEdits"  -->
+  <button class="btn btn-sm btn-warning" (click)="navigate(navigateDays,manif)">eventi
+  <fa-icon [icon]="faList"  fixed="true"></fa-icon>
+</button>
+</td>
+<td > <!-- *ngIf="(functionUser === navigateEdit || functionUser === navigateEdits) && manif.stato > 0" -->
+  <button class="btn btn-sm btn-info" (click)="navigate(navigateGraficoDays,manif)">Grafico
+ <!--  <button class="btn btn-sm btn-info" (click)="naviga('GraphDays',manif)">Grafico  -->
+  <fa-icon [icon]="faChartPie"  fixed="true"></fa-icon>
+</button>
+</td>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header modal-header-color">
+  <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+  <div class="modal-body">
+  <form>
+  <p>confermi la cancellazione della Manifestazione ?</p>
+
+
+  </form>
+  </div>
+  <div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel
+    <fa-icon [icon]="faWindowClose" fixed="true"></fa-icon>
+  </button>
+
+  <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+    <fa-icon [icon]="faTrash" fixed="true"></fa-icon>
+  </button>
+  </div>
+</ng-template>
+

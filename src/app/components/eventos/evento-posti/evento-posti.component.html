@@ -1,0 +1,159 @@
+<div class="container">
+  <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
+     <div >
+      <form #fm ="ngForm">
+        <input Hidden #id="ngModel"  [(ngModel)]="manif.id" class="form-control" name="id" id="id">
+        <input Hidden #id="ngModel"  [(ngModel)]="evento.id" class="form-control" name="idev" id="idev">
+        <div class="row">
+            <label for="descManif" class="col-sm-2 col-form-label">Manifestazione</label>
+            <div class=" col-md-6">
+              <input disabled #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif"   style="text-transform : uppercase">
+            </div>
+
+          <div class=" col-md-2">
+        <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+            <div>
+              <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : 'white'"  [style.background-color]="manif.stato == 2 ? 'yellow' : 'red'">
+            </div>
+          </div>
+        </div>
+
+        <br>
+        <!--  riga date inizio e finei  -->
+        <div class="row">
+          <label for="dtInizio" class="col-sm-2 col-form-label">Data Inizio</label>
+          <div class=" col-md-2">
+            <input  disabled [(ngModel)]="manif.dtInizio" [ngModel]="manif.dtInizio | date:'dd/MM/yyyy'" #dtInizio="ngModel" class="form-control"  name="dtInizio" id="dtInizio" placeholder="sel. data Inizio">
+          </div>
+          <label for="dtFine" class="col-sm-2 col-form-label">Data Fine</label>
+          <div class=" col-md-2">
+            <input disabled [(ngModel)]="manif.dtFine"  [ngModel]="manif.dtFine | date:'dd/MM/yyyy'" #dtFine="ngModel" class="form-control"  name="dtFine" id="dtFine"  placeholder="sel. data Fine" >
+          </div>
+      </div>
+      <hr>
+      <div class="row">
+        <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
+        <div class=" col-md-6">
+          <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"   style="text-transform : uppercase">
+        </div>
+        <div class=" col-md-2">
+    <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+            <div>
+              <input disabled #d_stato_evento="ngModel"  [(ngModel)]="evento.d_stato_evento" class="form-control" name="d_stato_evento" id="d_stato_evento" [style.color]="evento.stato == 2 ? 'red' : 'white'"  [style.background-color]="evento.stato == 2 ? 'yellow' : 'red'">
+            </div>
+          </div>
+      </div>
+      <br>
+      <div class="row">
+        <label for="localita" class="col-sm-2 col-form-label">Localita</label>
+        <div class=" col-md-6">
+          <input disabled #localita="ngModel"  [(ngModel)]="evento.localita" class="form-control" name="localita" id="localita"   style="text-transform : uppercase">
+        </div>
+        <div class=" col-md-2">
+    <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+            <div>
+               <input  disabled [(ngModel)]="evento.data" [ngModel]="evento.data | date:'dd/MM/yyyy'" #data="ngModel" class="form-control"  name="data" id="data">
+            </div>
+          </div>
+      </div>
+
+      <br>
+
+      </form>
+    </div>
+   </div>
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- riga per filtro di ricerca -->
+  <div>
+      <div class="row">
+          <div class="col-sm-4 col-md-8">
+            <div class="form-check form-check-inline" *ngFor="let option of options; index as idx">
+              <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option" (change)="onSelectionChange(option)">&nbsp;&nbsp; {{option}}
+            </div>
+          </div>
+          tot {{tot}}<br>
+          tok {{tok}}<br>
+          tko {{tko}}<br>
+          <div class="col-sm-3" *ngIf="tot != 0  || tok == tot">
+            <label  class="col-sm-3 col-form-label"><strong>tutte le risorse utilizzate</strong></label>
+          </div>
+          <div class="col-sm-3" *ngIf="tko != 0" #tko="ngModel"  [ngModel]="tko">
+            <label  class="col-sm-3 col-form-label"><strong>effettuate limitazioni</strong></label>
+          </div>
+
+
+
+          <div *ngIf="trovatoRec"  class="col-6 col-md-4">
+            <strong>Record trovati:</strong>&nbsp;&nbsp; {{nRec}}
+          </div>
+      </div>
+</div>
+</div>
+  <br>
+  <div class="form-row col-md-12">
+    <div class="row col-md-12">
+
+      <!-- tabella di dettaglio dei fedeli -->
+       <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white table-bordered table-responsive-lg table-container">
+        <thead>
+         <tr>
+          <th scope="col">#</th>
+          <th scope="col">Settore</th>
+          <th scope="col">File</th>
+          <th scope="col">Posto Inizio</th>
+          <th scope="col">Posto Fine</th>
+          <th scope="col">Utilizzo</th>
+          <th  colspan="2" style="text-align: center ">Action</th>
+         </tr>
+        </thead>
+        <tbody>
+
+         <tr app-evento-settfila *ngFor ="let filaposto of eventosettfilaposti | paginate: { itemsPerPage: 5, currentPage: p }; let i = index"
+            [evento-settfila-prog] = i+1
+            [evento-settfila-data] = "filaposto"
+            (totalefileposti) ="totalefileposti($event)"
+            (totalefilepostiok) ="totalefilepostiok($event)"
+            (totalefilepostiko) ="totalefilepostiko($event)"
+            >
+         </tr>
+        </tbody>
+       </table>
+       <pagination-controls (pageChange)="p = $event"></pagination-controls>
+       <div class="form-row">
+        <div class="col-md-12">
+           <!-- messaggi -->
+          <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+           </div>
+           <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+            </div>
+          </div>
+       </div>
+    </div>
+  </div>
+
+
+
+
+
+

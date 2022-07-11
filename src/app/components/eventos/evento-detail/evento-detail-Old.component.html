@@ -1,0 +1,279 @@
+<br>
+<div class="container">
+
+  <div class="header_Edit title_Edit" *ngIf="fase  ===  'M'">
+    <strong>{{title}}</strong>
+  </div>
+ <div class="header_New" *ngIf="fase  ===  'N'">
+    <caption class="title_New  col-md-12 ">{{title}}</caption>
+  </div>
+
+  <br>
+
+
+  <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
+     <div >
+      <form #fm ="ngForm">
+        <input Hidden #id="ngModel"  [(ngModel)]="manif.id" class="form-control" name="id" id="id">
+        <input Hidden #idmanif="ngModel"  [(ngModel)]="evento.idmanif" class="form-control" name="idmanif" id="idmanif">
+        <input Hidden #.key_utenti_operation="ngModel"  [(ngModel)]="evento..key_utenti_operation" class="form-control" name=".key_utenti_operation" id=".key_utenti_operation">
+        <div class="row">
+            <label for="descManif" class="col-sm-2 col-form-label">Manifestazione</label>
+            <div class=" col-md-6">
+              <input disabled #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif" style="text-transform : uppercase">
+            </div>
+
+          <div class=" col-md-2">
+        <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+            <div>
+              <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : 'white'"  [style.background-color]="manif.stato == 2 ? 'yellow' : 'red'"  style="text-transform : uppercase">
+            </div>
+          </div>
+        </div>
+
+        <br>
+        <!--  riga date inizio e finei  -->
+        <div class="row">
+          <label for="dtInizio" class="col-sm-2 col-form-label">Data Inizio</label>
+          <div class=" col-md-2">
+            <input  disabled [(ngModel)]="manif.dtInizio" [ngModel]="manif.dtInizio | date:'dd/MM/yyyy'" #dtInizio="ngModel" class="form-control"  name="dtInizio" id="dtInizio" placeholder="sel. data Inizio">
+          </div>
+          <label for="dtFine" class="col-sm-2 col-form-label">Data Fine</label>
+          <div class=" col-md-2">
+            <input disabled [(ngModel)]="manif.dtFine"  [ngModel]="manif.dtFine | date:'dd/MM/yyyy'" #dtFine="ngModel" class="form-control"  name="dtFine" id="dtFine"  placeholder="sel. data Fine" >
+          </div>
+      </div>
+      </form>
+    </div>
+   </div>
+<br>
+
+<div class="row">
+  <label for="descrizione" class="col-sm-1 col-form-label">Descrizione</label>
+  <div class=" col-md-6">
+    <input #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione" required minlength="4" maxlength="80" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire descrizione" style="text-transform : uppercase">
+  </div>
+  <br>
+  <div *ngIf="descrizione.invalid && (descrizione.dirty || descrizione.touched)" class="alert-danger">
+    <div *ngIf="descrizione.errors.required">
+        <span>la descrizione è obbligatoria</span>
+    </div>
+    <div *ngIf="descrizione.errors.minlength">
+       <span>la descrizione deve essere di almeno  {{descrizione.errors.minlength.requiredLength }} caratteri</span>
+    </div>
+    <div *ngIf="descrizione.errors.maxlength">
+        <span>la descrizione non può essere più lunga di  {{descrizione.errors.maxlength.requiredLength }} caratteri</span>
+     </div>
+     <div *ngIf="descrizione.errors?.pattern">
+      <span>descrizione errata</span>
+     </div>
+  </div>
+
+</div>
+<br>
+<div class="row">
+  <div class="col-md-4">
+    <div class="row">
+      <label for="statoe" class="col-sm-2 col-form-label">Stato</label>
+      <div class="dropdown col-sm-8">
+        <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedStato" ngModel name="statoe" id="statoe" class="form-select" required (change)="onSelectedStato($event.target.value)" aria-label="Default select example">
+          <option selected value="9999"  >Seleziona lo stato</option>
+          <option *ngFor="let stato of stati" [value]="stato.id"  class="form-control"  >{{stato.d_stato_evento}}</option>
+        </select>
+      </div>
+      <div class="invalid-feedback">effettuare la scelta dello stato</div>
+    </div>
+  </div>
+</div>
+ <br>
+ <div class="row">
+      <!-- localita -->
+      <label for="localita" class="col-sm-1 col-form-label">Localita</label>
+      <div class="col-md-3">
+        <input #localita="ngModel"  [(ngModel)]="evento.localita" class="form-control" name="localita" id="localita" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire localita" style="text-transform : uppercase">
+      </div>
+      <br>
+      <div *ngIf="localita.invalid && (localita.dirty || localita.touched)" class="alert-danger">
+        <div *ngIf="localita.errors.required">
+            <span>la localita è obbligatoria</span>
+        </div>
+        <div *ngIf="localita.errors.minlength">
+          <span>la localita deve essere di almeno 4 caratteri</span>
+        </div>
+        <div *ngIf="localita.errors.maxlength">
+            <span>la localita non può essere più lunga di  50 caratteri</span>
+        </div>
+        <div *ngIf="localita.errors?.pattern">
+          <span>localita errata</span>
+        </div>
+
+    </div>
+
+      <!-- indirizzo -->
+      <label for="indirizzo" class="col-sm-1 col-form-label">Indirizzo</label>
+      <div class=" col-md-3">
+        <input #indirizzo="ngModel"  [(ngModel)]="evento.indirizzo" class="form-control" name="indirizzo" id="indirizzo" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z,\s]*" placeholder="Inserire indirizzo" style="text-transform : uppercase">
+      </div>
+      <br>
+      <div *ngIf="indirizzo.invalid && (indirizzo.dirty || indirizzo.touched)" class="alert-danger">
+        <div *ngIf="indirizzo.errors.required">
+            <span>indirizzo è obbligatorio</span>
+        </div>
+        <div *ngIf="indirizzo.errors.minlength">
+          <span>indirizzo deve essere di almeno {{indirizzo.errors.minlength.requiredLength }} caratteri</span>
+        </div>
+        <div *ngIf="indirizzo.errors.maxlength">
+            <span>indirizzo non può essere più lunga di {{indirizzo.errors.maxlength.requiredLength }}  caratteri</span>
+        </div>
+        <div *ngIf="indirizzo.errors?.pattern">
+          <span>indirizzo errato</span>
+        </div>
+      </div>
+      <!-- cap -->
+      <label for="cap" class="col-sm-1 col-form-label">Cap</label>
+      <div class=" col-md-2">
+        <input #cap="ngModel"  [(ngModel)]="evento.cap" class="form-control" name="cap" id="cap" required minlength="5" maxlength="5" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire cap" style="text-transform : uppercase">
+      </div>
+      <br>
+      <div *ngIf="cap.invalid && (cap.dirty || cap.touched)" class="alert-danger">
+        <div *ngIf="cap.errors.required">
+            <span>cap è obbligatorio</span>
+        </div>
+        <div *ngIf="cap.errors.minlength">
+          <span>cap deve essere di almeno  {{cap.errors.minlength.requiredLength }} caratteri</span>
+        </div>
+        <div *ngIf="cap.errors.maxlength">
+            <span>cap non può essere più lungo di {{cap.errors.maxlength.requiredLength }} caratteri</span>
+        </div>
+        <div *ngIf="cap.errors?.pattern">
+          <span>cap errato</span>
+        </div>
+      </div>
+
+
+ </div>
+
+ <br>
+ <div class="row">
+  <!-- data -->
+  <label for="dataev" class="col-sm-1 col-form-label">Data</label>
+  <div class=" col-md-2">
+         <input type="date" [(ngModel)]="evento.data"  [ngModel]="evento.data | date:'dd/MM/yyyy'"  #ddataev="ngModel" class="form-control"  name="dataev" id="dataev" required placeholder="dd/mm/yyyy" />
+  </div>
+  <!-- indirizzo -->
+  <label for="ora" class="col-sm-1 col-form-label">ora</label>
+  <div class=" col-md-2">
+    <input #ora="ngModel"  [(ngModel)]="evento.ora" class="form-control" name="ora" id="ora" required minlength="5" maxlength="5" pattern="[0-9:\s]*" placeholder="ora HH:mm" style="text-transform : uppercase">
+  </div>
+  <br>
+  <div *ngIf="ora.invalid && (ora.dirty || ora.touched)" class="alert-danger">
+    <div *ngIf="ora.errors.required">
+        <span>ora è obbligatoria</span>
+    </div>
+    <div *ngIf="ora.errors.minlength">
+      <span>ora deve essere di almeno  {{ora.errors.minlength.requiredLength }} caratteri -- HH:mm</span>
+    </div>
+    <div *ngIf="ora.errors.maxlength">
+        <span>ora non può essere più lunga di {{ora.errors.maxlength.requiredLength }}  caratteri - HH:mm</span>
+    </div>
+    <div *ngIf="ora.errors?.pattern">
+      <span>ora errata</span>
+    </div>
+  </div>
+</div>
+<br>
+ <div class="row">
+
+
+  <!-- N.ro posti -->
+  <label for="nposti" class="col-sm-1 col-form-label">Posti</label>
+  <div class=" col-md-1">
+    <input #nposti="ngModel"  [(ngModel)]="evento.nposti" class="form-control" name="nposti" id="nposti" required minlength="5" maxlength="5" pattern="[0-9]{1,5}" placeholder="Inserire nposti" style="text-transform : uppercase">
+  </div>
+  <br>
+  <div *ngIf="nposti.invalid && (nposti.dirty || nposti.touched)" class="alert-danger">
+    <div *ngIf="nposti.errors.required">
+        <span>il numero posti è obbligatorio</span>
+    </div>
+    <div *ngIf="nposti.errors.minlength">
+      <span>il numero posti deve essere di almeno {{nposti.errors.minlength.requiredLength }} caratteri</span>
+    </div>
+    <div *ngIf="nposti.errors.maxlength">
+        <span>il numero posti non può essere più lunga di {{nposti.errors.maxlength.requiredLength }}  caratteri</span>
+    </div>
+    <div *ngIf="nposti.errors?.pattern">
+      <span>il numero posti è errato</span>
+    </div>
+  </div>
+</div>
+      <hr>
+<!-- Bottoni funzionali -->
+<div class="footer" >
+  <div class="row col-sm-10 offset-2">
+
+
+    <div class="col-sm-3">
+      <button [disabled]="fm.invalid" class="btn btn-success btn-md " (click)="conferma()">Conferma
+        <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+      </button>
+    </div>
+    <!--
+    <div class="col-sm-3">
+      <button [disabled]="fm.invalid" class="btn btn-danger btn-md "  (click)="open(content)"> Cancella
+        <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+      </button>
+    </div>  -->
+    <div class="col-sm-3" >
+      <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+        <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+  <!--  fine personaizzazione  -->
+
+
+
+
+  <br>
+  <div class="form-row col-md-12">
+    <div class="row col-md-12">
+
+       <div class="form-row">
+        <div class="col-md-12">
+           <!-- messaggi -->
+          <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+           </div>
+           <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+            </div>
+          </div>
+       </div>
+    </div>
+  </div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
