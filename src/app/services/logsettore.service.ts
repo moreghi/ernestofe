@@ -79,5 +79,12 @@ export class LogsettoreService {
               headers: this.getAuthHeader()
             });      // ok;
   }
+   getbySettoreActive(idlog: number, stato: number) {
+
+    this.rottafunction = '/getbySettoreAct';
+    return this.http.get(this.APIURL + '/' + this.rottafunction +  '/' + idlog  + '/' + stato,  {
+            headers: this.getAuthHeader()
+          });      // ok;
+}
 }
 

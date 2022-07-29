@@ -4,6 +4,7 @@
 
 // per ambiente di sviluppo su localhost
 
+
 export const environment = {
   production: false,
   APIURL: 'http://localhost:3001',
@@ -22,8 +23,15 @@ export const environment = {
 };
 */
 
-
-
+// per ambiente di produzione su ec2
+/*
+export const environment = {
+  production: false,
+  APIURL: 'https://api.ghisellinimoreno.it',
+  APIAUTURL: 'https://api.ghisellinimoreno.it/api/auth/',
+  IMGURL: 'https://api.ghisellinimoreno.it/storage/posts/'
+};
+*/
 
 /*
  * For easier debugging in development mode, you can import the following file

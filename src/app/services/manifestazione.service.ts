@@ -98,6 +98,7 @@ private APIURLSEARCH = '';
 
     }
 
+    /*
       getManifActive() {
 
           this.APIURLSEARCH = environment.APIURL + this.rottaSearch + this.rootActive;
@@ -106,6 +107,18 @@ private APIURLSEARCH = '';
             headers: this.getAuthHeader()
           });      // ok;
       }
+      */
+
+      getManifAttiva(stato: number) {
+
+        this.rottafunction = 'getActive/active';
+        return this.http.get(this.APIURL + '/' + this.rottafunction  + '/' + stato,  {
+                headers: this.getAuthHeader()
+              });      // ok;
+
+    }
+
+
 
 
      getrilascio(id: number) {

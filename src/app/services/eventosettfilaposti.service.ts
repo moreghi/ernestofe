@@ -79,6 +79,29 @@ export class EventosettfilapostiService {
     }
 
 
+    getbyIdEventoSettFila(id: number, sett: number, fila: number) {
+      this.rottafunction = '/getbyevento/SettFila';
+      return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id + '/' + sett + '/' + fila, {
+        headers: this.getAuthHeader()
+      });
+    }
+
+    getbyIdEventoSettori(id: number) {
+      this.rottafunction = '/getbyevento/Settori';
+      return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id, {
+        headers: this.getAuthHeader()
+      });
+    }
+
+    getbyIdEventofileofSettore(id: number, sett: number) {
+      this.rottafunction = 'getbyevento/File';
+      return this.http.get(this.APIURL + '/' + this.rottafunction  + '/' + id + '/' + sett, {
+        headers: this.getAuthHeader()
+      });
+    }
+
+
+
 
 
 

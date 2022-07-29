@@ -1,0 +1,257 @@
+<p>eventopostopop works!</p>
+
+<div class="modal-header " [style.background]="fase === 'M' ? 'red' : 'green'" [style.color]="fase === 'M' ? 'white' : 'yellow'">
+  <div class="col-sm-3">
+    <img src="assets/images/logobandieragialla.jpg" width="40" height="40" alt="logo">
+  </div>
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+
+<div class="modal-body">
+ <form [formGroup]="editForm"  *ngIf="editForm" >  <!-- (ngSubmit)="onSubmit()"-->
+      <!-- Chiave del record -->
+      <input hidden type="text" formControlName="id" class="form-control" />
+
+        <br>
+        <div class="row">
+          <!-- cognome -->
+          <label for="cognome" class="col-sm-3 col-form-label">Cognome</label>&nbsp;
+          <div class="col-md-5">
+            <input disabled type="text" formControlName="cognome" class="form-control col-sm-5" style="text-transform : uppercase"/>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <!-- nome -->
+          <label for="nome" class="col-sm-3 col-form-label">Nome</label>&nbsp;
+          <div class="col-md-5">
+            <input disabled type="text" formControlName="nome" class="form-control col-sm-5" style="text-transform : uppercase"/>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <!-- cellulare -->
+          <label for="cellulare" class="col-sm-3 col-form-label">cellulare</label>&nbsp;
+          <div class="col-md-5">
+            <input disabled type="text" formControlName="cellulare" class="form-control col-sm-5" style="text-transform : uppercase"/>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <!-- email -->
+          <label for="email" class="col-sm-3 col-form-label">email</label>&nbsp;
+          <div class="col-md-5">
+            <input disabled type="text" formControlName="email" class="form-control col-sm-5" style="text-transform : lowercase"/>
+          </div>
+        </div>
+        <br>
+        <div class="form-group row">
+          <label for="d_tipo"  class="col-sm-3 control-label ">tipi biglietti</label>
+          <div  class="col-sm-5 was-validated ">
+
+            <select [(ngModel)]="selectedtipobiglietto" ngModel name="d_tipo" id="d_tipo" class="custom-select" required (change)="selectedtipoBiglietto($event.target.value)">
+              <option value="99" disabled >Seleziona il tipo biglietto</option>
+              <option *ngFor="let tipobiglietto of tipibiglietto" [value]="tipobiglietto.id"  class="form-control"  >{{tipobiglietto.d_tipo}}&nbsp;Importo:&nbsp;{{tipobiglietto.importo | currency:'EUR'}}</option>
+            </select>
+            <div class="invalid-feedback">effettuare la scelta del tipo biglietto</div>
+          </div>
+        </div>
+        <br>
+        <!-- settore -->
+        <div class="form-group row">
+          <label for="settore"  class="col-sm-3 control-label ">Settore</label>
+          <div  class="col-sm-5 was-validated ">
+
+            <select [(ngModel)]="selectedSettore" ngModel name="settore" id="settore" class="custom-select" required (change)="onSelectedSettore($event.target.value)">
+              <option value="99" disabled >Seleziona il settore</option>
+              <option *ngFor="let settore of eventosettfilaposti" [value]="settore.id"  class="form-control"  >{{settore.dsettore}}</option>
+            </select>
+            <div class="invalid-feedback">effettuare la scelta del Settore</div>
+          </div>
+        </div>
+        <br>
+    <!--    {{settoreselected}}<br>{{selectedSettore}}  -->
+        <div class="form-group row" *ngIf="settoreselected === true">
+          <label for="fila"  class="col-sm-3 control-label ">Fila</label>
+          <div  class="col-sm-5 was-validated ">
+
+            <select [(ngModel)]="selectedFila" ngModel name="fila" id="fila" class="custom-select" required (change)="onSelectedFila($event.target.value)">
+              <option value="99" disabled >Seleziona la fila</option>
+              <option *ngFor="let fila of eventosettfilaposti1" [value]="fila.id"  class="form-control"  >{{fila.dfila}}</option>
+            </select>
+            <div class="invalid-feedback">effettuare la scelta della fila</div>
+          </div>
+        </div>
+        <br>
+        <!-- posto -->
+        <div class="row" *ngIf="filaselected === true">
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[0] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[0], postoventoid[0])">{{namepostovento[0]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[1] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[1], postoventoid[1])">{{namepostovento[1]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[2] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[2], postoventoid[2])">{{namepostovento[2]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[3] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[3], postoventoid[3])">{{namepostovento[3]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[4] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[4], postoventoid[4])">{{namepostovento[4]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[5] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[5], postoventoid[5])">{{namepostovento[5]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[6] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[6], postoventoid[6])">{{namepostovento[6]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[7] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[7], postoventoid[7])">{{namepostovento[7]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[8] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[8], postoventoid[8])">{{namepostovento[8]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[9] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[9], postoventoid[9])">{{namepostovento[9]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[10] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[10], postoventoid[10])">{{namepostovento[10]}}</button>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row" *ngIf="filaselected === true namepostovento[11] != ''">
+
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[11] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[11], postoventoid[11])">{{namepostovento[11]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[12] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[12], postoventoid[12])">{{namepostovento[12]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[13] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[13], postoventoid[13])">{{namepostovento[13]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[14] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[14], postoventoid[14])">{{namepostovento[14]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[15] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[15], postoventoid[15])">{{namepostovento[15]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[16] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[16], postoventoid[16])">{{namepostovento[16]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[17] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[17], postoventoid[17])">{{namepostovento[17]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[18] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[18], postoventoid[18])">{{namepostovento[18]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[19] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[19], postoventoid[19])">{{namepostovento[19]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[20] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[20], postoventoid[20])">{{namepostovento[20]}}</button>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="col-sm-12" *ngIf="namepostovento[21] != ''">
+              <button  class="btn  btn-rounded btnevento"  (click)="registra(postovento[21], postoventoid[21])">{{namepostovento[21]}}</button>
+            </div>
+          </div>
+        </div>
+        <br>
+
+
+      <!-- messaggi -->
+         <div class="row col-md-12">
+             <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+               <p>{{Message}}</p>
+               <hr>
+             </div>
+             <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+               <p>{{Message}}</p>
+             </div>
+          </div>
+</form>
+</div>
+<br>
+<div class="modal-footer">
+
+
+  <button  class="btn btn-danger mr-2" (click)="modal.close('cancel')">Cancel  <!--  [disabled]="isLoading" -->
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+  </button>
+  <button  class="btn btn-primary mr-2" (click)="onSubmit()" >Salva  <!--   [disabled]="!editForm.valid"-->
+    <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+  </button>
+
+</div>
+
+
+
+
+<ng-template #templateConfirmDelete>
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Cancellazione Biglietto</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef2.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  confermi la cancellazione della località selezionata ?<br />
+</div>
+  <div class="modal-footer">
+   <button type="button" class="btn btn-secondary" (click)="closeModal(2)">Annulla
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+   </button>
+  <button type="button" class="btn btn-danger" (click)="closeModal(3)">Conferma
+    <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+  </button>
+</div>
+</ng-template>

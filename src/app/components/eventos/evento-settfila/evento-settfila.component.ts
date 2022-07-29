@@ -244,11 +244,8 @@ showNotification( type: string, message: string ): void {
 
 
       case 'Posti':
-        this.route.navigate(['evento/' + eventosettfila.idEvento + '/posti']);
+        this.route.navigate(['evento/' + eventosettfila.idEvento + '/S/' + eventosettfila.idSettore + '/F/' + eventosettfila.idFila  ]);
         break;
-
-
-
 
       default:
         alert('scelta errata \n navigazione non possibile');

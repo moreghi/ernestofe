@@ -1,0 +1,182 @@
+<p>evento-posti-detail -----------------  works!</p>
+
+<div class="container">
+  <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
+     <div >
+      <form #fm ="ngForm">
+         <input Hidden #id="ngModel"  [(ngModel)]="evento.id" class="form-control" name="idev" id="idev">
+
+      <div class="row">
+        <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
+        <div class=" col-md-6">
+          <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"   style="text-transform : uppercase">{{evento.id}}
+        </div>
+        <div class=" col-md-2">
+    <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+            <div>
+              <input disabled #d_stato_evento="ngModel"  [(ngModel)]="evento.d_stato_evento" class="form-control" name="d_stato_evento" id="d_stato_evento" [style.color]="evento.stato == 2 ? 'red' : 'white'"  [style.background-color]="evento.stato == 2 ? 'yellow' : 'red'">
+            </div>
+          </div>
+      </div>
+      <br>
+      <div class="row">
+        <label for="localita" class="col-sm-2 col-form-label">Localita</label>
+        <div class=" col-md-6">
+          <input disabled #localita="ngModel"  [(ngModel)]="evento.localita" class="form-control" name="localita" id="localita"   style="text-transform : uppercase">
+        </div>
+        <div class=" col-md-2">
+    <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+            <div>
+               <input  disabled [(ngModel)]="evento.data" [ngModel]="evento.data | date:'dd/MM/yyyy'" #data="ngModel" class="form-control"  name="data" id="data">
+            </div>
+          </div>
+      </div>
+      <br>
+      <!-- settore -->
+      <div class="row">
+          <label for="dsettore" class="col-sm-1 col-form-label">Settore</label>
+          <div class="col-md-3">
+                <input  disabled [(ngModel)]="logsettore.dsettore" #dsettore="ngModel" class="form-control"  name="dsettore" id="dsettore">
+          </div>
+          <label for="dfila" class="col-sm-1 col-form-label">Fila</label>
+          <div class="col-md-3">
+              <input  disabled [(ngModel)]="logfila.dfila" #dfila="ngModel" class="form-control"  name="dfila" id="dfila">
+          </div>
+          <label for="dfila" class="col-sm-1 col-form-label">Posti</label>
+          <div class="col-md-1">
+              <input  disabled [(ngModel)]="eventosettfilaposto.postoStart" #postoStart="ngModel" class="form-control"  name="postoStart" id="postoStart">
+          </div>
+          <div class="col-md-1">
+              <input  disabled [(ngModel)]="eventosettfilaposto.postoEnd" #postoEnd="ngModel" class="form-control"  name="postoEnd" id="postoEnd">
+          </div>
+      </div>
+      <br>
+      <div class="form-row col-md-12">
+        <div class="row col-md-12">
+
+          <!-- tabella di dettaglio dei fedeli -->
+           <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white table-bordered table-responsive-lg table-container">
+            <thead>
+             <tr>
+              <th scope="col">#</th>
+              <th scope="col">Posto</th>
+              <th scope="col">Biglietto Numero</th>
+              <th scope="col">Cognome</th>
+              <th scope="col">Nome</th>
+              <th  colspan="2" style="text-align: center ">Action</th>
+             </tr>
+            </thead>
+            <tbody>
+
+             <tr app-evento-posto *ngFor ="let posto of eventoposti | paginate: { itemsPerPage: 5, currentPage: p }; let i = index"
+                [evento-posto-prog] = i+1
+                [evento-posto-data] = "posto"
+
+                >
+             </tr>
+            </tbody>
+           </table>
+           <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+      </div>
+     <br>
+     <!--
+
+
+
+
+      <div class="row">
+
+          <label for="fila" class="col-sm-1 col-form-label">Fila</label>
+          <div class="dropdown col-sm-3">
+            <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedFila" ngModel name="fila" id="fila" class="form-select" required (change)="onSelectedFila($event.target.value)" aria-label="Default select example">
+              <option selected value="9999"  >Seleziona la Fila</option>
+              <option *ngFor="let fila of logfile" [value]="fila.id"  class="form-control"  >{{fila.dfila}}</option>
+            </select>
+          </div>
+          <div class="invalid-feedback">effettuare la scelta della Fila</div>
+
+        <div class="col-sm-2">
+              <button  class="btn btn-primary btn-rounded"  (click)="nuovoElemento(tipoFila)">
+                 <fa-icon [icon]="faPlusSquare"  fixed="true"></fa-icon> &nbsp; Nuova
+              </button>
+        </div>
+        <div class="form-check col-sm-5" *ngIf="selectedSettore !== 0">
+          <input type="checkbox" [(ngModel)]="isCheckedFile" (change)="onChangeFile(isCheckedFile?'S':'N')" /> visualizza tutte le file del settore
+        </div>
+      </div>
+
+-->
+      <br>
+      <br>
+
+      </form>
+    </div>
+   </div>
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+       <br>
+       <!-- Bottoni funzionali -->
+<div class="footer" >
+  <div class="row col-sm-10 offset-2">
+
+
+    <div class="col-sm-3" *ngIf="evento.statoposti == 0">
+      <button  class="btn btn-success btn-md " (click)="rilascia()">Rilascia
+        <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+      </button>
+    </div>
+    <!--
+    <div class="col-sm-3">
+      <button [disabled]="fm.invalid" class="btn btn-danger btn-md "  (click)="open(content)"> Cancella
+        <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+      </button>
+    </div>  -->
+    <div class="col-sm-3" >
+      <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+        <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<br>
+<hr>
+       <div class="form-row">
+        <div class="col-md-12">
+           <!-- messaggi -->
+          <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+           </div>
+           <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+            </div>
+          </div>
+       </div>
+</div>
+
+
+
+
+
+
+
+
+

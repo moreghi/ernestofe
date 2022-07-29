@@ -176,9 +176,23 @@ import { LogpostipopComponent } from './components/popups/logpostipop/logpostipo
 import { LogimagepopComponent } from './components/popups/logimagepop/logimagepop.component';
 import { EventoPostiComponent } from './components/eventos/evento-posti/evento-posti.component';
 import { EventoSettfilaComponent } from './components/eventos/evento-settfila/evento-settfila.component';
+import { EventiMappaComponent } from './components/eventos/eventi-mappa/eventi-mappa.component';
+import { RequestEventoNormalComponent } from './components/eventos/registrazione/evento/request-evento-normal/request-evento-normal.component';
+import { ResponseEventoNormalComponent } from './components/eventos/registrazione/evento/response-evento-normal/response-evento-normal.component';
+import { RequestEventoLogisticaComponent } from './components/eventos/registrazione/eventologistica/request-evento-logistica/request-evento-logistica.component';
+import { ResponseEventoLogisticaComponent } from './components/eventos/registrazione/eventologistica/response-evento-logistica/response-evento-logistica.component';
 
-
-
+import { EventoPostoComponent } from './components/eventos/evento-posto/evento-posto.component';
+import { EventoPostiDetailComponent } from './components/eventos/evento-posti-detail/evento-posti-detail.component';
+import { EventopostopopComponent } from './components/popups/eventopostopop/eventopostopop.component';
+import { EventoPosto1Component } from './components/eventos/evento-posto1/evento-posto1.component';
+import { EventoPosto2Component } from './components/eventos/evento-posto2/evento-posto2.component';
+import { PrenotazionieventoComponent } from './components/prenotazeventos/prenotazionievento/prenotazionievento.component';
+import { PrenotazioneeventoComponent } from './components/prenotazeventos/prenotazioneevento/prenotazioneevento.component';
+import { CassaDetailComponent } from './components/cassas/cassa-detail/cassa-detail.component';
+import { BigliettoEmissioneLogisticaComponent } from './components/bigliettos/biglietto-emissione-logistica/biglietto-emissione-logistica.component';
+import { BigliettoDetailComponent } from './components/bigliettos/biglietto-detail/biglietto-detail.component';
+import { CassamovComponent } from './components/cassas/cassamov/cassamov.component';
 
 /**
  * Custom angular notifier options
@@ -243,82 +257,24 @@ const customNotifierOptions: NotifierOptions = {
     ChangePasswordNewUserComponent,
     ChangePasswordComponent,
     Page404Component,
-
-
-
     HomeComponent,
     JumbotronComponent,
     User1Component,
-
-
-
-
-
-
-
     User2Component,
     UserDetail1Component,
     UserDetailComponent,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     PrenotazioneComponent,
-
-
-
-
-
-
-
     InfoComponent,
-
-
     RequestPrenotazioneComponent,
     ResponsePrenotazioneComponent,
     PrenotazioniComponent,
     Prenotazione1Component,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     InfoPrenotazioneComponent,
     MessageComponent,
     TabelleComponent,
     TabellaComponent,
     TabellaTwDettComponent,
     TabellaTwDettPopComponent,
-
-
     SociComponent,
     SocioComponent,
     TesseramentoComponent,
@@ -354,7 +310,23 @@ const customNotifierOptions: NotifierOptions = {
     LogpostipopComponent,
     LogimagepopComponent,
     EventoPostiComponent,
-    EventoSettfilaComponent
+    EventoSettfilaComponent,
+    EventiMappaComponent,
+    RequestEventoNormalComponent,
+    ResponseEventoNormalComponent,
+    RequestEventoLogisticaComponent,
+    ResponseEventoLogisticaComponent,
+    EventoPostoComponent,
+    EventoPostiDetailComponent,
+    EventopostopopComponent,
+    EventoPosto1Component,
+    EventoPosto2Component,
+    PrenotazionieventoComponent,
+    PrenotazioneeventoComponent,
+    CassaDetailComponent,
+    BigliettoEmissioneLogisticaComponent,
+    BigliettoDetailComponent,
+    CassamovComponent
 
 
 

@@ -1,0 +1,170 @@
+<p>cassa-detail works!</p>
+
+<br>
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-4">
+
+    </div>
+    <div class="header_Edit title_Edit col-md-6"  [style.color]="keystatocassa == 'nf' ? 'red' : 'white'"  [style.background-color]="keystatocassa == 'nf' ? 'yellow' : 'red'">
+      <strong>{{title}}</strong>
+      <!-- <input disabled #title="ngModel"  [(ngModel)]="title" class="form-control" name="title" id="title" > -->
+    </div>
+  </div>
+
+
+
+
+
+
+  <br>
+
+
+  <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
+     <div >
+      <form #fm ="ngForm">
+        <input Hidden #id="ngModel"  [(ngModel)]="cassa.id" class="form-control" name="id" id="id">
+        <input Hidden #key_utenti_operation="ngModel"  [(ngModel)]="cassa.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation">
+        <div class="row">
+            <label for="descManif" class="col-sm-2 col-form-label">Data</label>
+            <div class=" col-md-6">
+              <input disabled #datacassa="ngModel"  [(ngModel)]="cassa.datacassa" class="form-control" name="datacassa" id="datacassa" >
+            </div>
+        </div>
+
+        <br>
+        <!--  importo della cassa giornasliera  -->
+        <div class="row">
+          <label for="importo" class="col-sm-2 col-form-label">Importo</label>
+          <div class=" col-md-2">
+            <input  disabled [(ngModel)]="cassa.importo" #importo="ngModel" class="form-control"  name="importo" id="importo">
+          </div>
+      </div>
+      <br>
+      <!--  stato della cassa giornasliera  -->
+      <div class="row">
+        <label for="stato" class="col-sm-2 col-form-label">Stato</label>
+        <div class=" col-md-2">
+          <input  disabled [(ngModel)]="statocassa" #stato="ngModel" class="form-control"  name="stato" id="statoo"  [style.color]="cassa.stato == 0 ? 'red' : 'white'"  [style.background-color]="cassa.stato == 0 ? 'yellow' : 'red'">
+        </div>
+    </div>
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Bottoni funzionali -->
+<div class="footer" >
+  <div class="row col-sm-10 offset-2">
+
+
+    <div class="col-sm-3">
+      <button [disabled]="fm.invalid" class="btn btn-success btn-md " (click)="conferma()">Conferma
+        <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+      </button>
+    </div>
+    <!--
+    <div class="col-sm-3">
+      <button [disabled]="fm.invalid" class="btn btn-danger btn-md "  (click)="open(content)"> Cancella
+        <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+      </button>
+    </div>  -->
+    <div class="col-sm-3" >
+      <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+        <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<br>
+
+
+<div class="form-row col-md-12">
+  <div class="row col-md-12">
+
+    <!-- tabella di dettaglio dei fedeli -->
+     <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white table-bordered table-responsive-lg table-container">
+      <thead>
+       <tr>
+           <th scope="col">#</th>
+           <th scope="col">Cognome</th>
+           <th scope="col">Nome</th>
+           <th scope="col">importo</th>
+           <th scope="col">Mod. Pagam.</th>
+           <th scope="col">biglietto</th>
+           <th scope="col">stato</th>
+           <!--  non serve action -->
+           <th  colspan="2" style="text-align: center ">Action</th>
+       </tr>
+      </thead>
+      <tbody>
+
+       <tr app-cassamov *ngFor ="let cassamov of cassamovs | paginate: { itemsPerPage: 5, currentPage: p }; let i = index"
+          [cassamov-prog] = i+1
+          [cassamov-data] = "cassamov"
+          >
+       </tr>
+      </tbody>
+     </table>
+     <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+</div>
+
+
+  <br>
+  <div class="form-row col-md-12">
+    <div class="row col-md-12">
+
+       <div class="form-row">
+        <div class="col-md-12">
+           <!-- messaggi -->
+          <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+           </div>
+           <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+            </div>
+          </div>
+       </div>
+    </div>
+  </div>
+
+</form>
+</div>
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+

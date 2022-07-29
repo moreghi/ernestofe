@@ -52,8 +52,9 @@
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/socio']">Soci</a></li>
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/manif']">Manifestazioni</a></li>
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/logistica']">Logistica</a></li>
+        <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/pronotevento']">Prenotazioni Evento</a></li>
         <!--
-        <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/prodotto']">Prodotti</a></li>
+
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/persona']">Persone</a></li>
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/commanda']">Commande</a></li>
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/prenotazione']">Prenotazioni</a></li>
@@ -81,7 +82,7 @@
 -->
 
 
-    <li ><a *ngIf="eventoAttivo" class="nav-link"  href="#"  >Eventi All</a>&nbsp;
+    <li ><a *ngIf="eventoAttivo" class="nav-link"  [routerLink]="['/evento/registrazione']"  >Eventi All</a>&nbsp;
     <li ><a (eventoOpen)=controllaEvento($event) class="nav-link"  href="#"  >Eventi 2</a>
 
 

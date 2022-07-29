@@ -6,7 +6,6 @@ import { RouteGuardService } from './services/route-guard.service';
 import { LoginComponent } from './components/security/login/login.component';
 import { RegistrazioneComponent } from './components/security/registrazione/registrazione.component';
 import { UsersComponent } from './components/users/users/users.component';
-
 import { SignupComponent } from './components/security/signup/signup.component';
 import { SignupConfermeComponent } from './components/security/signup-conferme/signup-conferme.component';
 import { ForgotPasswordComponent } from './components/security/forgotPassword/forgot-password/forgot-password.component';
@@ -15,54 +14,18 @@ import { ChangePasswordNewUserComponent } from './components/security/change-pas
 import { ChangePasswordConfermeComponent } from './components/security/changePassword/change-password-conferme/change-password-conferme.component';
 import { ChangePasswordComponent } from './components/security/changePassword/change-password/change-password.component';
 import { Page404Component } from './components/page404/page404.component';
-
-
 import { HomeComponent } from './components/home/home.component';
 import { JumbotronComponent } from './components/jumbotron/jumbotron.component';
-
-
-
-
-
-
-
 // import { UserDetail1Component } from './components/users/user-detail1/user-detail1.component';  // test
 import { UserDetailComponent } from './components/users/user-detail/user-detail.component';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import { RequestPrenotazioneComponent } from './components/prenotaziones/prenotazione/request-prenotazione/request-prenotazione.component';
 import { ResponsePrenotazioneComponent } from './components/prenotaziones/prenotazione/response-prenotazione/response-prenotazione.component';
 import { PrenotazioniComponent } from './components/prenotaziones/prenotazione/prenotazioni/prenotazioni.component';
-
-
-
-
-
-
-
-
-
-
-
 import { InfoPrenotazioneComponent } from './components/prenotaziones/info-prenotazione/info-prenotazione.component';
 import { TabelleComponent } from './components/tabelles/tabelle/tabelle.component';
 import { SociComponent } from './components/socios/soci/soci.component';
 import { TesseramentoDetailComponent } from './components/tesseramentos/tesseramento-detail/tesseramento-detail.component';
 import { TesseramentoDataComponent } from './components/tesseramentos/tesseramento-data/tesseramento-data.component';
-
 import { SocioDetail1Component } from './components/socios/socio-detail1/socio-detail1.component';
 import { SocioDetailComponent } from './components/socios/socio-detail/socio-detail.component';
 import { RequestAdesioneComponent } from './components/adesiones/request-adesione/request-adesione.component';
@@ -80,6 +43,17 @@ import { LogisticheComponent } from './components/logisticas/logistiche/logistic
 import { LogisticaDetailComponent } from './components/logisticas/logistica-detail/logistica-detail.component';
 import { LogisticaDetailPostiComponent } from './components/logisticas/logistica-detail-posti/logistica-detail-posti.component';
 import { EventoPostiComponent } from './components/eventos/evento-posti/evento-posti.component';
+import { EventiMappaComponent } from './components/eventos/eventi-mappa/eventi-mappa.component';
+import { RequestEventoNormalComponent } from './components/eventos/registrazione/evento/request-evento-normal/request-evento-normal.component';
+import { RequestEventoLogisticaComponent } from './components/eventos/registrazione/eventologistica/request-evento-logistica/request-evento-logistica.component';
+import { ResponseEventoNormalComponent } from './components/eventos/registrazione/evento/response-evento-normal/response-evento-normal.component';
+import { EventoPostiDetailComponent } from './components/eventos/evento-posti-detail/evento-posti-detail.component';
+import { ResponseEventoLogisticaComponent } from './components/eventos/registrazione/eventologistica/response-evento-logistica/response-evento-logistica.component';
+import { PrenotazionieventoComponent } from './components/prenotazeventos/prenotazionievento/prenotazionievento.component';
+import { CassaDetailComponent } from './components/cassas/cassa-detail/cassa-detail.component';
+import { BigliettoEmissioneLogisticaComponent } from './components/bigliettos/biglietto-emissione-logistica/biglietto-emissione-logistica.component';
+import { BigliettoDetailComponent } from './components/bigliettos/biglietto-detail/biglietto-detail.component';
+
 
 const routes: Routes = [
   {
@@ -98,7 +72,6 @@ const routes: Routes = [
     path: 'signupConferme',
     component: SignupConfermeComponent
   },
-
   {
     path: 'forgotpassword',
     component: ForgotPasswordComponent
@@ -170,10 +143,33 @@ const routes: Routes = [
   component: EventoPostiComponent
 },
 
+{
+  path: 'evento/:id/S/:idSett/F/:idFila',
+  component: EventoPostiDetailComponent
+},
 
+// ---------------------------------------------------------------  mappa di registrazione n evevnti
+{
+  path: 'evento/registrazione',
+  component: EventiMappaComponent
+},
+{
+  path: 'evento/registrazione/normalx/:id',
+  component: RequestEventoNormalComponent
+},
+{
+  path: 'evento/registrazione/logisticax/:id',
+  component: RequestEventoLogisticaComponent
+},
 
-
-
+{
+  path: 'evento/prenotazionenormaleConferma',
+   component: ResponseEventoNormalComponent
+},
+{
+  path: 'evento/prenotazionelogisticaConferma',
+   component: ResponseEventoLogisticaComponent
+},
 // ----------------------------------------------------------------  tipo biglietto per eventi
 {
   path: 'evento/:id/tipobiglietti',
@@ -186,6 +182,23 @@ const routes: Routes = [
 {
   path: 'tbiglietto/edit/:id',
   component: TipobigliettoDetailComponent
+},
+// ----------------------------------------------------------------  tipo biglietto per eventi
+{
+  path: 'biglietto/:id/edit',
+  component: BigliettoDetailComponent
+},
+
+
+
+// ----------------------------------------------------------------  Prenotazioni evento
+{
+  path: 'pronotevento',
+  component: PrenotazionieventoComponent
+},
+{
+  path: 'prenotevento/:id/biglietto',
+  component: BigliettoEmissioneLogisticaComponent
 },
 // ----------------------------------------------------------------  logistiche
 {
@@ -213,14 +226,14 @@ const routes: Routes = [
   path: 'logposti/:id/edit/:idp/posti',
   component: LogisticaDetailPostiComponent
 },
+// -------------------------------------------------------------------------   Cassa
+{
+  path: 'cassa/:dataodierna/tipo/:tipo',
+  component: CassaDetailComponent
+},
 
-// dettaglio giornata della manifestazione  -- dettaglio Info
-
-// dettaglio giornata della manifestazione  -- dettaglio Cassa
 
 
-
-// dettaglio giornata della manifestazione  -- dettaglio Cassa1  nuova versione col elenco
 
 
 // -------------------------------------------------------------------------   soci   --- test Bandiera gialla
@@ -246,19 +259,6 @@ const routes: Routes = [
   path: 'test/new',
    component: SocioDetail1Component
 },
-
-
-// dettaglio giornata della manifestazione  -- dettaglio Commande
-
-
-
-
-// REgistrazione Commanda - Anagrafica
-
-// REgistrazione Commanda - Prodotti
-
-// REgistrazione Commanda - Cassa
-
 
 // -------------------------------------------------------  Prenotazioni
 {
@@ -347,27 +347,6 @@ const routes: Routes = [
     path: 'page404',
     component: Page404Component
   },
-  // ----------------------------------------------------------------- Spese
-
-  // ----------------------------------------------------------------- Fornitori
-
-
-
-  // ----------------------------------------------------------------- Prodotti
-
-
-  // ----------------------------------------------------------------- Persona
-
-
- // ---------------------------------------------------------------------- Moduli
-
-
-
-
-  // abilitazioni per livello -----------------------
-
-
-
   {
     path: 'home',
     component: HomeComponent

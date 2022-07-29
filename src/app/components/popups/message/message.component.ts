@@ -98,7 +98,7 @@ export class MessageComponent implements OnInit {
             this.title = this.message.title;
             this.message01 = this.message.message01;
             this.message02 = this.message.message02;
-            this.pathimage = environment.APIURL + '/upload/files/images/' + this.message.image;
+        //    this.pathimage = environment.APIURL + '/upload/files/images/' + this.message.image;
             if(this.message.tipo === 'I') {
               this.msgInfo = true;
             }

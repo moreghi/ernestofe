@@ -1,0 +1,267 @@
+<p>request-evento-normal works!</p>
+
+
+<div class="container">
+  <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
+     <div >
+      <form #fm ="ngForm">
+        <input Hidden #id="ngModel"  [(ngModel)]="manif.id" class="form-control" name="id" id="id">
+        <input Hidden #id="ngModel"  [(ngModel)]="evento.id" class="form-control" name="idev" id="idev">
+        <div class="row">
+            <label for="descManif" class="col-sm-2 col-form-label">Manifestazione</label>
+            <div class=" col-md-6">
+              <input disabled #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif"   style="text-transform : uppercase">
+            </div>
+
+          <div class=" col-md-2">
+        <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+            <div>
+              <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : 'white'"  [style.background-color]="manif.stato == 2 ? 'yellow' : 'red'">
+            </div>
+          </div>
+        </div>
+
+
+      <hr>
+      <div class="row">
+        <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
+        <div class=" col-md-6">
+          <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"   style="text-transform : uppercase">
+        </div>
+        <div class=" col-md-2">
+    <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+            <div>
+              <input disabled #d_stato_evento="ngModel"  [(ngModel)]="evento.d_stato_evento" class="form-control" name="d_stato_evento" id="d_stato_evento" [style.color]="evento.stato == 2 ? 'red' : 'white'"  [style.background-color]="evento.stato == 2 ? 'yellow' : 'red'">
+            </div>
+          </div>
+      </div>
+      <br>
+      <div class="row">
+        <label for="localita" class="col-sm-2 col-form-label">Localita</label>
+        <div class=" col-md-6">
+          <input disabled #localita="ngModel"  [(ngModel)]="evento.localita" class="form-control" name="localita" id="localita"   style="text-transform : uppercase">
+        </div>
+        <div class=" col-md-2">
+    <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+            <div>
+               <input  disabled [(ngModel)]="evento.data" [ngModel]="evento.data | date:'dd/MM/yyyy'" #data="ngModel" class="form-control"  name="data" id="data">
+            </div>
+          </div>
+      </div>
+
+      <br>
+
+      </form>
+    </div>
+   </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+<div class="mt-4 col-10 offset-2">
+
+  <div class="card col-sm-10">    <!-- card -->
+    <div class="row">
+      <div class="col-md-4">
+        <div class="center-block centrata">
+          <img src="assets/images/logobandieragialla.jpg" width="30" height="30" alt="logo">
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="card-header centrata textbold">Registrazione Evento</div>
+      </div>
+    </div>
+
+
+
+    <div class="card-body">
+      <form name="formRegistrazione"  #formRegistrazione=ngForm (ngSubmit)="onSubmit(formRegistrazione)">
+        <div class="form-group row lowertxt">
+              <label for="inputcognome3"  class="col-sm-3 col-form-label">Cognome</label>
+              <div class="col-sm-9">
+              <input type="text" name="cognome" class="form-control lowertxt" id="inputcognome3" placeholder="cognome" [(ngModel)]="form.cognome" required  minlength="5" maxlength="40" #cognome="ngModel" ngModel >
+              <br>
+              <div *ngIf="cognome.dirty && cognome.touched && cognome.invalid" class="alert alert-danger">
+                      <div  *ngIf="cognome.errors.required">
+                        il campo cognome è obbligatorio
+                      </div>
+                      <div  *ngIf="cognome.errors.minlength">
+                        il campo deve essere lungo più di {{ cognome.errors.minlength.requiredLength }} caratteri
+                      </div>
+                      <div  *ngIf="cognome.errors.maxlength">
+                        il campo non deve essere lungo più di {{ cognome.errors.maxlength.requiredLength }} caratteri
+                      </div>
+                </div>
+              </div>
+        </div>
+
+        <div class="form-group row lowertxt">
+          <label for="inputnome3"  class="col-sm-3 col-form-label">Nome..</label>
+          <div class="col-sm-9">
+          <input type="text" name="nome" class="form-control lowertxt" id="inputnome3" placeholder="nome" [(ngModel)]="form.nome" required  minlength="5" maxlength="40" #nome="ngModel" ngModel >
+          <br>
+          <div *ngIf="nome.dirty && nome.touched && nome.invalid" class="alert alert-danger">
+                  <div  *ngIf="nome.errors.required">
+                    il campo nome è obbligatorio
+                  </div>
+                  <div  *ngIf="nome.errors.minlength">
+                    il campo deve essere lungo più di {{ nome.errors.minlength.requiredLength }} caratteri
+                  </div>
+                  <div  *ngIf="nome.errors.maxlength">
+                    il campo non deve essere lungo più di {{ nome.errors.maxlength.requiredLength }} caratteri
+                  </div>
+            </div>
+          </div>
+    </div>
+
+            <!--    dirty: {{nome.dirty}} -- touched: {{nome.touched}} -- invalid: {{nome.invalid}} --  lunghezza {{ nome.errors.minlength.requiredLength }} -- effettiva {{ nome.errors.length}}  -->
+     <!--   <div class="form-group row lowertxt">
+                <label for="inputnome3"  class="col-sm-3 col-form-label">Nome</label>
+                <div class="col-sm-9">
+                <input type="text" name="nome" class="form-control lowertxt" id="inputnome3" placeholder="inserire il nome" [(ngModel)]="form.nome" required  minlength="5" maxlength="30" #nome="ngModel" ngModel >
+
+                <br>
+
+               <div  *ngIf="nome.dirty && nome.touched && nome.invalid" class="alert alert-danger">
+
+                         <div  *ngIf="nome.errors.required">
+                          il campo nome è obbligatorio
+                        </div>
+                        <div  *ngIf="nome.errors.minlength">
+                          il campo deve essere lungo più di {{ nome.errors.minlength.requiredLength }} caratteri
+                        </div>
+                        <div  *ngIf="name.errors.maxlength">
+                          il campo non deve essere lungo più di {{ nome.errors.maxlength.requiredLength }} caratteri
+                        </div>
+                  </div>
+              </div>
+         </div>   -->
+
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-sm-3 col-form-label">Email</label>
+          <div class="col-sm-9">
+            <input type="email" name="email" class="form-control lowertxt" id="inputEmail3" placeholder="Email" [(ngModel)]="form.email" required email #email="ngModel" ngModel>
+            <br>
+            <div *ngIf="email.dirty && email.touched && email.invalid">
+                    <div  *ngIf="email.errors.required"  class="alert alert-danger">
+                      il campo email è obbligatorio
+                    </div>
+                    <div *ngIf="email.errors?.email"  class="alert alert-danger">
+                      Email errata
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputtelefono3"  class="col-sm-3 col-form-label">telefono</label>
+          <div class="col-sm-9">
+            <input type="text" name="telefono" class="form-control" id="inputtelefono3" placeholder="telefono" [(ngModel)]="form.telefono" required #telefono="ngModel" minlength="10" maxlength="10" ngModel pattern="^[0-9]*$">
+            <br>
+            <div *ngIf="telefono.dirty && telefono.touched && telefono.invalid" class="alert alert-danger">
+                  <div  *ngIf="telefono.errors.required">
+                    il campo telefono è obbligatorio
+                  </div>
+                  <div  *ngIf="telefono.errors.pattern">
+                    il campo telefono deve contenere solo numeri
+                  </div>
+                  <div  *ngIf="telefono.errors.minlength">
+                    il campo deve essere lungo {{ telefono.errors.minlength.requiredLength }} caratteri
+                  </div>
+                  <div  *ngIf="telefono.errors.maxlength">
+                    il campo non deve essere lungo più di {{ telefono.errors.maxlength.requiredLength }} caratteri
+                  </div>
+            </div>
+          </div>
+        </div>
+        <!-- [1-9]{1,5} -->
+
+        <div class="form-group row">
+          <label for="persone" class="col-sm-3 col-form-label">Numero Persone</label>
+          <div class="col-sm-9">
+            <input type="text" name="persone" class="form-control" id="persone" placeholder="inserire il numero delle Persone" [(ngModel)]="form.persone" required #persone="ngModel" ngModel pattern="^([0-9]|[1-2][0-9]|3[0-3])$"><!--"^[1-9]*$"--->
+          <!--    <i (mouseup)="hide()" (mousedown) ="show()" class="fas fa-eye"></i>   -->
+              <br>
+              <div class="col-sm-10 alert alert-danger  has-error" *ngIf="persone.dirty && persone.touched && persone.invalid" >
+                    <div  *ngIf="persone.errors.required">
+                      il campo Numero Persone è obbligatorio
+                    </div>
+                    <div *ngIf="persone.errors?.pattern">
+                          inserire il numero delle persone
+                    </div>
+              </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="d_tipo"  class="col-sm-3 control-label ">tipi biglietti</label>
+          <div  class="col-sm-5 was-validated ">
+
+            <select [(ngModel)]="selectedtipobiglietto" ngModel name="d_tipo" id="d_tipo" class="custom-select" required (change)="selectedtipoBiglietto($event.target.value)">
+              <option value="99" disabled >Seleziona il tipo biglietto</option>
+              <option *ngFor="let tipobiglietto of tipibiglietto" [value]="tipobiglietto.id"  class="form-control"  >{{tipobiglietto.d_tipo}}&nbsp;Importo:&nbsp;{{tipobiglietto.importo | currency:'EUR'}}</option>
+            </select>
+            <div class="invalid-feedback">effettuare la scelta del tipo biglietto</div>
+          </div>
+        </div>
+        <br>
+
+        <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+            <p>{{Message}}</p>
+        </div>
+        <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+           <p>{{Message}}</p>
+        </div>
+
+        <hr>
+
+        <div class="form-group row">
+          <div class="col-sm-10 offset-3">
+            <div class="row">
+                <div class="col-sm-3">
+                  <button type="submit" class="btn btn-success btn-sm-2" (click)="nuovaPrenotazione()" >Nuova
+                    <fa-icon [icon]="faPlus"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+                <div class="col-sm-3">
+                  <button type="submit" class="btn btn-primary" [disabled]="!formRegistrazione.valid && visibleConferma === true ">Conferma
+                    <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+
+
+
+            </div>
+
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+

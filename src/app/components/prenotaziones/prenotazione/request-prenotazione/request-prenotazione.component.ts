@@ -90,10 +90,10 @@ export class RequestPrenotazioneComponent implements OnInit {
               }
 
   ngOnInit(): void {
-      console.log('request-prenotazione -----  onInit');
-      // recupero la manifestazione attiva per caricare le giornate
-      this.visibleConferma = true;
-     // this.manifAttiva(this.manifActive);
+    console.log('request-prenotazione -----  onInit');
+    // recupero la manifestazione attiva per caricare le giornate
+    this.visibleConferma = true;
+   // this.manifAttiva(this.manifActive);
 
   }
 

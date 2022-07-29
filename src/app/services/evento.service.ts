@@ -72,7 +72,7 @@ export class EventoService {
 
       getbyStato(stato: number) {
 
-        this.rottafunction = '/getbyStato';
+        this.rottafunction = 'getbyStato';
         return this.http.get(this.APIURL + '/' + this.rottafunction  + '/' + stato,  {
                 headers: this.getAuthHeader()
               });      // ok;
@@ -81,11 +81,19 @@ export class EventoService {
 
 
     getbyIdManif(id: number) {
-      this.rottafunction = '/getbymanif';
+      this.rottafunction = 'getbymanif';
       return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id, {
         headers: this.getAuthHeader()
       });
     }
+
+    getActivebyIdManif(id: number) {
+      this.rottafunction = 'getbymanif/Active';
+      return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id, {
+        headers: this.getAuthHeader()
+      });
+    }
+
 
 
     createEvento(stato: boolean){

@@ -33,9 +33,9 @@
       </div>
       <hr>
       <div class="row">
-        <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
-        <div class=" col-md-6">
-          <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"   style="text-transform : uppercase">
+        <label for="descrizione" class="col-sm-1 col-form-label">Evento</label>
+        <div class=" col-md-4">
+          <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"   style="text-transform : uppercase">{{evento.id}}
         </div>
         <div class=" col-md-2">
     <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
@@ -43,6 +43,15 @@
               <input disabled #d_stato_evento="ngModel"  [(ngModel)]="evento.d_stato_evento" class="form-control" name="d_stato_evento" id="d_stato_evento" [style.color]="evento.stato == 2 ? 'red' : 'white'"  [style.background-color]="evento.stato == 2 ? 'yellow' : 'red'">
             </div>
           </div>
+          <div class=" col-md-2">
+            <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+                    <div>
+                      <input disabled #d_stato_evento_posto="ngModel"  [(ngModel)]="evento.d_stato_evento_posto" class="form-control" name="d_stato_evento_posto" id="d_stato_evento_posto" [style.color]="evento.statoposti == 1 ? 'red' : 'white'"  [style.background-color]="evento.stato == 1 ? 'yellow' : 'red'">
+                    </div>
+            </div>
+
+
+
       </div>
       <br>
       <div class="row">
@@ -57,9 +66,17 @@
             </div>
           </div>
       </div>
-
       <br>
-
+      <br>
+      <!-- bottone per registrazione -->
+     <div class="row col-sm-6">
+            <div class="col-sm-5">
+                 <button  class="btn btn-primary btn-rounded"  (click)="registra()">Registrazione
+                   <fa-icon [icon]="faPlusSquare"  fixed="true"></fa-icon>
+                  </button>
+            </div>
+      </div>
+      <br>
       </form>
     </div>
    </div>
@@ -79,24 +96,22 @@
   <!-- riga per filtro di ricerca -->
   <div>
       <div class="row">
-          <div class="col-sm-4 col-md-8">
+          <div class="col-sm-4">
             <div class="form-check form-check-inline" *ngFor="let option of options; index as idx">
               <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option" (change)="onSelectionChange(option)">&nbsp;&nbsp; {{option}}
             </div>
           </div>
-          tot {{tot}}<br>
-          tok {{tok}}<br>
-          tko {{tko}}<br>
-          <div class="col-sm-3" *ngIf="tot != 0  || tok == tot">
-            <label  class="col-sm-3 col-form-label"><strong>tutte le risorse utilizzate</strong></label>
+
+          <div class="col-sm-3 postiFull" *ngIf="tot != 0  && tok == tot">
+            <label  class="col-form-label"><strong>tutte le risorse utilizzate</strong></label>
           </div>
-          <div class="col-sm-3" *ngIf="tko != 0" #tko="ngModel"  [ngModel]="tko">
-            <label  class="col-sm-3 col-form-label"><strong>effettuate limitazioni</strong></label>
+          <div class="col-sm-3 postiMinus" *ngIf="tko != 0" #tko="ngModel"  [ngModel]="tko">
+            <label  class="col-form-label"><strong>effettuate limitazioni</strong></label>
           </div>
 
 
 
-          <div *ngIf="trovatoRec"  class="col-6 col-md-4">
+          <div *ngIf="nRec !=0"  class="col-2">
             <strong>Record trovati:</strong>&nbsp;&nbsp; {{nRec}}
           </div>
       </div>
@@ -132,6 +147,32 @@
         </tbody>
        </table>
        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+       <br>
+       <!-- Bottoni funzionali -->
+<div class="footer" >
+  <div class="row col-sm-10 offset-2">
+
+
+    <div class="col-sm-3" *ngIf="evento.statoposti == 0">
+      <button  class="btn btn-success btn-md " (click)="rilascia()">Rilascia
+        <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+      </button>
+    </div>
+    <!--
+    <div class="col-sm-3">
+      <button [disabled]="fm.invalid" class="btn btn-danger btn-md "  (click)="open(content)"> Cancella
+        <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+      </button>
+    </div>  -->
+    <div class="col-sm-3" >
+      <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+        <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<br>
+<hr>
        <div class="form-row">
         <div class="col-md-12">
            <!-- messaggi -->
