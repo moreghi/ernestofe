@@ -1,7 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+// Service
 import { UserService} from '../../../services/user.service';
+import { UserlevelService } from '../../../services/userlevel.service';
+// Model Component
 import { User} from '../../../classes/User';
+import { Userlevel } from '../../../classes/UserLevel';
 import { faUserEdit, faTrash, faInfo, faInfoCircle, faWindowClose, faSave } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 // per gestire il popup con esito operazione
@@ -19,6 +23,10 @@ export class UserComponent implements OnInit {
 @Input('user-data') user: User;
 @Input('user-prog') i: number;
 @Input('functionUser') functionUser: string;
+
+
+public userlevel: Userlevel;
+
 
  // icone
 faUserEdit = faUserEdit;
@@ -69,6 +77,7 @@ public nRec = 0;
 
 constructor(private modalService: NgbModal,
             private userService: UserService,
+            private userlevelService: UserlevelService,
             private route: Router,
             private notifier: NotifierService) {
               this.notifier = notifier;
@@ -84,10 +93,28 @@ ngOnInit(): void {
 //   this.textUser = this.messa.demessa;
    this.textMessage2 = 'Registrazione non possibile';
 
+   this.loadUserlevel(this.user.idLevel);
   // this.loadManifestazioni();
 
 }
 
+async loadUserlevel(id: number) {
+  console.log('frontend-----user - loadUserLevel: ' + id);
+  let rc = await  this.userlevelService.getbyId(id).subscribe(
+     response => {
+      if(response['rc'] === 'ok') {
+        this.userlevel = response['data'];
+      }
+    },
+    error => {
+       alert('loadUserlevel: ' + error.message);
+       console.log(error);
+       this.alertSuccess = false;
+       this.Message = error.message;
+       this.showNotification( this.type, this.Message);
+    });
+
+}
 
 editUserDetail(user) {
   this.function = parseInt(localStorage.getItem('user_ruolo'));
@@ -123,7 +150,7 @@ navigate(pathNavigate: string, user: User) {
   }
 }
 
-open(content) {
+open(content, user: User) {
   this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
     this.closeResult = `Closed with: ${result}`;
     // alert('controllo la modalità di chiusura della popup - chiusura su tasto save: ' + result);
@@ -132,7 +159,7 @@ open(content) {
     }
     if(result ===  'Delete click') {
       // gestire uscita da popup
-      this.cancella(this.user);
+      this.cancella(user);
     }
   }, (reason) => {
     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -197,6 +224,22 @@ showNotification( type: string, message: string ): void {
 
 
 
+getColor(livello) {
+  switch (livello) {
+    case -1:
+      return 'red';
+    case 0:
+      return 'blue';
+    case 1:
+      return 'green';
+    case 2:
+      return 'orange';
+    case 99:
+      return 'violet';
+    default:
+     return 'yellow';
+  }
+}
 
 }
 

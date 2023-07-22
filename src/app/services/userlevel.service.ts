@@ -70,7 +70,7 @@ updateUser(data:any,id:any):Observable<any> {
   });
 }
 
-  getbyId(id: number):Observable<any>  {
+getbyId(id: number):Observable<any>  {
     console.log('userService ------ lettura singolo Utente: ' + id);
 
     return this.http.get(this.apiUrl + '/' + id, {
@@ -79,5 +79,10 @@ updateUser(data:any,id:any):Observable<any> {
 
   }
 
+ 
+  }
 
-}
+
+
+
+

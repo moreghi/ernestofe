@@ -6,31 +6,167 @@
 https://media.geeksforgeeks.org/wp-content/uploads/20200914000601/gfg-300x200.jpg
  );"-->
 
-  <div class="jumbotron text-white jumbotron-image shadow"
-        style="background-image: url(
-assets/images/logoBG_quadrato.jpg
- );"
-
- >
-        <br>
-        <!--
-        <h2 class="mb-4 marginline1">
-            Benvenuti su  ... Bandiera Gialla
-        </h2>
-
-        <p class="mb-4 marginline2">
-            venite a scoprire chi siamo
-        </p>   -->
-
-        <div class="form-group  paddingx">
-          <a  routerLink="/login" class="btn btn-primary float-right">
-            login
-          </a>
-          &nbsp;
-
+<!--  quando image era su frontend   style="background-image: url(assets/images/logoBGquadratolite.jpg);  width: 500px; height: 200px; text-align: center;">  -->
+  <div class="row">
+        <div class="jumbotron text-white jumbotron-image shadow col-md-8 offset-2"
+             style="background-image: url(assets/images/logoBGquadratolite.jpg);  width: 500px; height: 200px; text-align: center;">
+        </div>
+        <div class=" col-md-1">
+          <a  routerLink="/login" class="btn btn-primary float-right">login</a>
+        </div>
+        <div class=" col-md-1">
           <a routerLink="/home" class="btn btn-info float-right">Main</a>
+        </div>
+  </div>
+  <br>
+  <hr>
+  <br>
 
+
+  <div class="row">
+    <div class="col-md-2">
+      <div class="card" style="width: 13rem;">
+        <img src="{{pathimageSoci}}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <a routerLink="/socio" class="btn btn-primary">Soci</a>
+        </div>
+        <ol class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold">anno Prec.</div>
+            </div>
+            <span class="badge bg-primary rounded-pill">{{tessereannoprev}}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold">anno att.</div>
+           </div>
+            <span class="badge bg-primary rounded-pill">{{tessereannoactual}}</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card" style="width: 14rem;">
+        <img src="{{pathimageManifestazioni}}" class="card-img-top" alt="...">
+
+        <div class="card-body">
+          <button class="btn btn-success btn-sm" [disabled]="!manifactive" (click)="viewmanifactive()">
+            Manifestazioni
+          </button>
+        </div>
+        <ol class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold">Attive</div>
+
+            </div>
+            <span class="badge bg-primary rounded-pill">{{manifActive}}</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="col-md-7">
+
+      <div class="row">
+
+        <div class=" col-md-4" *ngIf="activemanif1  === true">
+          <div class="card" >
+            <img src="{{pathimageManifestazioni1}}" class="card-img-top" alt="..." width="250" height="150">
+            <br>
+            <div class="fw-bold titleManif" style="text-align: center;">{{nameManifestazione1}}</div>
+            <div >{{tipoEv1}} -- {{nEvento1}}</div>
+            <div class="card-body">
+              <button class="btn btn-success btn-sm textgm"  (click)="Prenota(tipoEv1,nEvento1, nManif1, numEventi1)">Prenota</button>
+              &nbsp;&nbsp;
+              <span class="badge bg-primary rounded-pill">{{numEventi1}}</span>
+            </div>
+
+          </div>
         </div>
 
+        <div class=" col-md-4"  *ngIf="activemanif2  === true">
+              <div class="card" >
+                <img src="{{pathimageManifestazioni2}}" class="card-img-top" alt="..."  width="250" height="150">
+                <br>
+                <div class="fw-bold titleManif"  style="text-align: center;">{{nameManifestazione2}}</div>
+                <div hidden>{{tipoEv2}} -- {{nEvento2}}</div>
+                <div class="card-body">
+                  <button class="btn btn-success btn-sm"  (click)="Prenota(tipoEv2,nEvento2, nManif2, numEventi2)">Prenota</button>
+                  &nbsp;&nbsp;
+                  <span class="badge bg-primary rounded-pill">{{numEventi2}}</span>
+                </div>
+
+              </div>
+        </div>
+        <div class=" col-md-4"  *ngIf="activemanif3  === true">
+              <div class="card">
+                <img src="{{pathimageManifestazioni3}}" class="card-img-top" alt="..."  width="250" height="150" >
+                <br>
+                <div class="fw-bold titleManif"  style="text-align: center;">{{nameManifestazione3}}</div>
+                <div hidden>{{tipoEv3}} -- {{nEvento3}}</div>
+                <div class="card-body">
+                  <button class="btn btn-success btn-sm"  (click)="Prenota(tipoEv3,nEvento3, nManif3, numEventi3)">Prenota</button>
+                  &nbsp;&nbsp;
+                  <span class="badge bg-primary rounded-pill">{{numEventi3}}</span>
+                </div>
+              </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class=" col-md-4"  *ngIf="activemanif4  === true">
+          <div class="card" style="width: 14rem;">
+            <img src="{{pathimageManifestazioni4}}" class="card-img-top" alt="...">
+            <br>
+            <div class="fw-bold titleManif" style="text-align: center;">{{nameManifestazione4}}</div>
+            <div hidden>{{tipoEv4}} -- {{nEvento4}}</div>
+              <div class="card-body">
+                <button class="btn btn-success btn-sm"  (click)="Prenota(tipoEv4, vnEvento4, nManif4, numEventi4)">Prenota</button>
+                &nbsp;&nbsp;
+                <span class="badge bg-primary rounded-pill">{{numEventi4}}</span>
+              </div>
+          </div>
+        </div>
+        <div class=" col-md-4"  *ngIf="activemanif5  === true">
+            <div class="card" style="width: 14rem;">
+              <img src="{{pathimageManifestazioni5}}" class="card-img-top" alt="...">
+              <br>
+              <div class="fw-bold titleManif" style="text-align: center;">{{nameManifestazione5}}</div>
+              <div hidden>{{tipoEv5}} -- {{nEvento5}}</div>
+                <div class="card-body">
+                  <button class="btn btn-success btn-sm"  (click)="Prenota(tipoEv5,nEvento5, nManif5, numEventi5)">Prenota</button>
+                  &nbsp;&nbsp;
+                  <span class="badge bg-primary rounded-pill">{{numEventi5}}</span>
+                </div>
+            </div>
+        </div>
+       <div class=" col-md-4"  *ngIf="activemanif6  === true">
+            <div class="card" style="width: 14rem;">
+              <img src="{{pathimageManifestazioni6}}" class="card-img-top" alt="...">
+              <br>
+              <div class="fw-bold titleManif" style="text-align: center;">{{nameManifestazione6}}</div>
+              <div hidden>{{tipoEv6}} -- {{nEvento6}}</div>
+                <div class="card-body">
+                  <button class="btn btn-success btn-sm"  (click)="Prenota(tipoEv6,nEvento6, nManif6, numEventi6 )">Prenota</button>
+                  &nbsp;&nbsp;
+                  <span class="badge bg-primary rounded-pill">{{numEventi6}}</span>
+                </div>
+            </div>
+        </div>
+
+      </div>
+
+
+
+
+
     </div>
+
+
+
+
+  </div>
+
+
 </div>

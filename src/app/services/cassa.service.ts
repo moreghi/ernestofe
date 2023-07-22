@@ -65,29 +65,36 @@ constructor(private http: HttpClient, private auth: AuthService) { }
 
 
          create(cassa: Cassa){
+          console.log('frontend ------------------------  cassaService: ' + JSON.stringify(cassa));
           this.rottafunction = 'create';
           return this.http.post(this.APIURL + '/' + this.rottafunction, cassa,  {
             headers: this.getAuthHeader()
           });
         }
 
-        getbydata(datacassa: string) {
+        getbydata(datacassa: string, idEvento: number) {
           this.rottafunction = 'getbycassa/cassa';
-          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + datacassa,  {
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + datacassa+ '/' + idEvento,  {
             headers: this.getAuthHeader()
           });
 
         }
 
-        getlastdata() {
+        getlastdata(idEvento: number) {
           this.rottafunction = 'getbycassa/lastdata';
-          return this.http.get(this.APIURL + '/' + this.rottafunction,  {
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + idEvento,  {
             headers: this.getAuthHeader()
           });
 
         }
 
 
+        getAllDaybyEvento(id: number) {
+          this.rottafunction = 'day/All/Evento';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id, {
+            headers: this.getAuthHeader()
+          });
+        }
 
 }
 

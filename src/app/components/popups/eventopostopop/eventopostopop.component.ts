@@ -209,7 +209,7 @@ async  inserisciEventoPosto() {
     this.eventoPosto = new EventoPosto();
     this.eventoPosto.stato = 1;
     this.eventoPosto.id = this.selectedidPosto;
-    this.eventoPosto.keyuserpren = this.selectedUser.keyuserpren;
+    this.eventoPosto.token = this.selectedUser.token;
     this.eventoPosto.idEvento = this.selectedUser.idEvento;
     this.eventoPosto.idlogistica = this.selectedUser.idlogistica;
     this.eventoPosto.idSettore = this.selectedSettore;

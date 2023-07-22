@@ -5,7 +5,86 @@
   <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
      <div >
       <form #fm ="ngForm">
-        <input Hidden #id="ngModel"  [(ngModel)]="biglietto.id" class="form-control" name="id" id="id">
+
+        <input #id="ngModel"  [(ngModel)]="eventoposto.id" class="form-control" name="id" id="id">
+
+
+
+
+        cassa.cassaIniziale:{{cassa.cassaIniziale}}<br>
+        <!--  cassa  -->
+<div class="row">
+  <div class="col-md-2">Cassa del:</div>
+  <div class="col-md-1">
+    <label  class="col-sm-2 col-form-label">{{cassa.datacassa}}</label>
+  </div>
+  <div class="col-md-1" *ngIf="presentaCassa === false">
+    <button  class="btn btn-info btn-md "  (click)="openCassa()"> Apri
+      <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+    </button>
+  </div>
+  <div class="col-md-1" *ngIf="presentaCassa === true">
+    <button  class="btn btn-info btn-md "  (click)="modificaCassa()"> Modifica
+      <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+    </button>
+  </div>
+  <div class="col-md-1" *ngIf="presentaCassa === true">
+    <button  class="btn btn-info btn-md "  (click)="chiudiCassa()"> Chiudi
+      <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+    </button>
+  </div>
+  <div class=" col-md-1"  *ngIf="presentaCassa === false && openNewCassa === true || presentaCassa === true && modifyCassa === true">
+    <!--<input #importo="ngModel"  [(ngModel)]="cassa.cassaIniziale" class="form-control" name="importo" id="importo" > -->
+
+    <input #cassaIniziale="ngModel"  [(ngModel)]="cassa.cassaIniziale" class="form-control" name="cassaIniziale" id="cassaIniziale" required placeholder="Cassa" >  <!--   pattern="[0-9a-zA-Z\s]*"-->
+
+
+  </div>
+  <br>
+  <!--
+  <div *ngIf="cassaIniziale.invalid && (cassaIniziale.dirty || cassaIniziale.touched)" class="alert-danger">
+     <div *ngIf="cassaIniziale.errors.required" class="alert-danger">
+        <span>importo è obbligatorio</span>
+    </div>
+    <div *ngIf="cassaIniziale < 0" class="alert-danger">
+      <span>importo deve essere maggiore di zero</span>
+    </div>
+    <div *ngIf="cassaIniziale.errors?.pattern" class="alert-danger">
+      <span>importo errato</span>
+    </div>
+  </div>   -->
+  <div class=" col-md-1"  *ngIf="chiusuraCassa === true">
+    <input #cassafine="ngModel"  [(ngModel)]="cassa.cassaFinale" class="form-control" name="cassafine" id="cassafine" >
+  </div>
+  <div class="col-md-1" *ngIf="presentaCassa === false && openNewCassa === true ">  <!--  || -->
+    <button  class="btn btn-success btn-md"  (click)="GestisciCassaIniziale(cassa)"> Conferma
+      <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+    </button>
+  </div>
+  <div class="col-md-1" *ngIf="presentaCassa === true && modifyCassa === true ">  <!--  || presentaCassa === true && modifyCassa === true-->
+    <button  class="btn btn-success btn-md"  (click)="GestisciCassaIniziale(cassa)"> Conferma1
+      <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+    </button>
+  </div>
+  <div class="col-md-1" *ngIf="chiusuraCassa === true">
+    <button  class="btn btn-success btn-md" *ngIf="presentaCassa === false && openNewCassa === true || presentaCassa === true && modifyCassa === true"  (click)="GestisciCassaFinale(cassa)"> Conferma
+      <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+    </button>
+  </div>
+</div>
+<br>
+<!--  Evento  -->
+
+
+
+
+
+
+
+presentaCassa: {{presentaCassa}}<br>
+openNewCassa: {{openNewCassa}}<br>
+modifyCassa: {{modifyCassa}}<br>
+
 
       <div class="row">
         <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
@@ -32,18 +111,16 @@
             </div>
           </div>
       </div>
-
       <hr>
       <div class="row">
         <label for="cognome"  class="col-sm-2 col-form-label">Utente</label>
         <div class="col-sm-4">
-          <input type="text" disabled class="form-control lowertxt" id="cognome" [(ngModel)]="biglietto.cognome" #cognome="ngModel" name="cognome" ngModel  style="text-transform : uppercase" >
+          <input type="text" disabled class="form-control lowertxt" id="cognome" [(ngModel)]="eventoposto.cognome" #cognome="ngModel" name="cognome" ngModel  style="text-transform : uppercase" >
         </div>
          <div class="col-sm-4">
-          <input type="text" disabled class="form-control lowertxt" id="nome" [(ngModel)]="biglietto.nome" #nome="ngModel" name="nome" ngModel  style="text-transform : uppercase" >
+          <input type="text" disabled class="form-control lowertxt" id="nome" [(ngModel)]="eventoposto.nome" #nome="ngModel" name="nome" ngModel  style="text-transform : uppercase" >
         </div>
       </div>
-
       <hr>
       <div class="row">
         <label for="settore"  class="col-sm-2 col-form-label">Posto</label>
@@ -55,7 +132,7 @@
         </div>
         <label for="posto"  class="col-sm-1 col-form-label">Posto</label>
         <div class="col-sm-1">
-          <input type="text" disabled class="form-control" id="posto" [(ngModel)]="biglietto.posto" #posto="ngModel" name="posto" ngModel>
+          <input type="text" disabled class="form-control" id="posto" [(ngModel)]="eventoposto.idPosto" #posto="ngModel" name="posto" ngModel>
         </div>
       </div>
       <br>
@@ -64,9 +141,9 @@
         <div class="col-sm-2">
           <input type="text" disabled class="form-control lowertxt" id="tipob" [(ngModel)]="tipobiglietto.d_tipo" #tipob="ngModel" name="tipob" ngModel  style="text-transform : uppercase" >
         </div>
-        <label for="importo"  class="col-sm-2 col-form-label">Importo</label>
+        <label for="impo"  class="col-sm-2 col-form-label">Importo</label>
         <div class="col-sm-1">
-          <input type="text" disabled class="form-control lowertxt" id="importo" [(ngModel)]="tipobiglietto.importo " #importo="ngModel" name="importo" ngModel >
+          <input type="text" disabled class="form-control" id="impo" [(ngModel)]="tipobiglietto.importo" #impo="ngModel" name="impo" ngModel >
         </div>
       </div>
       <br>
@@ -97,80 +174,56 @@
           <input  disabled [(ngModel)]="biglietto.id" #numbiglietto="ngModel" class="form-control"  name="numbiglietto" id="numbiglietto">
     </div>
 
-</div>
-<br>
-
-
-
-
-
-
-
-
-      <div class="footer" >
-        <div class="row col-sm-10 offset-2">
-
-          <div class="col-sm-3" >
-            <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
-              <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
-            </button>
-          </div>
-        </div>
-      </div>
-
-
+     </div>
 
         <!--  fine personaizzazione  -->
+        <br>
+<!--
+        <div class="row col-md-12">
 
+          <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+
+               <p>{{Message}}</p>
+               <hr>
+             </div>
+             <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+
+               <p>{{Message}}</p>
+             </div>
+        </div>  -->
 
 
 
         <br>
-        <div class="form-row col-md-12">
-          <div class="row col-md-12">
+        <div class="footer" >
+          <div class="row col-sm-10 offset-2">
 
-             <div class="form-row">
-              <div class="col-md-12">
-                 <!-- messaggi -->
-                <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
-                  <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
-                        <div class="col md-12">
-                          <p>{{Message}}</p>
-                        </div>
-                 </div>
-                 <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
-                   <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
-                        <div class="col md-12">
-                          <p>{{Message}}</p>
-                        </div>
-                  </div>
-                </div>
-             </div>
+            <div class="col-sm-3" >
+              <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+                <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+              </button>
+            </div>
           </div>
         </div>
-
-
-
-
       </form>
     </div>
    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </div>
 
+<div class="row col-md-12">
+  Message: {{Message}}<br>
+  alertSuccess: {{alertSuccess}}<br>
+  isVisible: {{isVisible}}
+  <!-- messaggi -->
+    <div *ngIf="!alertSuccess && isVisible === true" class="alert alert-danger" role="alert">
+      <p>{{Message}}</p><br>
+      <p>{{Message1}}</p>
+     </div>
+     <div *ngIf="alertSuccess === true && isVisible === true" class="alert alert-success" role="alert">
+        <p>{{Message}}</p><br>
+        <p>{{Message1}}</p>
+     </div>
+</div>
 
 
 
@@ -296,9 +349,6 @@
 </div>
 
 -->
-
-
-
 
 
 

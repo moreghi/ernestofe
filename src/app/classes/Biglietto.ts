@@ -8,6 +8,7 @@ export class Biglietto implements BigliettoInterface {
   stato: number;
   tipo: number;
   numero: number;
+  importo: number;
   cognome: string;
   nome: string;
   email: string;
@@ -31,6 +32,7 @@ export class Biglietto implements BigliettoInterface {
     this.stato = 0;
     this.tipo = 0;
     this.numero = 0;
+    this.importo = 0;
     this.cognome = '';
     this.nome = '';
     this.email = '';

@@ -43,6 +43,8 @@ import { DatePipe } from '@angular/common';
 })
 export class BigliettoDetailComponent implements OnInit {
 
+  NgForm=NgForm;//this one solve my problem...initialization and declaration
+
   public title = 'Emissione Biglietto da prenotazione';
   public error = [];
 
@@ -81,9 +83,9 @@ export class BigliettoDetailComponent implements OnInit {
 
 
   options = [
-    'Nessuno',
     'Contanti',
-    'Pos'
+    'Bonifico',
+    'Elettronico'
   ];
 
 
@@ -101,7 +103,12 @@ export class BigliettoDetailComponent implements OnInit {
   public numerobigliettoedit = '';
   public bigliettoemesso = false;
   public lencampo = 0;
-
+  public presentaCassa = false;
+  public openNewCassa = false;
+  public modifyCassa = false;
+  public chiusuraCassa = false;
+  public Message1 = 'messaggio di mersa'
+  public cassaInizialeimporto = 0;
 
   constructor(private prenotazeventoService: PrenotazeventoService,
               private manifestazioneService: ManifestazioneService,
@@ -130,32 +137,46 @@ export class BigliettoDetailComponent implements OnInit {
   }
 
   goApplication() {
+
     console.log('goApplication - biglietto-detail --------  appena entrato');
     this.resetinitial();
     this.route.paramMap.subscribe(p => {
     this.idpassed = +p.get('id');
     console.log('id recuperato: ' + this.idpassed);
-    this.loadBiglietto(this.idpassed);
-    this.Message = 'situazione attuale biglietto';
+    this.loadEventoPosto(this.idpassed);
+
+    this.Message = 'pronto per acquisto biglietto';
     });
 }
 
 resetinitial() {
+    this.cassa = new Cassa();
+    this.cassa.cassaIniziale = 99;
+
     this.isVisible = true;
     this.alertSuccess = true;
+    this.openNewCassa = false;
+    this.modifyCassa = false;
+    this.chiusuraCassa = false;
+
+    const date = Date();
+    this.dataOdierna = new Date(date);
+    this.datadioggi =  this.datePipe.transform(this.dataOdierna, 'dd-MM-yyyy');
 }
 
-async loadBiglietto(id: number) {
+async loadEventoPosto(id: number) {
   console.log('frontend - loadPrenotazEvento: ' + id);
-  let rc = await  this.bigliettoService.getbyId(id).subscribe(
+  let rc = await  this.eventopostoService.getbyId(id).subscribe(
     response => {
         if(response['rc'] === 'ok') {
-          this.biglietto = response['data'];
-          this.loadEvento(this.biglietto.evento);
-          this.loadSettore(this.biglietto.settore);
-          this.loadFila(this.biglietto.fila);
-          this.loadtipoBiglietto(this.biglietto.tipo);
-          this.loadtipopagamento(this.biglietto.modpag);
+          this.eventoposto = response['data'];
+          this.loadEvento(this.eventoposto.idEvento);
+          if(this.eventoposto.idSettore > 0) {
+            this.loadSettore(this.eventoposto.idSettore);
+            this.loadFila(this.eventoposto.idFila);
+          }
+          this.loadCassadelGiorno(this.datadioggi, this.eventoposto.idEvento);
+          this.loadtipoBiglietto(this.eventoposto.tipobiglietto);
        }
     },
     error => {
@@ -169,6 +190,153 @@ async loadBiglietto(id: number) {
     });
 }
 
+openCassa() {
+  this.openNewCassa = true;
+}
+
+
+modificaCassa() {
+  this.openNewCassa = false;
+  this.chiusuraCassa = false;
+  this.modifyCassa = true;
+}
+
+chiudiCassa() {
+  this.openNewCassa = false;
+  this.modifyCassa = false;
+  this.chiusuraCassa = true;
+
+}
+
+handleFocus(evento: any) {
+  alert(' sono in focus')
+}
+handleBlur(evento: any) {
+  alert(' sono uscito dal focus')
+}
+
+GestisciCassaIniziale(cassa: Cassa) {
+  console.log('GestisciCassaIniziale ................ : appena entrato ----------  ' + JSON.stringify(cassa));
+return;
+
+  // apertura cassa
+  if(this.presentaCassa === false) {
+    if(cassa.cassaIniziale < 0) {
+      this.isVisible = true;
+      this.alertSuccess = false;
+      this.type = 'error';
+      this.Message = 'inserire un valore Maggiore di zero';
+      this.showNotification(this.type, this.Message);
+      return;
+    } else {
+      this.RegistraCassaIniziale(cassa.cassaIniziale);
+    }
+  }
+}
+
+
+GestisciCassaFinale(cassa: Cassa) {
+console.log('GestisciCassaFinale: appena entrato ----------  ' + JSON.stringify(cassa));
+
+  // apertura cassa
+    if(this.presentaCassa === true) {
+      if(cassa.cassaFinale < 0) {
+        this.isVisible = true;
+        this.alertSuccess = false;
+        this.type = 'error';
+        this.Message = 'inserire un valore Maggiore di zero';
+        this.showNotification(this.type, this.Message);
+        return;
+      } else {
+        this.RegistraCassaFinale(cassa.cassaFinale);
+      }
+    }
+  }
+
+
+  async RegistraCassaFinale(importo: number) {
+    console.log('frontend - RegistraCassaFinale: ' + importo);
+    this.cassa.cassaFinale = importo;
+    this.cassa.stato = 2;
+    let rc = await  this.cassaService.create(this.cassa).subscribe(
+    response => {
+        if(response['rc'] === 'ok') {
+          this.presentaCassa = true;
+          this.isVisible = true;
+          this.alertSuccess = true;
+          this.type = 'success';
+          this.Message = 'Cassa giornaliera Chiusa correttamente ';
+          this.showNotification(this.type, this.Message);
+          }
+     },
+    error => {
+        alert('loadCassadelGiorno: ' + error.message);
+        this.isVisible = true;
+        this.alertSuccess = false;
+        this.type = 'error';
+        this.Message = 'Errore loadCassadelGiorno' + '\n' + error.message;
+        this.showNotification(this.type, this.Message);
+        console.log(error);
+    });
+  }
+
+
+async RegistraCassaIniziale(importo: number) {
+  console.log('frontend - RegistraCassaIniziale: ' + importo);
+  this.cassa.datacassa = this.datadioggi;
+  this.cassa.idEvento = this.eventoposto.idEvento;
+  this.cassa.cassaIniziale = importo;
+  this.cassa.stato = 1;
+  let rc = await  this.cassaService.create(this.cassa).subscribe(
+  response => {
+      if(response['rc'] === 'ok') {
+        this.presentaCassa = true;
+        this.isVisible = true;
+        this.alertSuccess = true;
+        this.type = 'success';
+        this.Message = 'Cassa giornaliera aperta correttamente ';
+        this.showNotification(this.type, this.Message);
+        }
+   },
+  error => {
+      alert('loadCassadelGiorno: ' + error.message);
+      this.isVisible = true;
+      this.alertSuccess = false;
+      this.type = 'error';
+      this.Message = 'Errore loadCassadelGiorno' + '\n' + error.message;
+      this.showNotification(this.type, this.Message);
+      console.log(error);
+  });
+}
+
+
+
+
+
+async loadCassadelGiorno(datadioggi: string, idEvento: number) {
+  console.log('frontend - loadCassadelGiorno: ' + datadioggi + ' evento: ' + idEvento);
+  let rc = await  this.cassaService.getbydata(datadioggi,idEvento).subscribe(
+  response => {
+      if(response['rc'] === 'ok') {
+        this.cassa = response['data'];
+        this.presentaCassa = true;
+       }
+       if(response['rc'] === 'nf') {
+      //  this.cassa = new Cassa();
+        this.cassa.datacassa =  this.datadioggi;
+        this.presentaCassa = false;
+       }
+  },
+  error => {
+      alert('loadCassadelGiorno: ' + error.message);
+      this.isVisible = true;
+      this.alertSuccess = false;
+      this.type = 'error';
+      this.Message = 'Errore loadCassadelGiorno' + '\n' + error.message;
+      this.showNotification(this.type, this.Message);
+      console.log(error);
+  });
+}
 
 async loadEvento(id: number) {
   console.log('frontend - loadEvento: ' + id);

@@ -1,0 +1,303 @@
+<div class="container ">
+  <div class="header_Edit title_Edit" >
+      <strong>{{title}}</strong>
+  </div>
+ <br>
+
+
+  <div >
+    <div class="col-md-auto">
+      <form #fm ="ngForm"  method="POST">
+        <input  hidden #id="ngModel"  [(ngModel)]="wprenotazevento.id" class="form-control" name="id" id="id">
+        <input  hidden #token="ngModel"  [(ngModel)]="wprenotazevento.token" class="form-control" name="token" id="token">
+
+     <!--   <input  #key_utenti_operation="ngModel"  [(ngModel)]="evento.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation"> -->
+
+
+<!--
+     wprenotazevento: {{ wprenotazevento | json}}<br>
+     evento: {{ evento | json}}<br>
+     eventoPosto: {{eventoPosto |json}}<br>
+     wEventoTagliaBiglietto: {{wEventoTagliaBiglietto | json}}<br> -->
+
+
+<div class="form-row">
+  <div class="form-group col-sm-12">
+    <div class="row">
+        <label for="descrizione" class="col-sm-1 col-form-label">Evento</label>
+        <div class=" col-md-5">
+          <input disabled type="text" #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione" style="text-transform : uppercase">
+        </div>
+         <!-- data evento -->
+         <div class=" col-md-2">
+         <!-- <input disabled type="text" #data="ngModel"  [(ngModel)]="evento.data  " class="form-control" name="data" id="data" >  -->
+          <input  disabled [ngModel]="evento.data | date:'dd/MM/yyyy'" #dataev="ngModel" class="form-control"  name="dataev" id="dataev">
+        </div>
+           <!-- Posti Disponibili -->
+           <label for="disponibili" class="col-sm-2 col-form-label">Posti Disponibili</label>
+           <div class=" col-md-1">
+            <input disabled type="text" #disponibili="ngModel"  [(ngModel)]="evento.npostiDisponibili " class="form-control" name="disponibili" id="disponibili" >
+           </div>
+        <br>
+    </div>
+  </div>
+</div>
+
+<!--   esempio pr editazione numero
+
+https://stackblitz.com/edit/decimal-pipe-comma-separator-example-arg?file=app%2Fapp.component.html
+-->
+
+
+
+<hr>
+<!--  Riferimento -->
+<!--  ptima riga -->
+<div class="form-row">
+<div class="form-group col-sm-12">
+  <div class="row">
+      <label for="cognome" class="col-sm-2 col-form-label" style="color:red;">Riferimento</label>
+      <div class=" col-md-4">
+        <input disabled type="text" #cognome="ngModel"  [(ngModel)]="wprenotazevento.cognome" class="form-control" name="cognome" id="cognome"  style="text-transform : uppercase">
+      </div>
+      <!-- data evento -->
+      <div class=" col-md-3">
+        <input disabled type="text" #nome="ngModel"  [(ngModel)]="wprenotazevento.nome" class="form-control" name="nome" id="nome"  style="text-transform : uppercase">
+      </div>
+      <br>
+  </div>
+</div>
+</div>
+<br>
+<!--  seconda riga -->
+<div class="form-row">
+<div class="form-group col-sm-12">
+<div class="row">
+    <label for="email" class="col-sm-2 col-form-label" ></label>
+    <div class=" col-md-4">
+      <input disabled type="email" #email="ngModel"  [(ngModel)]="wprenotazevento.email" class="form-control" name="email" id="email"  >
+    </div>
+    <!-- cellulare -->
+    <div class=" col-md-3">
+      <input disabled type="email" #telefono="ngModel"  [(ngModel)]="wprenotazevento.telefono" class="form-control" name="telefono" id="telefono"  >
+    </div>
+    <br>
+</div>
+</div>
+</div>
+<hr>
+
+
+    <!--  Utente -->
+ <!-- Prima riga -->
+ <div class="form-row">
+  <div class="form-group col-sm-12">
+    <div class="row">
+        <label for="cognome" class="col-sm-2 col-form-label" style="color:red;">Utente</label>
+        <div class=" col-md-4">
+            <input type="text" #cognomeut="ngModel"  [(ngModel)]="eventoPostojob.cognome" class="form-control" name="cognomeut" id="cognomeut"  style="text-transform : uppercase" required minlength="4" maxlength="40" pattern="[0-9a-zA-Z,\s]*" placeholder="Inserire Cognome">
+        </div>
+        <br>
+        <div *ngIf="cognomeut.invalid && (cognomeut.dirty || cognomeut.touched)" class="invalid-feedback">  <!-- class="alert-danger"-->
+          <div *ngIf="cognomeut.errors.required">
+              <span>il campo cognome è obbligatorio</span>
+          </div>
+          <div *ngIf="cognomeut.errors.minlength">
+            <span>il campo cognome deve essere di almeno 4 caratteri</span>
+          </div>
+          <div *ngIf="cognomeut.errors.maxlength">
+              <span>il campo cognome non può essere più lunga di 40 caratteri</span>
+          </div>
+          <div *ngIf="cognomeut.errors?.pattern">
+            <span>il campo cognome non rispetta le regole sintattiche</span>
+          </div>
+        </div>
+
+
+
+
+
+
+
+<!--
+        <div *ngIf="submitted && editFormData.Utentecognome.errors" class="invalid-feedback">
+          <div *ngIf="editFormData.Utentecognome.errors.required">Cognome è Obbligatorio</div>
+          <div *ngIf="editFormData.Utentecognome.errors.minlength"> minimo 3 caratteri</div>
+          <div *ngIf="editFormData.Utentecognome.errors.maxlength"> lunghezza massima 40 caratteri</div>
+       </div>  -->
+
+
+        <!-- Nome Utente -->
+        <div class=" col-md-3">
+          <input type="text" #nomeut="ngModel"  [(ngModel)]="eventoPostojob.nome" class="form-control" name="nomeut" id="nomeut" style="text-transform : uppercase" required minlength="4" maxlength="30" pattern="[0-9a-zA-Z,\s]*" placeholder="Inserire Nome">
+        </div>
+        <div *ngIf="nomeut.invalid && (nomeut.dirty || nomeut.touched)" class="invalid-feedback">  <!-- class="alert-danger"-->
+          <div *ngIf="nomeut.errors.required">
+              <span>il campo nome è obbligatorio</span>
+          </div>
+          <div *ngIf="cognomeut.errors.minlength">
+            <span>il campo nome deve essere di almeno 4 caratteri</span>
+          </div>
+          <div *ngIf="nomeut.errors.maxlength">
+              <span>il campo nome non può essere più lunga di 30 caratteri</span>
+          </div>
+          <div *ngIf="nomeut.errors?.pattern">
+            <span>il campo nome non rispetta le regole sintattiche</span>
+          </div>
+        </div>
+        <br>
+    </div>
+  </div>
+  </div>
+  <br>
+   <!--  seconda riga -->
+   <div class="form-row">
+    <div class="form-group col-sm-12">
+      <div class="row">
+         <!-- email -->
+          <label for="email" class="col-sm-2 col-form-label" ></label>
+          <div class=" col-md-4">
+            <input type="email" #emailut="ngModel"  [(ngModel)]="eventoPostojob.email" class="form-control lowertxt" name="emailut" id="emailut"  style="text-transform : lowercase" email  ngModel placeholder="Inserire email">
+          </div>
+          <br>
+          <div *ngIf="emailut.invalid && (emailut.dirty || emailut.touched)" class="alert-danger">
+              <div  *ngIf="emailut.errors.required" >
+                il campo email è obbligatorio
+              </div>
+              <div *ngIf="emailut.errors?.email"  class="alert alert-danger">
+                Email non valida
+              </div>
+          </div>
+          <!-- cellulare -->
+          <div class=" col-md-3">
+              <input type="text" #cellulareut="ngModel"  [(ngModel)]="eventoPostojob.cellulare" class="form-control" name="cellulareut" id="cellulareut"  pattern="[0-9]*" minlength="10" maxlength="10" placeholder="Inserire cellulare">
+          </div>
+          <br>
+          <div *ngIf="cellulareut.invalid && (cellulareut.dirty || cellulareut.touched)" class="alert-danger">
+              <div *ngIf="cellulareut.errors.required">
+                  <span>il cellulare è obbligatorio</span>
+              </div>
+              <div *ngIf="cellulareut.errors.length">
+                <span>il cellulare deve essere di 10 caratteri - nessuno spazio</span>
+              </div>
+              <div *ngIf="cellulareut.errors.maxlength">
+                  <span>il cellulare non può essere più lunga di 10 caratteri</span>
+              </div>
+              <div *ngIf="cellulareut.errors?.pattern">
+                <span>il cellulare non rispetta le regole sintattiche</span>
+              </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+  <hr>
+
+    <!--  seconda riga -->
+    <div class="form-row">
+      <div class="form-group col-sm-12">
+        <div class="row">
+            <label for="email" class="col-sm-2 col-form-label" style="color: red;" >Posto</label>
+             <!-- Settore-->
+            <div class=" col-md-3">
+              <label for="email" class="col-form-label" >Settore:&nbsp;&nbsp;<strong style="color: blue;">{{settoreUser}}</strong></label>
+            </div>
+              <!-- Fila -->
+            <div class=" col-md-3">
+                <label for="email" class="col-form-label" >Fila:&nbsp;&nbsp;<strong  style="color: blue;">{{filaUser}}</strong></label>
+            </div>
+            <!-- Posto-->
+             <div class=" col-md-3">
+                <label for="email" class="col-form-label" >Posto:&nbsp;&nbsp;<strong  style="color: blue;">{{postoUser}}</strong></label>
+             </div>
+            <br>
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row" >
+      <div class="col-md-2">
+        <label  class="col-form-label" style="color:red;">Biglietto</label>
+
+      </div>
+      <div class="col-md-2">
+        <input  disabled [ngModel]="wEventoTagliaBiglietto.d_taglia" #taglia="ngModel" class="form-control"  name="taglia" id="taglia" style="color: blue;">
+      </div>
+      <div class="col-md-1">
+        <input  disabled [ngModel]="wEventoTagliaBiglietto.importo | currency:'EUR':true" #importo="ngModel" class="form-control"  name="importo" id="importo">
+      </div>
+    </div>
+
+
+
+    <!--
+
+    <div class="row" *ngIf="evento.tipobiglietto === 1">
+      <div class="col-md-2">
+        <label  class="col-form-label borde1">tipo biglietto</label>&nbsp;&nbsp;
+        <label  class="col-form-label borde1"><strong style="color: red;">Prezzo Fisso</strong></label>
+      </div>
+      <div class="col-md-5">
+        mettere input disabled con valore biglietto
+      </div>
+    </div>   aaa
+    <div class="row" *ngIf="evento.tipobiglietto === 2">
+      <div class="col-md-4">
+        <label  class="col-form-label">tipo biglietto</label>&nbsp;&nbsp;
+        <label  class="col-form-label">{{dtagliabiglietto}} di € &nbsp; {{importobiglietto}}</label>&nbsp;&nbsp;
+      </div>
+
+      <div class="col-md-2">
+         <label  class="col-form-label"><strong style="color: red;">Taglie</strong></label>
+      </div>
+
+      <div class="col-md-5">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Taglia</th>
+              <th scope="col">Importo</th>
+             </tr>
+          </thead>
+          <tbody>
+            <tr  *ngFor ="let taglia of wEventoTagliaBiglietti  let i = index">
+              <td >{{i + 1}}</td>
+              <td>{{taglia.d_taglia}}</td>
+              <td>{{taglia.importo | currency:'EUR':true}}&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+
+    </div>  -->
+
+<div class="row">
+  <div class="col-md-8">
+
+  </div>
+  <div class="col-md-4" >
+    <button [disabled]="fm.invalid" class="btn btn-success btn-md " (click)="conferma()">Conferma
+    </button>
+  </div>
+</div>
+
+<br>
+<div class="row col-md-12">
+  <!-- messaggi -->
+  <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+    <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+       <p>{{Message}}</p>
+       <hr>
+     </div>
+     <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+     <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+       <p>{{Message}}</p>
+     </div>
+</div>
+</form>
+</div>
+</div>

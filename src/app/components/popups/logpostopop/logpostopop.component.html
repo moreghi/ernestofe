@@ -1,0 +1,238 @@
+<p>logpostopop works!</p>
+
+<div class="modal-header " >
+  <div class="col-sm-3">
+    <img src="assets/images/logobandieragialla.jpg" width="40" height="40" alt="logo">
+  </div>
+
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+
+<!-- wprenot: {{selectedUser | json}}<br>
+evento: {{evento | json}}  -->
+
+<div class="modal-body">
+ <form [formGroup]='editForm' (ngSubmit)="onSubmit()" >  <!--  *ngIf="editForm" -->
+
+      <!-- Chiave del record -->
+      <input hidden type="text" formControlName="id" class="form-control" />
+
+      <input hidden type="text" formControlName="token" class="form-control" />
+
+        <!--  Evento -->
+        <br>
+          <div class="form-row">
+              <div class="form-group col-sm-12">
+                <div class="row">
+                    <label for="cognome" class="col-sm-1 col-form-label">Evento</label>
+                    <div class=" col-md-8">
+                      <input disabled  type="text" formControlName="descrizione" class="form-control"  style="text-transform : uppercase"/>
+                    </div>
+                     <!-- data evento -->
+                     <div class=" col-md-3">
+                      <input disabled  type="text" formControlName="data" class="form-control" />
+                    </div>
+                    <br>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+<!--
+
+                  <div class="co-md-5">
+                    <label for="descrizione">Evento</label>
+                    <input disabled  type="text" formControlName="descrizione" class="form-control"  style="text-transform : uppercase"/>
+                    <input disabled  type="text" formControlName="data" class="form-control" />
+                  </div>   -->
+                </div>
+
+          </div>
+        <hr>
+    <!--  Riferimento -->
+     <!--  ptima riga -->
+        <div class="form-row">
+            <div class="form-group col-sm-12">
+              <div class="row">
+                  <label for="cognome" class="col-sm-2 col-form-label" style="color:red;">Riferimento</label>
+                  <div class=" col-md-6">
+                    <input disabled  type="text" formControlName="cognome" class="form-control"  style="text-transform : uppercase"/>
+                  </div>
+                  <!-- data evento -->
+                  <div class=" col-md-4">
+                    <input disabled  type="text" formControlName="nome" class="form-control" />
+                  </div>
+                  <br>
+              </div>
+            </div>
+        </div>
+        <br>
+    <!--  seconda riga -->
+        <div class="form-row">
+          <div class="form-group col-sm-12">
+            <div class="row">
+                <label for="email" class="col-sm-2 col-form-label" ></label>
+                <div class=" col-md-6">
+                  <input disabled  type="email" formControlName="email" class="form-control"  style="text-transform : lowercase"/>
+                </div>
+                <!-- cellulare -->
+                <div class=" col-md-4">
+                  <input disabled  type="text" formControlName="telefono" class="form-control" />
+                </div>
+                <br>
+            </div>
+          </div>
+        </div>
+            <hr>
+    <!--  Utente -->
+ <!-- Prima riga -->
+       <div class="form-row">
+      <div class="form-group col-sm-12">
+        <div class="row">
+            <label for="cognome" class="col-sm-2 col-form-label" style="color:red;">Utente</label>
+            <div class=" col-md-6">
+              <input type="text" formControlName="utenteCognome" class="form-control"  [ngClass]="{ 'is-invalid': submitted && editForm.controls.utenteCognome.errors }"     style="text-transform : uppercase" />  <!--   -->
+            </div>
+            <br>
+            <div *ngIf="submitted && editForm.controls.utenteCognome.errors" class="invalid-feedback">
+                  <div *ngIf="submitted && editForm.utenteCognome.errors.required">
+                          cognome utente campo obbligatorio !!!!
+                </div>
+                <div *ngIf="submitted && editForm.controls.utenteCognome.errors.minlength">
+                  camèp troppo corto
+                </div>
+                <div *ngIf="submitted && editForm.controls.utenteCognome.errors.maxlength">
+                  lunghezza massima 40 caratteri
+                </div>
+            </div>
+
+
+
+<!--
+            <div *ngIf="submitted && editFormData.Utentecognome.errors" class="invalid-feedback">
+              <div *ngIf="editFormData.Utentecognome.errors.required">Cognome è Obbligatorio</div>
+              <div *ngIf="editFormData.Utentecognome.errors.minlength"> minimo 3 caratteri</div>
+              <div *ngIf="editFormData.Utentecognome.errors.maxlength"> lunghezza massima 40 caratteri</div>
+           </div>  -->
+
+
+            <!-- Nome Utente -->
+            <div class=" col-md-3">
+              <input  type="text" formControlName="UtenteNome" class="form-control"  [ngClass]="{ 'is-invalid': submitted && editForm.controls.utenteNome.errors }"  />
+            </div>
+            <div *ngIf="submitted && editForm.controls.utenteNome.errors" class="invalid-feedback">
+              <div *ngIf="submitted && editForm.controls.utenteNome.errors.required">
+                      Nome utente campo obbligatorio !!!!
+            </div>
+            <div *ngIf="submitted && editForm.controls.utenteNome.errors.minlength">
+              lunghezza minima 5 caratteri
+            </div>
+            <div *ngIf="submitted && editForm.controls.utenteNome.errors.maxlength">
+              lunghezza massima 30 caratteri
+            </div>
+        </div>
+            <br>
+        </div>
+      </div>
+      </div>
+      <br>
+       <!--  seconda riga -->
+       <div class="form-row">
+        <div class="form-group col-sm-12">
+          <div class="row">
+              <label for="email" class="col-sm-2 col-form-label" ></label>
+              <div class=" col-md-6">
+                <input type="email" formControlName="UtenteEmail" class="form-control"  style="text-transform : lowercase"  placeholder="inserire email"/>
+              </div>
+              <!-- cellulare -->
+              <div class=" col-md-3">
+                <input  type="text" formControlName="utenteCellulare" class="form-control"  placeholder="inserire cellulare"/>
+              </div>
+              <br>
+          </div>
+          <hr>
+  <br>
+
+
+
+
+
+
+
+
+    <!--
+
+                <div class="co-md-5">
+                  <label for="descrizione">Evento</label>
+                  <input disabled  type="text" formControlName="descrizione" class="form-control"  style="text-transform : uppercase"/>
+                  <input disabled  type="text" formControlName="data" class="form-control" />
+                </div>   -->
+              </div>
+
+       </div>
+      <hr>
+
+
+
+
+
+
+      <!-- messaggi -->
+         <div class="row col-md-12">
+             <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+               <p>{{Message}}</p>
+               <hr>
+             </div>
+             <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+               <p>{{Message}}</p>
+             </div>
+          </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+
+
+  <button [disabled]="isLoading" class="btn btn-danger mr-2" (click)="modal.close('cancel')">Cancel
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+  </button>
+  <button  class="btn btn-primary mr-2" (click)="onSubmit()" >Salva    <!--   [disabled]="!editForm.valid"-->
+    <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+  </button>
+
+</div>
+
+
+
+
+<ng-template #templateConfirmDelete>
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Cancellazione Località</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef2.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  confermi la cancellazione della località selezionata ?<br />
+</div>
+  <div class="modal-footer">
+   <button type="button" class="btn btn-secondary" (click)="closeModal(2)">Annulla
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+   </button>
+  <button type="button" class="btn btn-danger" (click)="closeModal(3)">Conferma
+    <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+  </button>
+</div>
+</ng-template>

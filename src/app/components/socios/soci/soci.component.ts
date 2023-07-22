@@ -148,6 +148,9 @@ options1 = [
   public whereEmail = '';
   public whereCell = '';
   public whereparam = '';
+  public wherestrcount = 0;
+  public whereend = ' and ';
+  public wherework = '';
   public activeFilter = false;
 
 constructor(private xsocioService: SocioService,
@@ -311,6 +314,198 @@ showNotification( type: string, message: string ): void {
   }
 
 
+/*    old
+async creaStrsql(socioSearch: SocioSearch) {
+
+  console.log('createStrsql -- appena entrato ' + JSON.stringify(socioSearch));
+  this.strsql = '';
+  this.orderby = '';
+  this.where = '';
+
+  this.whereStato = '';
+  this.whereTessere = '';
+  this.whereLocalita = '';
+  this.whereOperativo = '';
+  this.whereSesso = '';
+  this.whereEmail = '';
+  this.whereCell = '';
+  this.whereparam = '';
+  this.whereend = ' and ';
+  this.wherework = '';
+
+  this.wherestrcount = 0;
+
+  const date = Date();
+  this.dataOdierna = new Date(date);
+
+  this.anno  = this.dataOdierna.getFullYear();
+
+  switch (socioSearch.orderby)  {
+    case 'T':   // Tessera
+      this.orderby = ' order by `socios`.`tessera` asc';
+      break;
+    case 'A':   // Alfabetico
+      this.orderby = ' order by `socios`.`cognome` asc';
+      break;
+    case 'R':   // Residenza
+      this.orderby = ' order by `t_localitas`.`d_localita` asc';
+      break;
+  default:
+      this.orderby = ' order by `socios`.`cognome` asc';
+      break;
+}
+
+  if(socioSearch.tessere === `T`) {
+  this.strsql = `select 'socios'.*, 't_localitas'.'d_localita' from 'socios' ` +
+                ` inner join 't_localitas' ON 't_localitas'.'id' = 'socios'.'residenza' ` + this.orderby;
+} else {
+
+  this.strsql = `select distinct 'socios'.*, 't_localitas'.'d_localita', 'tesseramentos'.*, 't_stato_utentes'.* from 'socios' ` +
+                ` inner join 't_localitas' ON 't_localitas'.'id' = 'socios'.'residenza' ` +
+                ` inner join 'tesseramentos' ON 'tesseramentos'.'idTessera' = 'socios'.'tessera' ` +
+                ` inner join 't_stato_utentes' ON 't_stato_utentes'.'id' = 'socios'.'stato' `;
+
+// ---- selezione per tessere
+  if(socioSearch.tessere === `R`) {    // rinnovate
+    this.whereTessere  = ` 'tesseramentos'.'stato' = 1 and 'tesseramentos'.'anno' = ` + this.anno;
+  }
+  if(socioSearch.tessere === `D`) {    // da rinnovare
+    this.whereTessere  = ` 'tesseramentos'.'stato' = 1 and 'tesseramentos'.'anno' != ` + this.anno;
+  }
+// ---- selezione per stato
+  if(socioSearch.stato !== 0) {    // impostato uno stato
+    if(this.whereTessere !== '') {
+      this.whereStato  = ` and socios.stato = ` + socioSearch.stato;
+    } else {
+      this.whereStato  = ` socios.stato = ` + socioSearch.stato;
+    }
+
+  }
+// ---- selezione per località di Residenza
+  if(socioSearch.localita !== 0) {    // impostato uno stato
+    this.whereLocalita  = ` socios.residenza = ` + socioSearch.localita;
+  }
+  // ---- selezione per ruolo Operativo o solo nominale
+  if(socioSearch.operativo !== ``) {    // impostato uno stato
+    this.whereOperativo  = ` socios.operativo = '` + socioSearch.operativo + `' `;
+  }
+  // ---- selezione per Sesso
+  if(socioSearch.sesso !== ``) {    // impostato uno stato
+    this.whereSesso  = ` socios.sesso = '` + socioSearch.sesso + `' `;
+  }
+  // ---- selezione per email
+  if(socioSearch.email !== ``) {    // impostato uno stato
+
+    if(socioSearch.email === 'S') {
+      this.whereEmail  = ` socios.email !=  null or socios.email != ''`;
+    }
+    if(socioSearch.email === 'N') {
+      this.whereEmail  = ` socios.email =  null or socios.email = ''`;
+    }
+  }
+ // ---- selezione per cellulare
+  if(socioSearch.cell !== '') {    // impostato uno stato
+    if(socioSearch.cell === 'S') {
+      this.whereCell  = ` socios.cell !=  null or socios.cell != ''`;
+    }
+    if(socioSearch.cell === 'N') {
+      this.whereCell  = ` socios.cell =  null or socios.cell = ''`;
+    }
+  }
+
+  this.whereparam = '';
+  // costruzione finale della where
+  if(this.whereTessere === '') {
+        this.strsql = 'select `socios`.*, `t_localitas`.`d_localita` from `socios` ' +
+                  ' inner join `t_localitas` ON `t_localitas`.`id` = `socios`.`residenza` ';
+  }
+
+  if(this.whereTessere !== '') {
+    this.whereparam = this.whereparam + this.whereTessere;
+  }
+  // selezione stato
+  if(this.whereStato !== '') {
+    if(this.whereTessere !== '') {
+      this.whereparam = this.whereparam + this.whereend;
+    }
+    this.whereparam = this.whereparam + this.whereStato;
+  }
+  // selezione localita
+  if(this.whereLocalita !== '') {
+    if(this.whereparam !== '') {
+      this.whereparam = this.whereparam + this.whereend;
+    }
+    this.whereparam = this.whereparam + this.whereLocalita;
+  }
+  // selezione operativo
+  if(this.whereLocalita !== '') {
+    if(this.whereparam !== '') {
+      this.whereparam = this.whereparam + this.whereend;
+    }
+    this.whereparam = this.whereparam + this.whereOperativo;
+  }
+  // selezione sesso
+  if(this.whereLocalita !== '') {
+    if(this.whereparam !== '') {
+      this.whereparam = this.whereparam + this.whereend;
+    }
+    this.whereparam = this.whereparam + this.whereSesso;
+  }
+  // selezione email
+  if(this.whereLocalita !== '') {
+    if(this.whereparam !== '') {
+      this.whereparam = this.whereparam + this.whereend;
+    }
+    this.whereparam = this.whereparam + this.whereEmail;
+  }
+  // selezione cellulare
+  if(this.whereLocalita !== '') {
+    if(this.whereparam !== '') {
+      this.whereparam = this.whereparam + this.whereend;
+    }
+    this.whereparam = this.whereparam + this.whereCell;
+  }
+
+
+
+// vecchia modalita di composizione where fino al 31/07/2022
+//  this.whereparam = this.whereparam + this.whereTessere + this.whereStato + this.whereLocalita +
+//                      this.whereOperativo + this.whereSesso + this.whereEmail + this.whereCell;
+  this.where = ' where ' + this.whereparam;
+  this.strsql = this.strsql + this.where + this.orderby;
+
+  console.log('merda ' + this.whereTessere);
+  console.log('creataa la strsql ' + this.strsql);
+
+  }
+
+
+
+
+
+
+  this.trovatoRec = false;
+  this.nRec = 0;
+  this.isVisible = true;
+  let rc =  await  this.xsocioService.getsociobyFilter(this.strsql).subscribe(
+       (res: any) => {
+
+          console.log('Frontend -Soci  ---  getsociobyFilter ' + JSON.stringify(res['data']));
+          this.soci = res['data'];
+          this.nRec = res['number'];
+          this.trovatoRec = true;
+          this.Message = 'Situazione Attuale';
+          this.alertSuccess = true;
+      },
+      error => {
+         alert('Soci  -- loadSoci - errore: ' + error.message);
+         console.log(error);
+         this.Message = error.message;
+         this.alertSuccess = false;
+      });
+}
+*/
+
 async creaStrsql(socioSearch: SocioSearch) {
 
   console.log('createStrsql -- appena entrato ' + JSON.stringify(socioSearch));
@@ -404,6 +599,58 @@ async creaStrsql(socioSearch: SocioSearch) {
         this.strsql = 'select `socios`.*, `t_localitas`.`d_localita` from `socios` ' +
                   ' inner join `t_localitas` ON `t_localitas`.`id` = `socios`.`residenza` ';
   }
+
+// Nuova versione 31/07/2022
+
+  this.wherework = '';
+  this.whereparam = '';
+
+
+  if(this.whereTessere !== '') {
+    this.wherework = this.whereTessere;
+  }
+// analisi per selezione stato
+  if(this.whereStato !== '') {
+    if(this.wherework !== '') {
+      this.whereStato  = this.whereend + this.whereStato;
+    }
+  }
+  this.wherework = this.wherework + this.whereStato;
+// analisi per selezione localita
+  if(this.whereLocalita !== '') {
+      if(this.wherework !== '') {
+        this.whereLocalita  = this.whereend  + this.whereLocalita;
+      }
+  }
+  this.wherework = this.wherework + this.whereLocalita;
+// analisi per selezione operativo
+  if(this.whereOperativo !== '') {
+    if(this.wherework !== '') {
+      this.whereOperativo  = this.whereend  + this.whereOperativo;
+    }
+  }
+  this.wherework = this.wherework + this.whereOperativo;
+  // analisi per selezione sesso
+  if(this.whereSesso !== '') {
+    if(this.wherework !== '') {
+      this.whereSesso  = this.whereend  + this.whereSesso;
+    }
+  }
+  this.wherework = this.wherework + this.whereSesso;
+  // analisi per selezione email
+  if(this.whereEmail !== '') {
+    if(this.wherework !== '') {
+      this.whereEmail  = this.whereend  + this.whereEmail;
+    }
+  }
+  this.wherework = this.wherework + this.whereEmail;
+  // analisi per selezione cellulare
+  if(this.whereCell !== '') {
+    if(this.wherework !== '') {
+      this.whereCell  = this.whereend  + this.whereCell;
+    }
+  }
+
   this.whereparam = this.whereparam + this.whereTessere + this.whereStato + this.whereLocalita +
                       this.whereOperativo + this.whereSesso + this.whereEmail + this.whereCell;
   this.where = ' where ' + this.whereparam;
@@ -413,11 +660,6 @@ async creaStrsql(socioSearch: SocioSearch) {
   console.log('creataa la strsql ' + this.strsql);
 
   }
-
-
-
-
-
 
   this.trovatoRec = false;
   this.nRec = 0;

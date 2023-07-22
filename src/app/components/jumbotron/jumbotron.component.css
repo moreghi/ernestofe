@@ -24,3 +24,33 @@
   padding-left: 40px;
   padding-bottom: 10px;
 }
+
+.bordmg {
+  border: 3px solid red;
+}
+
+.bordmg1 {
+  border: 2px solid green;
+}
+
+.bordmg2 {
+  border: 2px solid orange;
+}
+.bordmg3 {
+  border: 2px solid violet;
+}
+
+.spacemg {
+
+  margin-left: 5px;
+}
+
+.titleManif {
+  color: red;
+  font-weight: bold;
+}
+
+.textgm {
+  text-align: center;
+}
+

@@ -53,6 +53,19 @@ import { PrenotazionieventoComponent } from './components/prenotazeventos/prenot
 import { CassaDetailComponent } from './components/cassas/cassa-detail/cassa-detail.component';
 import { BigliettoEmissioneLogisticaComponent } from './components/bigliettos/biglietto-emissione-logistica/biglietto-emissione-logistica.component';
 import { BigliettoDetailComponent } from './components/bigliettos/biglietto-detail/biglietto-detail.component';
+import { AbilitazioneComponent } from './components/security/abilitazione/abilitazione.component';
+import { TestuploadComponent } from './components/testupload/testupload.component';
+import { PrenotazioniEventiComponent } from './components/prenotaziones/prenotazioni-eventi/prenotazioni-eventi.component';
+import { PrenotazioneDetailComponent } from './components/prenotaziones/prenotazione-detail/prenotazione-detail.component';
+import { LogisticaDetailMappapostiComponent } from './components/logisticas/logistica-detail-mappaposti/logistica-detail-mappaposti.component';
+import { PrenotazioneDetailPostoComponent } from './components/prenotaziones/prenotazione-detail-posto/prenotazione-detail-posto.component';
+import { PrenotazioneDetailNologisticaComponent } from './components/prenotaziones/prenotazione-detail-nologistica/prenotazione-detail-nologistica.component';
+import { ResponsePrenotazioneEventoComponent } from './components/eventos/registrazione/masterprenotazione/response-prenotazione-evento/response-prenotazione-evento.component';
+import { EventoPrenotDetailComponent } from './components/eventos/evento-prenot-detail/evento-prenot-detail.component';
+import { BigliettoEmissioneDetailComponent } from './components/bigliettos/biglietto-emissione-detail/biglietto-emissione-detail.component';
+import { RequestEventoNormal1Component } from './components/eventos/registrazione/evento/request-evento-normal1/request-evento-normal1.component';
+import { CassaDetailDayComponent } from './components/cassas/cassa-detail-day/cassa-detail-day.component';
+import { ComunicatiComponent } from './components/comunicatos/comunicati/comunicati.component';
 
 
 const routes: Routes = [
@@ -154,11 +167,15 @@ const routes: Routes = [
   component: EventiMappaComponent
 },
 {
-  path: 'evento/registrazione/normalx/:id',
+  path: 'evento/registrazione/normal/:id',     // registrazione evento senza logistica  <---
   component: RequestEventoNormalComponent
 },
 {
-  path: 'evento/registrazione/logisticax/:id',
+  path: 'evento/registrazione/normal1/:id',     // refistrazione evento senza logistica
+  component: RequestEventoNormal1Component
+},
+{
+  path: 'evento/registrazione/logistica/:id',
   component: RequestEventoLogisticaComponent
 },
 
@@ -170,6 +187,16 @@ const routes: Routes = [
   path: 'evento/prenotazionelogisticaConferma',
    component: ResponseEventoLogisticaComponent
 },
+// risposta prenotazione Master
+{
+  path: 'evento/prenotazioneeventoConferma',
+   component: ResponsePrenotazioneEventoComponent
+},
+
+
+
+
+
 // ----------------------------------------------------------------  tipo biglietto per eventi
 {
   path: 'evento/:id/tipobiglietti',
@@ -183,10 +210,15 @@ const routes: Routes = [
   path: 'tbiglietto/edit/:id',
   component: TipobigliettoDetailComponent
 },
+// ---------------------------------------------------------------- Gestione Prenotazioni
+{
+  path: 'Evento/prenotdetail/:id',
+  component: EventoPrenotDetailComponent
+},
 // ----------------------------------------------------------------  tipo biglietto per eventi
 {
   path: 'biglietto/:id/edit',
-  component: BigliettoDetailComponent
+  component: BigliettoEmissioneDetailComponent        //BigliettoDetailComponent   creava problemi
 },
 
 
@@ -226,12 +258,23 @@ const routes: Routes = [
   path: 'logposti/:id/edit/:idp/posti',
   component: LogisticaDetailPostiComponent
 },
-// -------------------------------------------------------------------------   Cassa
+
 {
-  path: 'cassa/:dataodierna/tipo/:tipo',
-  component: CassaDetailComponent
+  path: 'logmappaposti/:id/crea',
+  component: LogisticaDetailMappapostiComponent
 },
 
+
+
+// -------------------------------------------------------------------------   Cassa
+{
+  path: 'cassa/:dataodierna/tipo/:tipo/:idEvento',    //   path: 'cassa/:dataodierna/tipo/:tipo',
+  component: CassaDetailComponent
+},
+{
+  path: 'cassa/:idEvento',    //   path: 'cassa/:dataodierna/tipo/:tipo',
+  component: CassaDetailDayComponent
+},
 
 
 
@@ -239,7 +282,8 @@ const routes: Routes = [
 // -------------------------------------------------------------------------   soci   --- test Bandiera gialla
 {
   path: 'socio',
-  component: SociComponent
+  component: SociComponent,
+ // canActivate: [RouteGuardService]
 },
 
 {
@@ -279,12 +323,43 @@ const routes: Routes = [
   path: 'prenotazione/infor',
    component: InfoPrenotazioneComponent
 },
+{
+  path: 'prenotEventi/:id/:nev',
+   component: PrenotazioniEventiComponent
+},
+
+{
+  path: 'prenEventi/edit/:idev/:id',
+   component: PrenotazioneDetailComponent
+},
+{
+  path: 'prenEventi/new/:idev',
+   component: PrenotazioneDetailComponent
+},
+{
+  path: 'prenEventi/nol/new/:idev',
+   component: PrenotazioneDetailNologisticaComponent
+},
+
+
+
+{
+  path: 'prenPosto/:id/:idposto',
+   component: PrenotazioneDetailPostoComponent
+},
+// ----------------------------------------------------------------  Comunicazioni
+{
+  path: 'comunic',
+   component: ComunicatiComponent
+},
+
 
 // ----------------------------------------------------------------  Tesseramento
 
 {
   path: 'socio/tessera/:id',
-   component: TesseramentoDetailComponent
+   component: TesseramentoDetailComponent,
+   canActivate: [RouteGuardService]
 },
 {
   path: 'socio/rinn/:id',
@@ -331,6 +406,12 @@ const routes: Routes = [
     component: UserDetailComponent,
     canActivate: [RouteGuardService]
   },
+  // -------------------------------------------------------------------------------------   abilitazione
+  {
+    path: 'users/abil/:id',
+    component: AbilitazioneComponent,
+    canActivate: [RouteGuardService]
+  },
   {
     path: 'chgpswnuwuser',
     component: ChangePasswordNewUserComponent
@@ -351,6 +432,16 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent
   },
+
+  {
+    path: 'testupload',
+    component: TestuploadComponent
+  },
+
+
+
+
+
   {
     path: '',
     redirectTo: 'jumbotron',  //home   // login

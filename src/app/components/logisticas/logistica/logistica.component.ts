@@ -117,7 +117,7 @@ export class LogisticaComponent implements OnInit {
         this.route.navigate(['logistica/edit/' + logistica.id]);
         break;
       case 'Posti':
-        this.route.navigate(['logposti/' + logistica.id + '/edit']);
+        this.route.navigate(['logmappaposti/' + logistica.id + '/crea']);  // fino al 15/04/2023
         break;
 
       default:
@@ -199,7 +199,7 @@ open(content:any, logistica: Logistica) {
 */
 
 showNotification( type: string, message: string ): void {
-  // alert('sono in showNot - ' + message);
+
   this.notifier.notify( type, message );
   console.log(`sono in showNotification  ${type}`);
   }

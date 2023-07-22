@@ -84,6 +84,10 @@ input.ng-valid{border-left:5px solid green;}
   border: 3px solid red;
 }
 
+.borde2 {
+  border: 3px solid blue;
+}
+
 .centro {
 
 

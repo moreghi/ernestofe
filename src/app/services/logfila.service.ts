@@ -59,6 +59,7 @@ export class LogfilaService {
 
        create(logfila: LogFila){
         this.rottafunction = 'create';
+        console.log('logfilaService ----  create ' + JSON.stringify(logfila));
         return this.http.post(this.APIURL + '/' + this.rottafunction , logfila,  {
           headers: this.getAuthHeader()
         });
@@ -67,7 +68,7 @@ export class LogfilaService {
 
       getbyStato(idlog: number, idsett: number, stato: number) {
 
-        this.rottafunction = '/getbyStato';
+        this.rottafunction = 'getbyStato';
         return this.http.get(this.APIURL + '/' + this.rottafunction +  '/' + idlog  + '/' + idsett + '/' + stato,  {
                 headers: this.getAuthHeader()
               });      // ok;
@@ -76,11 +77,35 @@ export class LogfilaService {
 
     getbyFila(idlog: number, fila: number) {
 
-      this.rottafunction = '/getbyFila';
+      this.rottafunction = 'getbyFila';
       return this.http.get(this.APIURL + '/' + this.rottafunction +  '/' + idlog  + '/' + fila,  {
               headers: this.getAuthHeader()
             });      // ok;
   }
+
+  getlast() {
+    this.rottafunction = 'lastid/last';
+    return this.http.get(this.APIURL + '/' + this.rottafunction, {
+      headers: this.getAuthHeader()
+    });
+  }
+
+  getbylogistica(idlog: number, stato: number) {
+
+    this.rottafunction = 'getbylogistica';
+    return this.http.get(this.APIURL + '/' + this.rottafunction +  '/' + idlog + '/' + stato,  {
+            headers: this.getAuthHeader()
+          });      // ok;
+}
+
+getbylogisticaeSettore(idLogistica: number, idSettore: number) {
+
+  this.rottafunction = '/getbylogistica/Settore';
+  return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + idLogistica + '/' + idSettore,  {
+          headers: this.getAuthHeader()
+        });      // ok;
+
+}
 
 
 }

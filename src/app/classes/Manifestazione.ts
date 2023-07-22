@@ -9,6 +9,7 @@ export class Manifestazione implements ManifestazioneInterface {
   dtFine: string;
   numUtentiTot: number;
   incassatoTot: number;
+  photo: string;
   noteManifestazione: string;
   stato: number;
   key_utenti_operation: number;
@@ -26,6 +27,7 @@ export class Manifestazione implements ManifestazioneInterface {
     this.dtFine = '';
     this.numUtentiTot = 0;
     this.incassatoTot = 0;
+    this.photo = '';
     this.noteManifestazione = '';
     this.stato = 0;
     this.created_at = new Date();

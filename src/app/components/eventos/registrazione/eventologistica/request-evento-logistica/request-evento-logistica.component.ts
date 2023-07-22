@@ -299,15 +299,11 @@ export class RequestEventoLogisticaComponent implements OnInit {
         this.prenotazeventomasterConfirm.nome = localStorage.getItem('keyuserpren_nome');
         this.prenotazeventomasterConfirm.email = localStorage.getItem('keyuserpren_email');
         this.prenotazeventomasterConfirm.telefono = localStorage.getItem('keyuserpren_telefono');
-        this.prenotazeventomasterConfirm.keyuserpren = localStorage.getItem('keyuserpren');
+
         this.prenotazeventomasterConfirm.datapren = localStorage.getItem('keyuserpren_datapren');
-        this.prenotazeventomasterConfirm.idevento = +localStorage.getItem('keyuserpren_idevento');
-        this.prenotazeventomasterConfirm.devento = this.evento.descrizione;
-        this.prenotazeventomasterConfirm.idlogistica = +localStorage.getItem('keyuserpren_idlogistica');
-        this.prenotazeventomasterConfirm.idsettore = +localStorage.getItem('keyuserpren_idsettore');
-        this.prenotazeventomasterConfirm.idfila = +localStorage.getItem('keyuserpren_idfila');
-        this.prenotazeventomasterConfirm.idposto = +localStorage.getItem('keyuserpren_idposto');
-        this.prenotazeventomasterConfirm.idtipobiglietto = +localStorage.getItem('keyuserpren_idtipobiglietto');
+       // this.prenotazeventomasterConfirm.idevento = +localStorage.getItem('keyuserpren_idevento');
+      //  this.prenotazeventomasterConfirm.devento = this.evento.descrizione;
+
         let rc = await  this.prenotazeventomasterConfirmService.create(this.prenotazeventomasterConfirm).subscribe(
                 response => {
                       if(response['rc'] === 'ok') {
@@ -404,7 +400,7 @@ export class RequestEventoLogisticaComponent implements OnInit {
 
 
           this.keyuserpren = form.value.cognome.substring(0, 3) + form.value.nome.substring(0, 3) + form.value.telefono.substring(-2, 2) + this.datePipe.transform(date,"dd-MM-yyyy");
-          localStorage.setItem('keyuserpren', this.keyuserpren);
+
           localStorage.setItem('keyuserpren_cognome', form.value.cognome);
           localStorage.setItem('keyuserpren_nome', form.value.nome);
           localStorage.setItem('keyuserpren_email', form.value.email);
@@ -416,7 +412,7 @@ export class RequestEventoLogisticaComponent implements OnInit {
 
         this.eventoposto = new EventoPosto();
         this.eventoposto.id = 1;
-        this.eventoposto.keyuserpren = this.keyuserpren;
+        this.eventoposto.token = this.token;
         this.eventoposto.idlogistica = this.evento.idlogistica;
         this.eventoposto.idEvento = this.evento.id;
         this.eventoposto.cognome = form.value.cognome;
@@ -450,7 +446,7 @@ export class RequestEventoLogisticaComponent implements OnInit {
 
    async   loadEventoPosti(keyuserpren: string) {
         console.log('frontend - loadEventoPosti: ' + keyuserpren);
-        let rc = await  this.eventopostoService.getbykeyuserpren(keyuserpren).subscribe(
+        let rc = await  this.eventopostoService.getbykeypren(keyuserpren).subscribe(
         response => {
             this.eventoposti = response['data'];
             this.nrich  = response['number'];
@@ -473,7 +469,7 @@ export class RequestEventoLogisticaComponent implements OnInit {
 
       async   loadEventoPostiprenotati(keyuserpren: string, codpren: string, token: string) {
         console.log('frontend - loadEventoPostiprenotati: ' + keyuserpren);
-        let rc = await  this.eventopostoService.getbykeyuserpren(keyuserpren).subscribe(
+        let rc = await  this.eventopostoService.getbykeypren(keyuserpren).subscribe(
         response => {
             this.eventoposti = response['data'];
             const oggi = new Date();

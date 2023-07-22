@@ -28,14 +28,15 @@ export class LogpostoService {
     return headers;
   }
 
-  getAll(idlog: number, idsett: number, idfila: number) {
-    return this.http.get(this.APIURL + '/' + idlog + '/' + idsett + '/' + idfila,  {
+  getAll(idlog: number) {
+    return this.http.get(this.APIURL + '/' + idlog,  {
            headers: this.getAuthHeader()
          });
   }
 
   getbyId(id: number) {
-    return this.http.get(this.APIURL + '/'  + id, {
+     this.rottafunction = 'getbyid';
+     return this.http.get(this.APIURL + '/' + this.rottafunction  + '/'  + id, {
       headers: this.getAuthHeader()
     });
   }
@@ -50,7 +51,7 @@ export class LogpostoService {
 
   update(logposto: LogPosto) {
     this.rottafunction = 'updatebyid';
-    return this.http.put(this.APIURL + '/' + this.rottafunction  + logposto.id, logposto,  {
+    return this.http.put(this.APIURL + '/' + this.rottafunction + '/'  + logposto.id, logposto,  {
       headers: this.getAuthHeader()
     });
   }
@@ -66,12 +67,19 @@ export class LogpostoService {
 
   getbyStato(idlog: number, idsett: number, idfila: number, stato: number) {
 
-    this.rottafunction = '/getbyStato';
+    this.rottafunction = 'getbyStato';
     return this.http.get(this.APIURL + '/' + this.rottafunction +  '/' + idlog  + '/' + idsett + '/' + idfila + '/' + stato,  {
             headers: this.getAuthHeader()
           });      // ok;
     }
 
+  getPosto(idlog: number, idsett: number, idfila: number, idposto: number) {
+
+      this.rottafunction = 'getPosto';
+      return this.http.get(this.APIURL + '/' + this.rottafunction +  '/' + idlog  + '/' + idsett + '/' + idfila + '/' + idposto,  {
+              headers: this.getAuthHeader()
+            });      // ok;
+      }
 
 }
 

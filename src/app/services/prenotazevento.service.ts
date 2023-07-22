@@ -134,7 +134,11 @@ sendemailPrenotazioneConfermataMoreno(prenotazevento: Prenotazevento) {
   }
 
 
+  getCountbyevento(id: number) {
 
+    this.rottafunction = '/count';
+    return this.http.get(this.APIURL + this.rottafunction + '/' + id);
+  }
 
 
 }

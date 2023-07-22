@@ -81,10 +81,13 @@ constructor(private eventopostoService: EventopostoService,
             }
 
 ngOnInit(): void {
+     if(this.eventoposto.stato === 0) {
+      this.biglietto = new Biglietto();
+      this.biglietto.cognome = 'non Acquistato';
+      this.biglietto.nome = '?';
+     }
      if(this.eventoposto.stato === 1) { // biglietto emesso
        this.loadBiglietto(this.eventoposto.idbiglietto);
-     } else {
-       this.biglietto = new Biglietto();
      }
 
 }

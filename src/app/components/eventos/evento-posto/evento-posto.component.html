@@ -2,11 +2,8 @@
 <td >{{i}}</td>
 <td>{{eventoposto.idPosto}}</td>
   <td>{{biglietto.numero}}</td>
-  <td>{{biglietto.cognome}}</td>
+  <td [style.color]="getColor(eventoposto.stato)" [style.background]="getBackground(eventoposto.stato)">{{biglietto.cognome}}</td>
   <td>{{biglietto.nome}}</td>
-  <td [style.color]="getColor(biglietto.stato)" [style.background]="getBackground(biglietto.stato)">{{biglietto.numero}}</td>
-
-
 
   <td >
     <button class="btn btn-sm  btn-danger" (click)="open(content, eventoposto)">

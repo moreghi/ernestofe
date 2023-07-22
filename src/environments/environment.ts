@@ -1,17 +1,20 @@
+
+// per compilare in ambiente di sviluppo su localhost:   ng serve --port 4210
+
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
 // per ambiente di sviluppo su localhost
 
-/*
+
 export const environment = {
   production: false,
   APIURL: 'http://localhost:3001',
   APIAUTURL: 'http://localhost:3001/api/auth/',
   IMGURL: 'http://localhost:3001/storage/posts/'
 };
-*/
+
 
 /*
 // per ambiente di produzione su Vercel
@@ -25,12 +28,15 @@ export const environment = {
 
 // per ambiente di produzione su ec2
 
+
+/*
 export const environment = {
   production: false,
   APIURL: 'https://api.ghisellinimoreno.it',
   APIAUTURL: 'https://api.ghisellinimoreno.it/api/auth/',
   IMGURL: 'https://api.ghisellinimoreno.it/storage/posts/'
 };
+*/
 
 
 /*

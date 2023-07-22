@@ -1,0 +1,20 @@
+.dispon {
+
+  font-weight: bold;
+}
+.msgwarning {
+  color: red;
+  background-color: yellow;
+}
+.borde {
+  border: 3px solid violet;
+}
+.borde1 {
+  border: 3px solid red;
+}
+.borde2 {
+  border: 3px solid blue;
+}
+.borde3 {
+  border: 3px solid orange;
+}

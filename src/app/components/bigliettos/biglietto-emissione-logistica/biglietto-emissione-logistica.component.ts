@@ -434,18 +434,20 @@ async aggiornaprenotazevento(biglietto: number) {
     });
 
 }
-
+// metodo alterato per gestire la corretta compilazione
+// il programma usato per fare emissione biglietto è "biglietto-detail"
 async aggiornaCassa() {
 
+    const idEvento = 0;     // metodo modifficato per gestire la corretta compilazione
     const date = Date();
     this.dataOdierna = new Date(date);
     this.datadioggi =  this.datePipe.transform(this.dataOdierna, 'dd-MM-yyyy');
 
-    let rc = await  this.cassaService.getbydata(this.datadioggi).subscribe(
+    let rc = await  this.cassaService.getbydata(this.datadioggi, idEvento).subscribe(
       response => {
           if(response['rc'] === 'ok') {
             this.cassa = response['data'];
-            this.cassa.importo +=  this.tipobiglietto.importo;
+            this.cassa.cassaIniziale +=  this.tipobiglietto.importo;
             this.cassa.key_utenti_operation = +localStorage.getItem('id');
             this.aggiornaImportoCassa(this.cassa);
            }

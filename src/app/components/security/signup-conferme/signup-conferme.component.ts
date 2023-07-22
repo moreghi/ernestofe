@@ -73,7 +73,8 @@ export class SignupConfermeComponent implements OnInit {
     console.log('OnInit - token: ' + this.token);
 // leggo la tabella 'register_confirmed' per recuperare email
 //  originale  ----------------- getRegConfirmbyTokenProm
-    this.registerconfirmedService.getRegConfirmbyToken(this.token).subscribe(
+//    this.registerconfirmedService.getRegConfirmbyToken(this.token).subscribe(
+    this.registerconfirmedService.getbyToken(this.token).subscribe(
     resp => {
       this.reg = resp['data'];
       this.form.cognome = this.reg.cognome;
@@ -119,16 +120,40 @@ export class SignupConfermeComponent implements OnInit {
 
     const resp = await this.auth.signUp(this.reg.cognome, this.reg.nome, this.reg.username, this.reg.email, this.reg.password);
     if (resp) {
-        console.log('creato utente ');
-        this.Message = 'utente ' + this.reg.cognome + ' ' + this.reg.nome + ' Registrato con successo';
-        this.isVisible = true;
-        this.alertSuccess = true;
 
-        this.type = 'success';
-        this.showNotification(this.type, this.Message);
+        console.log('----------------------   fatto  auth.signup ' );
+      // cancello la richeista di prenotazione da token
+      // test 2023/06/20  sospesa provvisoriamente la cancellazione della prenotazione
+   //     this.cancella_registerConfirm(this.token);
        }
 
 }
+
+cancella_registerConfirm(token: string)  {
+
+  this.registerconfirmedService.deletebytoken(token).subscribe(
+    resp => {
+
+      console.log('creato utente ');
+      this.Message = 'utente ' + this.reg.cognome + ' ' + this.reg.nome + ' Registrato con successo';
+      this.isVisible = true;
+      this.alertSuccess = true;
+      this.type = 'success';
+      this.showNotification(this.type, this.Message);
+      this.router.navigate(['/login']);
+      },
+    error => {
+         alert('cancella_registerConfirm');
+         console.log(error);
+         this.type = 'error';
+         this.Message = 'cancella_registerConfirm - non esegibile ';
+         this.showNotification(this.type, this.Message);
+       });
+}
+
+
+
+
 
 handleError(error) {
   this.error = error.error.errors;

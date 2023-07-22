@@ -4,10 +4,15 @@
 export interface PrenotazeventoInterface  {
 
   id: number;
+  idstato: number;
+  token: string;
   cognome: string;
   nome: string;
+  datapren: string;
   telefono: string;
   email: string;
+  persone: number;
+  nSolleciti: number;
   idevento: number;
   idlogistica: number;
   idsettore: number;
@@ -15,12 +20,7 @@ export interface PrenotazeventoInterface  {
   idposto: number;
   idtipobiglietto: number;
   idbiglietto: number;
-  datapren: string;
-  persone: number;
-  idstato: number;
   created_at: Date;
   updated_at: Date;
 
 }
-
-

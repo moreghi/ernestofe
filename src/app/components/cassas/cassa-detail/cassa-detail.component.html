@@ -5,16 +5,44 @@
 
   <div class="row">
     <div class="col-md-4">
-
+    <!--  lasciato intenzionalmente vuoto-->
     </div>
-    <div class="header_Edit title_Edit col-md-6"  [style.color]="keystatocassa == 'nf' ? 'red' : 'white'"  [style.background-color]="keystatocassa == 'nf' ? 'yellow' : 'red'">
+    <div class="header_Edit title_Edit col-md-4"  [style.color]="keystatocassa == 'nf' ? 'red' : 'white'"  [style.background-color]="keystatocassa == 'nf' ? 'yellow' : 'red'"  style="text-align: center;">
       <strong>{{title}}</strong>
       <!-- <input disabled #title="ngModel"  [(ngModel)]="title" class="form-control" name="title" id="title" > -->
     </div>
+    <div class="col-md-4">
+ <!--  lasciato intenzionalmente vuoto-->
+    </div>
   </div>
+  <br>
 
-
-
+  <div class="row">
+    <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
+    <div class=" col-md-6">
+      <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"   style="text-transform : uppercase">
+    </div>
+    <div class=" col-md-2">
+<!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+        <div>
+          <input disabled #d_stato_evento="ngModel"  [(ngModel)]="evento.d_stato_evento" class="form-control" name="d_stato_evento" id="d_stato_evento" [style.color]="evento.stato == 2 ? 'red' : 'white'"  [style.background-color]="evento.stato == 2 ? 'yellow' : 'red'">
+        </div>
+      </div>
+  </div>
+  <br>
+  <div class="row">
+    <label for="localita" class="col-sm-2 col-form-label">Localita</label>
+    <div class=" col-md-6">
+      <input disabled #localita="ngModel"  [(ngModel)]="evento.localita" class="form-control" name="localita" id="localita"   style="text-transform : uppercase">
+    </div>
+    <div class=" col-md-2">
+<!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+        <div>
+           <input  disabled [(ngModel)]="evento.data" [ngModel]="evento.data | date:'dd/MM/yyyy'" #data="ngModel" class="form-control"  name="data" id="data">
+        </div>
+      </div>
+  </div>
+  <hr>
 
 
 
@@ -28,7 +56,7 @@
         <input Hidden #key_utenti_operation="ngModel"  [(ngModel)]="cassa.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation">
         <div class="row">
             <label for="descManif" class="col-sm-2 col-form-label">Data</label>
-            <div class=" col-md-6">
+            <div class=" col-md-2">
               <input disabled #datacassa="ngModel"  [(ngModel)]="cassa.datacassa" class="form-control" name="datacassa" id="datacassa" >
             </div>
         </div>
@@ -38,7 +66,7 @@
         <div class="row">
           <label for="importo" class="col-sm-2 col-form-label">Importo</label>
           <div class=" col-md-2">
-            <input  disabled [(ngModel)]="cassa.importo" #importo="ngModel" class="form-control"  name="importo" id="importo">
+            <input  [(ngModel)]="cassa.cassaIniziale" #importo="ngModel" class="form-control"  name="importo" id="importo">
           </div>
       </div>
       <br>
@@ -92,24 +120,29 @@
   </div>
 </div>
 <br>
+<!--rottafase: {{rottafase}} -->
 
 
-<div class="form-row col-md-12">
-  <div class="row col-md-12">
+<div class="row" *ngIf="rottafase === 'V'">
+  <div class="col-md-2">
+    <!-- vuoto -->
+  </div>
+  <div class="row col-md-8">
 
     <!-- tabella di dettaglio dei fedeli -->
      <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white table-bordered table-responsive-lg table-container">
       <thead>
        <tr>
            <th scope="col">#</th>
-           <th scope="col">Cognome</th>
-           <th scope="col">Nome</th>
-           <th scope="col">importo</th>
-           <th scope="col">Mod. Pagam.</th>
-           <th scope="col">biglietto</th>
+           <th scope="col" style="text-align: center;">Cognome</th>
+           <th scope="col" style="text-align: center;">Nome</th>
+           <th scope="col" style="text-align: center;">importo</th>
+           <th scope="col" style="text-align: center;">Mod. Pagam.</th>
+           <th scope="col" style="text-align: center;">biglietto</th>
+            <!--  non serve action -->
+            <!--
            <th scope="col">stato</th>
-           <!--  non serve action -->
-           <th  colspan="2" style="text-align: center ">Action</th>
+           <th  colspan="2" style="text-align: center ">Action</th>  -->
        </tr>
       </thead>
       <tbody>
@@ -122,7 +155,10 @@
       </tbody>
      </table>
      <pagination-controls (pageChange)="p = $event"></pagination-controls>
-</div>
+  </div>
+  <div class="col-md-2">
+    <!-- vuoto -->
+  </div>
 </div>
 
 

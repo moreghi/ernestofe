@@ -20,7 +20,7 @@ import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
 import { map } from 'rxjs/operators';
 import 'rxjs/add/operator/map';    // per gestire i grafici
-import { stringify } from 'querystring';
+// import { stringify } from 'querystring';
 
 
 

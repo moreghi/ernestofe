@@ -2,7 +2,6 @@ import { UserInterface } from '../interfaces/user';
 
 export class User implements UserInterface {
 
-
   id: number;
   cognome: string;
   nome: string;
@@ -15,6 +14,7 @@ export class User implements UserInterface {
   telefono: string;
   idRuolo: number;
   idRuolo_Day: number;
+  idLevel: number;
   idruoloweb: number;
   noteUtente: string;
   eseguitaAbilitazione: string;
@@ -43,6 +43,7 @@ export class User implements UserInterface {
   this.photo = '';
   this.idRuolo = 0;
   this.idRuolo_Day = 0;
+  this.idLevel = 0;
   this.idruoloweb = 0;
   this.noteUtente = '';
   this.eseguitaAbilitazione = 'N';

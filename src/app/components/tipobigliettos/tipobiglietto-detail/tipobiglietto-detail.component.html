@@ -1,33 +1,26 @@
-
 <br>
 <div class="container">
-
   <div class="header_Edit title_Edit" *ngIf="fase  ===  'M'">
     <strong>{{title}}</strong>
   </div>
- <div class="header_New" *ngIf="fase  ===  'N'">
+  <div class="header_New" *ngIf="fase  ===  'N'">
     <caption class="title_New  col-md-12 ">{{title}}</caption>
   </div>
-
   <br>
-
-
   <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
      <div >
       <form #fm ="ngForm">
         <input Hidden #id="ngModel"  [(ngModel)]="manif.id" class="form-control" name="id" id="id">
-
         <div class="row">
             <label for="descManif" class="col-sm-2 col-form-label">Manifestazione</label>
             <div class=" col-md-6">
               <input disabled #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif"  style="text-transform : uppercase">
             </div>
-
-          <div class=" col-md-2">
+           <div class=" col-md-2">
         <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
-            <div>
-              <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : 'white'"  [style.background-color]="manif.stato == 2 ? 'yellow' : 'red'">
-            </div>
+              <div>
+                <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : 'white'"  [style.background-color]="manif.stato == 2 ? 'yellow' : 'red'">
+              </div>
           </div>
         </div>
 
@@ -43,54 +36,73 @@
           <div class=" col-md-2">
             <input disabled [(ngModel)]="manif.dtFine"  [ngModel]="manif.dtFine | date:'dd/MM/yyyy'" #dtFine="ngModel" class="form-control"  name="dtFine" id="dtFine"  placeholder="sel. data Fine" >
           </div>
-      </div>
-      </form>
-    </div>
-   </div>
-<br>
+        </div>
+        <br>
+        <hr>
 
-<hr>
-<div class="row">
-  <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
-  <div class=" col-md-6">
-    <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"  style="text-transform : uppercase">
-  </div>
-  <div class=" col-md-2">
-<!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
-      <div>
-        <input disabled #d_stato_evento="ngModel"  [(ngModel)]="evento.d_stato_evento" class="form-control" name="d_stato_evento" id="d_stato_evento" [style.color]="evento.stato == 2 ? 'red' : 'white'"  [style.background-color]="evento.stato == 2 ? 'yellow' : 'red'">
-      </div>
-    </div>
-</div>
-<br>
-<div class="row">
-  <label for="localita" class="col-sm-2 col-form-label">Localita</label>
-  <div class=" col-md-6">
-    <input disabled #localita="ngModel"  [(ngModel)]="evento.localita" class="form-control" name="localita" id="localita"  style="text-transform : uppercase">
-  </div>
-  <div class=" col-md-2">
-<!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
-      <div>
-        <input  disabled [(ngModel)]="evento.data" [ngModel]="evento.data | date:'dd/MM/yyyy'" #data="ngModel" class="form-control"  name="data" id="data">
-      </div>
-    </div>
-</div>
+        <div class="row">
+          <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
+          <div class=" col-md-4">
+            <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"  style="text-transform : uppercase">
+          </div>
+          <div class=" col-md-2">
+        <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+              <div>
+                <input disabled #d_stato_evento="ngModel"  [(ngModel)]="evento.d_stato_evento" class="form-control" name="d_stato_evento" id="d_stato_evento" [style.color]="evento.stato == 2 ? 'red' : 'white'"  [style.background-color]="evento.stato == 2 ? 'yellow' : 'red'">
+              </div>
+          </div>
+          <div class=" col-md-4">
+            <div class="row">
+                <label label  class="col-form-label col-md-2">T.Posti  </label>
+                <div class=" col-md-3">
+                      <input disabled #nposti="ngModel"  [(ngModel)]="evento.nposti" class="form-control" name="nposti" id="nposti" style="color: blue; background-color: yellow;">
+                </div>
+                <label label  class="col-form-label col-md-2">Residuo  </label>
+                <div class=" col-md-3">
+                      <input disabled #residuo="ngModel"  [(ngModel)]="evento.npostiDisponibili - evento.npostiAssegnati" class="form-control" name="residuo" id="residuo" style="color: yellow; background-color: red; text-align: right; font-weight: bold">
+                </div>
 
-<br>
-<div class="row">
+            </div>
+          </div>
+        </div>
+        <br>
+
+        <div class="row">
+          <label for="localita" class="col-sm-2 col-form-label">Localita</label>
+          <div class=" col-md-5">
+            <input disabled #localita="ngModel"  [(ngModel)]="evento.localita" class="form-control" name="localita" id="localita"  style="text-transform : uppercase">
+          </div>
+          <div class=" col-md-2">
+        <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+              <div>
+                <input  disabled [(ngModel)]="evento.data" [ngModel]="evento.data | date:'dd/MM/yyyy'" #data="ngModel" class="form-control"  name="data" id="data">
+              </div>
+            </div>
+        </div>
+        <br>
+<!--parte b -->
+<!-- npostiDisponibili: {{npostiDisponibili}}<br>
+npostiAssegnati: {{npostiAssegnati}}<br>
+npostiDisp: {{npostiDisp}}  -->
+
+
+<!--selectedTaglio: {{selectedTaglio}}<br>   da eliminare
+wEventoTagliaBiglietti: {{wEventoTagliaBiglietti | json}}  -->
+
+<div class="row" *ngIf="npostiAssegnati <  npostiDisponibili">
   <div class="col-md-4">
-    <div class="row">
+    <div class="row" >  <!-- *ngIf="npostiDisponibili > 0"-->
       <label for="taglio" class="col-sm-2 col-form-label">Taglio</label>
       <div class="dropdown col-sm-8">
         <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedTaglio" ngModel name="taglio" id="taglio" class="form-select" required (change)="onSelectedTaglio($event.target.value)" aria-label="Default select example">
-          <option selected value="9999"  >Seleziona lo stato</option>
-          <option *ngFor="let taglio of tagli" [value]="taglio.id"  class="form-control"  >{{taglio.d_taglia}}</option>
+          <option selected value="9999"  >Seleziona il taglio</option>
+          <option *ngFor="let taglio of wEventoTagliaBiglietti" [value]="taglio.id"  class="form-control"  >{{taglio.d_taglia}}</option>
         </select>
       </div>
       <div class="invalid-feedback">effettuare la scelta del taglio</div>
     </div>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-4" *ngIf="selectedTaglio > 0">
     <div class="row">
       <label for="stato" class="col-sm-2 col-form-label">Stato</label>
       <div class="dropdown col-sm-8">
@@ -102,155 +114,347 @@
       <div class="invalid-feedback">effettuare la scelta dello stato</div>
     </div>
   </div>
-
-
 </div>
- <br>
- <div class="row">
-  <!-- localita -->
-    <label for="importo" class="col-sm-1 col-form-label">Prezzo</label>
-      <div class="col-sm-1">
-        <input  type="text" required #importo="ngModel"  [(ngModel)]="tipobiglietto.importo"  minlength="1" maxlength="3" pattern="[0-9]{1,3}" class="form-control col-md-2" name="importo" id="importo" placeholder="Inserire importo">
+<br>
+<div class="row" *ngIf="selectedTaglio > 0 && npostiAssegnati <  npostiDisponibili ">
+<!--  ok-->
+  <div class="col-md-2">
+    <div class="row">
+        <div class="col-md-6">
+          <label for="importo" class="col-sm-3 col-form-label">Prezzo</label>&nbsp;
+        </div>
+        <div class="col-md-6">
+          <input  type="text" required #importo="ngModel"  [(ngModel)]="tipobiglietto.importo"  minlength="1" maxlength="3" pattern="[0-9]{1,3}" class="form-control col-md-3" name="importo" id="importo" placeholder="Inserire importo">
+        </div>
         <br>
-        <div *ngIf="importo.dirty && importo.touched && importo.invalid"  class="alert alert-danger">
+
+        <div class="col-sm-6">
+          <div *ngIf="importo.dirty && importo.touched && importo.invalid"  class="alert alert-danger">
             <div  *ngIf="importo.errors.required">
               inserire importo - campo Obbligatorio
             </div>
             <div  *ngIf="importo.errors.minlength">
               il campo deve avere almeno {{importo.errors.minlength.requiredLength }} caratteri
             </div>
-
             <div *ngIf="importo.errors?.pattern">
-              <!-- non posso inserire lettere   {{postimax.errors.pattern.requiredPattern }}  -->
+
               importo non valido
             </div>
+          </div>
         </div>
+    </div>
+  </div>
+  <!--  ok-->
+  <div class="col-md-3">
+      <div class="row">
+          <div class="col-md-6">
+            <label class="col-form-label">Residui Disp.</label>
+          </div>
+          <div class="col-md-6">
+            <label  class="col-sm-1 col-form-label" style="color: red"><strong>{{npostiDisp}}</strong></label>
+          </div>
       </div>
-   <!-- numero massimo da emettere -->
-    <label for="ntot" class="col-sm-2 col-form-label">Num Totale</label>
-        <div class="col-sm-1">
-          <input  type="text" required #ntot="ngModel"  [(ngModel)]="tipobiglietto.ntot"  minlength="1" maxlength="5" pattern="[0-9]{1,5}" class="form-control col-md-2" name="ntot" id="ntot" placeholder="Inserire n. disponibili">
+  </div>
+    <!--  ok-->
+  <div class="col-md-2">
+      <div class="row">
+          <div class="col-md-6">
+            <label class="col-form-label">N. Totale</label>
+          </div>
+          <div class="col-md-6">
+            <input  type="text" required #ntot="ngModel"  [(ngModel)]="tipobiglietto.ntot"  minlength="1" maxlength="5" pattern="[0-9]{1,5}" class="form-control" name="ntot" id="ntot" placeholder="Inserire n. disponibili">
+          </div>
           <br>
           <div *ngIf="ntot.dirty && ntot.touched && ntot.invalid"  class="alert alert-danger">
-              <div  *ngIf="ntot.errors.required">
-                inserire n. totale vendibile - campo Obbligatorio
-              </div>
-              <div  *ngIf="ntot.errors.minlength">
-                il campo deve avere almeno {{ntot.errors.minlength.requiredLength }} caratteri
-              </div>
+            <div  *ngIf="ntot.errors.required">
+              inserire n. totale vendibile - campo Obbligatorio
+            </div>
+            <div  *ngIf="ntot.errors.minlength">
+              il campo deve avere almeno {{ntot.errors.minlength.requiredLength }} caratteri
+            </div>
+            <div *ngIf="ntot.errors?.pattern">
+              numero totale disponibile non valido
+            </div>
+            <div *ngIf="tipobiglietto.ntot < wMaxPosti">
+              <!-- non posso inserire lettere   {{postimax.errors.pattern.requiredPattern }} -->
+              posti maggiori del disponibile
+            </div>
+          </div>
+        </div>
+  </div>
+  <div class="col-md-5">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="serie" class="col-form-label">Serie</label>
+      </div>
+      <div class="col-md-3">
+        <input  type="text" required #serie="ngModel"  [(ngModel)]="tipobiglietto.serie"  minlength="1" maxlength="5" pattern="[0-9a-zA-Z\s]*" class="form-control col-md-2" name="serie" id="serie" placeholder="Inserire Serie"   style="text-transform : uppercase">
+      </div>
+      <br>
+      <div *ngIf="serie.dirty && serie.touched && serie.invalid"  class="alert alert-danger">
+        <div  *ngIf="serie.errors.required">
+            inserire serie - campo Obbligatorio
+        </div>
+        <div  *ngIf="serie.errors.minlength">
+            il campo deve avere almeno {{serie.errors.minlength.requiredLength }} caratteri
+        </div>
+        <div  *ngIf="serie.errors.maxlength">
+            il campo deve avere almeno {{serie.errors.maxlength.requiredLength }} caratteri
+        </div>
+        <div *ngIf="serie.errors?.pattern">
+              serie non valida
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label for="serie" class="col-form-label">N. iniziale</label>
+      </div>
+      <div class="col-md-3">
+        <input  type="text" required #ultimoemesso="ngModel"  [(ngModel)]="tipobiglietto.ultimoemesso"   class="form-control" name="ultimoemesso" id="ultimoemesso" placeholder="n. iniziale" >
+      </div>
+  </div>
+  </div>
+ </div>
+<br>
 
-              <div *ngIf="ntot.errors?.pattern">
-                <!-- non posso inserire lettere   {{postimax.errors.pattern.requiredPattern }}  -->
-                numero totale disponibile non valido
+<!--  dettaglio delle taglie selezionate -->
+<div class="row" *ngIf="insertedTaglia === true">
+  <div class="col-md-2">
+    <label  class="col-form-label">tipo biglietto</label>&nbsp;&nbsp;
+  </div>
+
+<!--   radio button che funziona bene
+
+  <div class="col-md-5">
+    <div class="row">
+      <div class="col-sm-8 borde">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="inlineRadio01"  value="1" (click)="selectTipoBiglietto($event.target.value)"/>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="inlineRadio02"  value="2" (click)="selectTipoBiglietto($event.target.value)"/>
+          <label class="form-check-label" for="inlineRadio02"> Prezzo Fascie </label>
+        </div>
+      </div>
+  </div>
+  </div>  -->
+
+ <!--wEventoTagliaBigliettiSelected: {{wEventoTagliaBigliettiSelected | json}} -->
+
+  <div class="col-md-5"  *ngIf="numeroTaglieSelected > 0 " >
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Taglia</th>
+          <th scope="col">Importo</th>
+          <th scope="col">n. Bigl.</th>
+          <th scope="col">Serie</th>
+          <th scope="col">n. inizio</th>
+          <th scope="col"></th>
+
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr  *ngFor ="let taglia of wEventoTagliaBigliettiSelected  let i = index">
+          <td >{{i + 1}}</td>
+          <td>{{taglia.d_taglia}}</td>
+          <td>{{taglia.importo | currency:'EUR':true}}</td>
+          <td>{{taglia.nbiglietti}}</td>
+          <td>{{taglia.serie}}</td>
+          <td>{{taglia.ultimoemesso}}</td>
+          <td>
+            <div  >
+              <button class="btn btn-danger btn-sm " (click)="deletePostobyFascia(taglia)">
+                <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-md-5" *ngIf="allPostiAssegnati === true">
+    <div class="row">
+      <div class="col-sm-8" *ngIf="evento.tipobiglietto === 1">  <!--  *ngIf="npostiDisponibili > 0" -->
+         <label class="form-check-label" for="inlineRadio01" style="color: blue; font-weight: bold;"> Prezzo Unico </label>
+      </div>
+      <div class="col-sm-8" *ngIf="evento.tipobiglietto === 2">  <!--  *ngIf="npostiDisponibili > 0" -->
+        <label class="form-check-label" for="inlineRadio01" style="color: red; font-weight: bold;"> Prezzo a Taglie </label>
+      </div>
+    </div>
+  </div>
+</div><br>
+
+
+<!--   esempio pr editazione numero
+
+https://stackblitz.com/edit/decimal-pipe-comma-separator-example-arg?file=app%2Fapp.component.html
+-->
+<!--
+<div class="row" *ngIf="allPostiAssegnati === true">
+  <div class="col-md-2">
+    <label  class="col-form-label">tipo biglietto</label>&nbsp;&nbsp;
+  </div>
+  <div class="col-md-5">
+    <div class="row">
+      <div class="col-sm-8" *ngIf="evento.tipobiglietto === 1">
+         <label class="form-check-label" for="inlineRadio01"> Prezzo Unico </label>
+      </div>
+      <div class="col-sm-8" *ngIf="evento.tipobiglietto === 2">
+        <label class="form-check-label" for="inlineRadio01"> Prezzo a Taglie </label>
+      </div>
+  </div>
+  </div>
+  <div class="col-md-5">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Taglia</th>
+          <th scope="col">Importo</th>
+          <th scope="col">n. Bigl.</th>
+          <th scope="col">Serie</th>
+          <th scope="col">n. inizio</th>
+          <th scope="col"></th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr  *ngFor ="let taglia of wEventoTagliaBigliettiSelected  let i = index">
+          <td >{{i + 1}}</td>
+          <td>{{taglia.d_taglia}}</td>
+          <td>{{taglia.importo | currency:'EUR':true}}&nbsp;</td>
+          <td>{{taglia.nbiglietti | number}}</td>
+          <td>{{taglia.serie}}</td>
+          <td>{{taglia.ultimoemesso}}</td>
+          <td>
+            <div  >
+              <button class="btn btn-danger btn-sm " (click)="deletePostobyFascia(taglia)">
+                <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><br>    -->
+
+
+<!--
+        <div class="row" >
+          <label  class="col-sm-2 col-form-label borde1">tipo biglietto</label>&nbsp;&nbsp;
+           <div class="col-md-5" *ngIf="npostiDisponibili > 0">
+            <div class="row">
+
+                <div class="col-sm-8 borde" *ngIf="npostiDisponibili > 0">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="inlineRadio01"  value="1" (click)="selectTipoBiglietto($event.target.value)"/>
+                    <label class="form-check-label" for="inlineRadio01"> Prezzo Unico </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="inlineRadio02"  value="2" (click)="selectTipoBiglietto($event.target.value)"/>
+                    <label class="form-check-label" for="inlineRadio02"> Prezzo Fascie </label>
+                  </div>
+                </div>
+            </div>
+           </div>
+
+          <div class="col-md-5"  *ngIf="viewPrezzoFascie === true && insertedTaglia === true || npostiDisponibili === 0" >
+
+
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Taglia</th>
+                  <th scope="col">Importo</th>
+                  <th scope="col">n. Bigl.</th>
+                  <th scope="col"></th>
+
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr  *ngFor ="let taglia of wEventoTagliaBigliettiSelected  let i = index">
+                  <td >{{i + 1}}</td>
+                  <td>{{taglia.d_taglia}}</td>
+                  <td>{{taglia.importo | currency:'EUR':true}}</td>
+                  <td>{{taglia.nbiglietti}}</td>
+                  <td>
+                    <div  >
+                      <button class="btn btn-danger btn-sm " (click)="deletePostobyFascia(taglia)">
+                        <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <br>  -->
+
+
+
+   <!--     insertedFascia; {{insertedFascia}}<br>
+
+
+        this.selectedTaglio: {{this.selectedTaglio}}  -->
+
+        <hr>
+
+        <!-- Bottoni funzionali -->
+        <div class="footer" >
+          <div class="row col-sm-10 offset-2" >
+            <div class="col-sm-3" *ngIf="evento.npostiDisponibili - evento.npostiAssegnati > 0">   <!-- npostiDisp > 0 -->
+              <button [disabled]="fm.invalid" class="btn btn-success btn-md " (click)="conferma()">Conferma  <!-- [disabled]="npostiAssegnati <  npostiDisponibili" -->
+                <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+              </button>
+            </div>
+            <!--
+            <div class="col-sm-3">
+              <button [disabled]="fm.invalid" class="btn btn-danger btn-md "  (click)="open(content)"> Cancella
+                <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+              </button>
+            </div>  -->
+            <div class="col-sm-3" *ngIf="npostiDisponibili === npostiAssegnati" >  <!--  npostiDisp == 0-->
+              <button  [disabled]="(npostiDisponibili - npostiAssegnati) !== 0" class="btn btn-success btn-md "  (click)="release()">Rilascia&nbsp;
+                <fa-icon [icon]="faCloud"  fixed="true"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+ <!--  fine personaizzazione  -->
+        <br>
+        <div class="form-row col-md-12">
+          <div class="row col-md-12">
+              <div class="form-row">
+              <div class="col-md-12">
+                  <!-- messaggi -->
+                   <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+                    <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+                          <div class="col md-12">
+                            <p>{{Message}}</p>
+                          </div>
+                  </div>
+                  <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+                      <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+                          <div class="col md-12">
+                            <p>{{Message}}</p>
+                          </div>
+                  </div>
+              </div>
               </div>
           </div>
         </div>
-
-      <!-- serie -->
-      <label for="serie" class="col-sm-1 col-form-label">Serie</label>
-      <div class="col-sm-1">
-        <input  type="text" required #serie="ngModel"  [(ngModel)]="tipobiglietto.serie"  minlength="1" maxlength="5" pattern="[0-9a-zA-Z\s]*" class="form-control col-md-2" name="serie" id="serie" placeholder="Inserire Serie"   style="text-transform : uppercase">
         <br>
-        <div *ngIf="serie.dirty && serie.touched && serie.invalid"  class="alert alert-danger">
-            <div  *ngIf="serie.errors.required">
-              inserire serie - campo Obbligatorio
-            </div>
-            <div  *ngIf="serie.errors.minlength">
-              il campo deve avere almeno {{serie.errors.minlength.requiredLength }} caratteri
-            </div>
-	    <div  *ngIf="serie.errors.maxlength">
-              il campo deve avere almeno {{serie.errors.maxlength.requiredLength }} caratteri
-            </div>
-            <div *ngIf="serie.errors?.pattern">
-               serie non valida
-            </div>
-        </div>
- </div>
 
-
-
- </div>
-
- <hr>
- <!-- Bottoni funzionali -->
- <div class="footer" >
-   <div class="row col-sm-10 offset-2">
-
-
-     <div class="col-sm-3">
-       <button [disabled]="fm.invalid" class="btn btn-success btn-md " (click)="conferma()">Conferma
-         <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
-       </button>
-     </div>
-     <!--
-     <div class="col-sm-3">
-       <button [disabled]="fm.invalid" class="btn btn-danger btn-md "  (click)="open(content)"> Cancella
-         <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
-       </button>
-     </div>  -->
-     <div class="col-sm-3" >
-       <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
-         <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
-       </button>
-     </div>
-   </div>
- </div>
-
-
-
-   <!--  fine personaizzazione  -->
-
-
-
-
-   <br>
-   <div class="form-row col-md-12">
-     <div class="row col-md-12">
-
-        <div class="form-row">
-         <div class="col-md-12">
-            <!-- messaggi -->
-           <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
-             <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
-                   <div class="col md-12">
-                     <p>{{Message}}</p>
-                   </div>
-            </div>
-            <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
-              <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
-                   <div class="col md-12">
-                     <p>{{Message}}</p>
-                   </div>
-             </div>
-           </div>
-        </div>
-     </div>
-   </div>
-
-
+      </form>
+      </div>
+    </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

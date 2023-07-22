@@ -48,21 +48,22 @@
       </div>
   <br>
   <!-- riga per filtro di ricerca -->
-  <div>
+
       <div class="row">
-          <div class="col-12 col-sm-6 col-md-8">
+          <div class="col-md-9 ">
             <div class="form-check form-check-inline" *ngFor="let option of options; index as idx">
               <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option" (change)="onSelectionChange(option)">&nbsp;&nbsp; {{option}}
             </div>
           </div>
-          <div *ngIf="trovatoRec"  class="col-6 col-md-4">
+          <div *ngIf="trovatoRec"  class="col-md-3">
             <strong>Record trovati:</strong>&nbsp;&nbsp; {{nRec}}
           </div>
       </div>
-</div>
+
 </div>
   <br>
-  <div class="form-row col-md-12">
+
+  <div class="form-row col-md-12" *ngIf="nRec > 0">
     <div class="row col-md-12">
 
       <!-- tabella di dettaglio dei fedeli -->
@@ -76,8 +77,10 @@
              <th scope="col">stato</th>
              <th scope="col">stato Biglietto</th>
              <th scope="col">stato Posti</th>
+             <th scope="col"></th>
              <!--  non serve action -->
              <th  colspan="2" style="text-align: center ">Action</th>
+             <th  colspan="3" style="text-align: center ">Navigate</th>
          </tr>
         </thead>
         <tbody>
@@ -89,27 +92,29 @@
         </tbody>
        </table>
        <pagination-controls (pageChange)="p = $event"></pagination-controls>
-       <div class="form-row">
-        <div class="col-md-12">
-           <!-- messaggi -->
-          <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
-            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
-                  <div class="col md-12">
-                    <p>{{Message}}</p>
-                  </div>
-           </div>
-           <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
-             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
-                  <div class="col md-12">
-                    <p>{{Message}}</p>
-                  </div>
-            </div>
-          </div>
-       </div>
+
     </div>
   </div>
-
-
+<br>
+<div class="row">
+  <div class="form-row">
+    <div class="col-md-12">
+       <!-- messaggi -->
+      <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+        <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+              <div class="col md-12">
+                <p>{{Message}}</p>
+              </div>
+       </div>
+       <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+         <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+              <div class="col md-12">
+                <p>{{Message}}</p>
+              </div>
+        </div>
+      </div>
+   </div>
+</div>
 
 
 

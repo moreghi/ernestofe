@@ -94,7 +94,6 @@ constructor(private logisticaService: LogisticaService,
 
         async loadLogistiche() {
 
-          //alert('Manifestazioni   -- loadManifestazioni :  inizio ');
           this.trovatoRec = false;
           this.nRec = 0;
           this.isVisible = true;
@@ -122,7 +121,6 @@ constructor(private logisticaService: LogisticaService,
 */
 
 showNotification( type: string, message: string ): void {
-// alert('sono in showNot - ' + message);
 this.notifier.notify( type, message );
 console.log(`sono in showNotification  ${type}`);
 }

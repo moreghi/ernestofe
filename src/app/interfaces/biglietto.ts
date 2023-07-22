@@ -8,6 +8,7 @@ export interface BigliettoInterface {
     stato: number;
     tipo: number;
     numero: number;
+    importo: number;
     cognome: string;
     nome: string;
     email: string;

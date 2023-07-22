@@ -6,11 +6,19 @@ import { ActivatedRoute, Router, RouterStateSnapshot } from '@angular/router';
 // Model
 import { Logistica } from '../../../classes/Logistica';
 import { TstatoLogistica } from './../../../classes/T_stato_logistica';
+// Wsettori sostituisce LogSettore
+import { Wsettori } from '../../../classes/W_Settori';
+import { WFile } from '../../../classes/W_File';
+import { WorkSettore } from '../../../classes/Work_settore';
+import { WorkFila } from '../../../classes/Work_fila';
 // service
 import { LogisticaService } from './../../../services/logistica.service';
 import { TstatologisticaService } from './../../../services/tstatologistica.service';
 import { UploadFilesService } from './../../../services/upload-files.service';
-
+import { WSettoriService } from './../../../services/w-settori.service';
+import { WFileService } from './../../../services/w_file.service';
+import { WorksettoreService } from './../../../services/worksettore.service';
+import { WorkfilaService } from './../../../services/workfila.service';
 // per gestire il popup con esito operazione
 import { NotifierService } from 'angular-notifier';
 import { Observable } from 'rxjs';
@@ -19,6 +27,8 @@ import { environment } from '../../../../environments/environment';
 import { NgForm } from '@angular/forms';
 // popup per visualizzazione logistica
 import { LogisticapopComponent } from '../../../components/popups/logisticapop/logisticapop.component';
+
+
 
 @Component({
   selector: 'app-logistica-detail',
@@ -42,8 +52,19 @@ export class LogisticaDetailComponent implements OnInit {
   public logistica: Logistica;
   public statilogistica: TstatoLogistica[] = [];
 
-
+// 2023/04/16
+public wsettori: Wsettori[] = [];
+public wsettoriSelected: Wsettori[] = [];
+public wsettore: Wsettori;
+public wfile: WFile[]= [];
+public wfila: WFile;
+public workSettori: WorkSettore[]= [];
+  public workSettore: WorkSettore;
+  public WorkFile: WorkFila[]= [];
+  public workFila: WorkFila;
   public title = "Gestione logisticaestazione";
+
+
 
 // icone
   faPlusSquare = faPlusSquare;
@@ -170,9 +191,16 @@ public anno  = 0;
 public namepage = ' - Logistica-detail';
 public selectedStato = 0;
 public pathimage = '';
+public namefileDefault = 'nessunaImmaginePosti.png';
+public lastLogistica = 0;
+public trovatiSettori = false;
 
 constructor(public modalService: NgbModal,
             private logisticaService: LogisticaService,
+            private wSettoriService: WSettoriService,
+            private wFileService: WFileService,
+            private worksettoreService: WorksettoreService,
+            private workfilaService: WorkfilaService,
             private statologisticaService: TstatologisticaService,
             private uploadService: UploadFilesService,
             private route: ActivatedRoute,
@@ -203,6 +231,7 @@ constructor(public modalService: NgbModal,
                 this.title = 'Inserimento nuova logistica' + this.namepage;
                 this.Message = 'inserire i dati della nuova logistica';
                 this.logistica = new Logistica();
+                this.logistica.photo = this.namefileDefault;
                 this.logistica.key_utenti_operation = +localStorage.getItem('id');
                 this.logistica.d_stato_logistica = 'in fase inserimento';
               } else {
@@ -226,7 +255,8 @@ constructor(public modalService: NgbModal,
                 console.log('logisticaestazione da editare  ' + JSON.stringify(response['data']));
                 this.logistica = response['data'];
                 this.selectedStato = this.logistica.stato;
-                this.pathimage = environment.APIURL + '/upload/files/eventos/' + this.logistica.photo;
+               // this.pathimage = environment.APIURL + '/upload/files/eventos/' + this.logistica.photo;  // fino al 15/04/20023
+                this.pathimage = environment.APIURL + '/upload/files/logistica/' + this.logistica.photo;  // dal 16/04/2023
               }
               if(response['rc'] === 'nf') {
                 this.Message = response['message'];
@@ -297,10 +327,10 @@ constructor(public modalService: NgbModal,
 //
 
 showNotification( type: string, message: string ): void {
-  // alert('sono in showNot - ' + message);
+
   this.notifier.notify( type, message );
   console.log(`sono in showNotification  ${type}`);
-  //   alert('sono in notifier' + message);
+
   }
 
 
@@ -377,10 +407,8 @@ showNotification( type: string, message: string ): void {
           this.logisticaService.create(this.logistica).subscribe(
           res => {
                 this.logistica = res['data'];
-                this.type = 'success';
-                this.Message =  res['message'];
-                this.alertSuccess = true;
-                this.router.navigate(['/logistica']);
+                console.log('creata nuovo logistica ' + JSON.stringify(res['data']));
+                this.loadLastlogistica();   // prendo id logistica oer fare la creazione settore e file
              },
             error => {
                console.log(error);
@@ -415,6 +443,187 @@ showNotification( type: string, message: string ): void {
     }
     this.showNotification(this.type, this.Message);
   }
+
+
+
+
+  async  loadLastlogistica() {
+    console.log('');
+    let rc = await this.logisticaService.getLast().subscribe(
+        resp => {
+              console.log('loadLastlogistica: ' + JSON.stringify(resp['data']));
+              if(resp['rc'] === 'ok') {
+                this.logistica = resp['data'];
+                this.lastLogistica = this.logistica.id;
+                this. creaworklogistica(this.lastLogistica);
+              }
+           },
+        error => {
+             alert('sono in loadStati');
+             console.log('loadStati - errore: ' + error);
+             this.type = 'error';
+             this.Message = error.message;
+             this.showNotification(this.type, this.Message);
+         });
+     }
+
+     creaworklogistica(id:number) {
+      console.log('---------      sono dentro a  creaworklogistica -- appena arrivato: ' + id);
+         this.loadwSettori();
+
+      // leggere w_settore e caricarli
+      // leggere w_fila e caricarli
+     }
+
+     async  loadwSettori() {
+      console.log('loadwSettori  --- appena entrato');
+      let rc = await this.wSettoriService.getAll().subscribe(
+          resp => {
+                console.log('------------------------------------------------- loadSettori: ' + JSON.stringify(resp['data']));
+                if(resp['rc'] === 'ok') {
+                  this.wsettori = resp['data'];
+                  let c = 0;
+                  for(let wsett of this.wsettori) {
+                      this.workSettore = new WorkSettore();
+                     // this.workSettore.id = wsett.id;
+                      this.workSettore.idLogistica = this.lastLogistica;
+                      this.workSettore.idSettore = wsett.id;
+                      this.workSettore.dsettore = wsett.descrizione;
+                      c =+ 1;
+                          console.log(`creanewworkSettore: ------- pronto per inserire ---------------->  ${JSON.stringify(this.workSettore)}  ------   contatore c: ${c} `);
+
+                      this.registranewWorkSettore(this.workSettore, wsett.id);
+
+                  }
+                  this.registraallFilebysettori(this.lastLogistica)
+                  this.type = 'success';
+                  this.Message =  'creata nuova Logistica - impostare la mappatura dei posti';
+                  this.alertSuccess = true;
+                  this.router.navigate(['/logistica']);
+              }
+          },
+          error => {
+               alert('sono in loadwSettori');
+               console.log('loadwSettori - errore: ' + error);
+               this.type = 'error';
+               this.Message = error.message;
+               this.showNotification(this.type, this.Message);
+           });
+       }
+
+//  merda       if(resp['rc'] === 'ok') {
+ // this.loadwFile(idsett);
+
+
+
+
+      async  registranewWorkSettore(workSettore: WorkSettore, idsett: number)  {
+          console.log('   sono dentro a registranewWorkSettore ---- appena entrato: ' )
+          let rc = await this.worksettoreService.create(workSettore).subscribe(
+            resp => {
+                  if(resp['rc'] !== 'ok') {
+                    alert('errore in registranewWorkSettore -- rc: ' + resp['rc']);
+                    console.log('errore in registranewWorkSettore -- rc: ' + resp['rc']);
+                    this.type = 'error';
+                    this.Message = 'errore in registranewWorkSettore -- rc: ' + resp['rc'];
+                    this.showNotification(this.type, this.Message);
+                  }
+
+             },
+            error => {
+                 alert('sono in registranewWorkSettore');
+                 console.log('registranewWorkSettore - errore: ' + error);
+                 this.type = 'error';
+                 this.Message = error.message;
+                 this.showNotification(this.type, this.Message);
+             });
+       }
+
+
+       async  registraallFilebysettori(idlogistica: number) {
+        console.log('-_________________________________   sono dentro a registraallFilebysettori');
+
+        let rc = await this.worksettoreService.getAllloc(idlogistica).subscribe(
+            resp => {
+                  console.log('-------------------- registraallFilebysettori: ' + JSON.stringify(resp['data']));
+                  if(resp['rc'] === 'ok') {
+                    this.workSettori = resp['data'];
+                    for(let wsett of this.workSettori) {
+                      this.loadwFile(wsett.id);
+                   }
+               }
+            },
+            error => {
+                 alert('sono in registraallFilebysettori');
+                 console.log('registraallFilebysettori - errore: ' + error);
+                 this.type = 'error';
+                 this.Message = error.message;
+                 this.showNotification(this.type, this.Message);
+             });
+         }
+
+       async  loadwFile(idSettore: number) {
+        console.log('-_________________________________   sono dentro a loadwFile -- idSettore: ' + idSettore);
+        let rc = await this.wFileService.getAll().subscribe(
+            resp => {
+                  console.log('------------------------------------------------- loadwFile: ' + JSON.stringify(resp['data']));
+                  if(resp['rc'] === 'ok') {
+                    this.wfile = resp['data'];
+                    for(let wfila of this.wfile) {
+                      this.workFila = new WorkFila();
+                      this.workFila.idLogistica = this.lastLogistica;
+                      this.workFila.idSettore = idSettore;
+                      this.workFila.dfila = wfila.descrizione;
+
+                          console.log(`creanewworkSettore: ------- pronto per inserire ---------------->  ${JSON.stringify(this.workSettore)} `);
+                      this.registranewWorkFila(this.workFila);
+                  }
+               }
+            },
+            error => {
+                 alert('sono in loadwFile');
+                 console.log('loadwFile - errore: ' + error);
+                 this.type = 'error';
+                 this.Message = error.message;
+                 this.showNotification(this.type, this.Message);
+             });
+         }
+
+         async  registranewWorkFila(workFila: WorkFila)  {
+          let rc = await this.workfilaService.create(workFila).subscribe(
+            resp => {
+                  console.log('------------------------------------ registranewWorkFila: ' + JSON.stringify(resp['data']));
+                  if(resp['rc'] !== 'ok') {
+                    alert('errore in registranewWorkFila -- rc: ' + resp['rc']);
+                    console.log('errore in registranewWorkFila -- rc: ' + resp['rc']);
+                    this.type = 'error';
+                    this.Message = 'errore in registranewWorkFila -- rc: ' + resp['rc'];
+                    this.showNotification(this.type, this.Message);
+                  }
+            },
+            error => {
+                 alert('sono in registranewWorkFila');
+                 console.log('registranewWorkFila - errore: ' + error);
+                 this.type = 'error';
+                 this.Message = error.message;
+                 this.showNotification(this.type, this.Message);
+             });
+
+         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   reset() {
     switch (this.fase)  {
@@ -465,7 +674,8 @@ upload(): void {
 
     if (file) {
       this.logistica.photo = file.name;   // salvo su record il nome del file selezionato
-      this.folderImage = 'eventos';    // imposto la cartella in cui passare
+      // this.folderImage = 'eventos';    // imposto la cartella in cui passare  // fino al 15/04/2023
+      this.folderImage = 'logistica';  // dal 16/04/2023
       this.currentFile = file;
 
       this.uploadService.upload(this.currentFile, this.folderImage).subscribe(

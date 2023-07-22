@@ -1,21 +1,23 @@
 <td >{{i}}</td>
 <td>{{eventoposto.cognome}}</td>
 <td>{{eventoposto.nome}}</td>
-<td>{{logSettore.dsettore}}</td>
-<td>{{logFila.dfila}}</td>
-<td>{{eventoposto.idPosto}}</td>
+<td>{{settoreUser}}</td>  <!--  old visualizzazione {{logSettore.dsettore}} -->
+<td>{{filaUser}}</td>   <!-- {{logFila.dfila}}-->
+<td style="text-align: center;">{{eventoposto.idPosto}}</td>
 <!-- <td [style.color]="getColor(biglietto.stato)" [style.background]="getBackground(biglietto.stato)">{{biglietto.numero}}</td>  -->
-
+<!--
 <td >
   <button class="btn btn-sm  btn-danger" (click)="open(content, eventoposto)">
       <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
   </button>
-</td>
+</td> -->
+ <!--
 <td >
+
 <button class="btn btn-sm btn-success" (click)="navigate(navigateEdit,eventoposto)">show
     <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
-</button>
-</td>
+</button>  vertical-align: middle;
+</td>  -->
 
 <ng-template  #content let-modal>
 <div class="modal-header modal-header-color">

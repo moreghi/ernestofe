@@ -80,9 +80,20 @@ export class TtipobigliettoService {
           });
         }
 
+  countPostibyEvento(id: number) {
+          this.rottafunction = 'countpostibyEvento';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id , {
+            headers: this.getAuthHeader()
+          });
+        }
 
 
-
+        getbytipologia(idtipologia: number) {
+          this.rottafunction = 'getbytipologia';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + idtipologia , {
+            headers: this.getAuthHeader()
+          });
+        }
 
 
 }

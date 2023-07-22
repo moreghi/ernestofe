@@ -44,8 +44,11 @@ export class ManifestazioneDaysComponent implements OnInit {
 
   options = [
     'Tutte',
-    'Aperta',
-     'Chiusa'
+    'Programmate',
+    'Attive',
+    'Cancellate',
+    'Sospese',
+    'Completate'
   ];
 
    // per paginazone
@@ -132,7 +135,7 @@ public functionSelected = '';
 
 public functionUrl = '';
 public rottafase = '';
-
+public stato = 0;
 
 constructor(private manifestazioneService: ManifestazioneService,
             private eventoService: EventoService,
@@ -266,6 +269,58 @@ showNotification( type: string, message: string ): void {
 
   }
 
+  async onSelectionChange(tipo: string)   {
+
+    // alert('onSelectionChange - Tipo Richiesta: ' + tipo);
+
+    this.tipoRichiesta = tipo.substring(0, 2);
+    switch(this.tipoRichiesta) {
+        case "Tu":
+          this.stato = 0;
+          break;
+        case "Pr":
+          this.stato = 1;
+          break;
+        case "At":
+          this.stato = 2;
+          break;
+        case "Ca":
+          this.stato = 3;
+          break;
+        case "So":
+          this.stato = 4;
+          break;
+        case "Co":
+          this.stato = 5;
+          break;
+        default:
+          console.log("No such day exists!");
+          break;
+    }
+
+    this.trovatoRec = false;
+    this.isVisible = true;
+    let rc = await  this.eventoService.getbyIdManifbyStato(this.manif.id, this.stato).subscribe(
+          response => {
+          console.log('dopo ricerca per tipo ' + this.tipoRichiesta + ' esito: ' + response['rc'] + ' dati: ' + JSON.stringify(response['data']) + ' record: ' + response['number']) ;
+          if(response['rc'] === 'ok') {
+              this.eventi = response['data'];
+              this.nRec = response['number'];
+              this.Message = 'situazione attuale Eventi';
+             }
+          if(response['rc'] === 'nf') {
+              this.eventi = this.eventinull;
+              this.Message = 'nessun Evento presente';
+              this.nRec = 0;
+          }
+      },
+      error => {
+         alert('Manifestazione-day  -- onSelectionChange: ' + error.message);
+         console.log(error);
+         this.alertSuccess = false;
+         this.Message = error.message;
+      });
+    }
 
 
 }
@@ -300,52 +355,6 @@ export class ManifestazioneDaysComponent implements OnInit {
 
 
 
-onSelectionChange(tipo: string)   {
-
-// alert('onSelectionChange - Tipo Richiesta: ' + tipo);
-
-this.tipoRichiesta = tipo.substring(0, 1);
-
-
-this.trovatoRec = false;
-this.isVisible = true;
-this.giornataService.getGiornateforManif(this.idpassed, this.tipoRichiesta).subscribe(
-// sentire hidran per lettura particolare
-// this.fedeleService.getFedeliforMessa(id).subscribe(
-  response => {
-      console.log('dopo ricerca per tipo ' + this.tipoRichiesta + ' esito: ' + response['rc'] + ' dati: ' + JSON.stringify(response['data']) + ' record: ' + response['number']) ;
-      if(response['rc'] === 'ok') {
-        this.giornate = response['data'];
-        this.nRec = response['number'];
-        this.textMessage = response['message'];
-        this.trovatoRec = true;
-        this.alertSuccess = true;
-        this.Message = 'Situazione Attuale';
-      }
-      if(response['rc'] === 'nf') {
-        this.giornate = this.giornatenull;
-        this.nRec = response['number'];
-        this.textMessage = response['message'];
-        this.trovatoRec = false;
-        this.alertSuccess = false;
-        this.Message = 'Situazione Attuale - Nessuna giornata presente per il tipo di richiesta';
-      }
-
-
-   //   alert('loadGiornateFromManif - dovrei aver letto le giornate' + this.nRec + ' Messaggio: ' + this.textMessage);
-   //   console.log('loadGiornateFromManif - dovrei aver letto le giornate' + this.nRec + ' Messaggio: ' + this.textMessage);
-  },
-  error => {
-     alert('Manifestazione-day  -- onSelectionChange: ' + error.message);
-     console.log(error);
-     this.alertSuccess = false;
-     this.Message = error.message;
-  });
-
-
-
-
-}
 
 
 }

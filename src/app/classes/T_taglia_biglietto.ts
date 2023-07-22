@@ -8,6 +8,8 @@ export class Ttagliabiglietto implements TtagliabigliettoInterface {
   idtipotaglia: number;
   d_taglia: string;
   stato: number;
+  flagpu: string;
+  tagliaUser: string;
   key_utenti_operation: number;
   created_at: Date;
   updated_at: Date;
@@ -20,6 +22,8 @@ export class Ttagliabiglietto implements TtagliabigliettoInterface {
     this.idtipotaglia = 0;
     this.d_taglia = '';
     this.stato = 0;
+    this.flagpu = '';
+    this.tagliaUser = '';
     this.key_utenti_operation  = 0;
     this.created_at  = new Date();
     this.updated_at = new Date();

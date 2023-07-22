@@ -47,6 +47,8 @@ export class UsersComponent implements OnInit {
   public functionNew = false;
   public functionElenco = false;
 
+  public functionUser = '';
+
   public searchInqu = 'show';
   public searchEdit = 'edit';
   public searchNew = 'new';
@@ -82,7 +84,7 @@ export class UsersComponent implements OnInit {
 
   // per gestione abilitazione funzioni con service Moreno
 
-  public functionUser = '';
+
   public rotta = '';
   public rottaId = 0;
   public level = 0;
@@ -125,7 +127,11 @@ export class UsersComponent implements OnInit {
 
    //    this.checkFunctionbylevel();   da eliminare
 
-       this.goApplication();
+
+    this.functionUser = localStorage.getItem('functUser');
+
+
+    this.goApplication();
 
 
 
@@ -305,7 +311,7 @@ open(content:any, user:User) {
     this.showNotification(this.type, this.Message);
   }
 
-  cancellazioneCompleted(user:User) {
+  cancellazioneCompleted(user: User) {
     this.type = 'success';
     this.Message = `cancellazione dall utente ${user.cognome}  ${user.nome} eseguita con successo `;
     this.showNotification(this.type, this.Message);

@@ -1,0 +1,527 @@
+<div class="container ">
+  <div class="header_Edit title_Edit" >
+      <strong>{{title}}</strong>
+  </div>
+ <br>
+
+
+  <div >
+    <div class="col-md-auto">
+      <form #fm ="ngForm"  method="POST">
+        <input hidden #id="ngModel"  [(ngModel)]="manif.id" class="form-control" name="id" id="id">
+        <input hidden #key_utenti_operation="ngModel"  [(ngModel)]="manif.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation">
+        <!-- Descrizione  -->
+         <div class="row">
+            <div class="col-md-6">
+                  <div class="mb-3 row margini">
+                    <div class="col-md-3">
+                      <label for="descManif" class="col-form-label">Manifestazione:</label>
+                    </div>
+
+                    <div class="col-sm-7">
+                      <input disabled type="text" #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z,\s]*" placeholder="Inserire Descrizione Manifestazione"  style="text-transform : uppercase">
+                    </div>
+                  </div>
+             </div>
+             <div class="col-md-6">
+              <div class="row">
+                <div class=" col-md-1">
+                  <label for="dtInizio" class="col-form-label">Date</label>
+                </div>
+                &nbsp;
+                <div class=" col-md-3">
+                    <input  disabled [(ngModel)]="manif.dtInizio" [ngModel]="manif.dtInizio | date:'dd/MM/yyyy'" #dtInizio="ngModel" class="form-control"  name="dtInizio" id="dtInizio" placeholder="sel. data Inizio">
+                </div>
+                <div class=" col-md-1">
+
+                </div>
+                <div class=" col-md-3">
+                  <input disabled [(ngModel)]="manif.dtFine"  [ngModel]="manif.dtFine | date:'dd/MM/yyyy'" #dtFine="ngModel" class="form-control"  name="dtFine" id="dtFine"  placeholder="sel. data Fine" >
+                </div>
+              </div>
+
+             </div>
+         </div>
+          <br>
+          <div class="row">
+
+            <div class="col-md-1">
+              <label class="col-form-label">Locandina</label>
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-success btn-sm"  (click)="viewLocandina()">Visualizza
+              </button>
+            </div>
+            <div class="col-md-3" *ngIf="visualizzaLocandina === true">
+              <lib-ngx-image-zoom
+              [thumbImage]=pathimage
+              [fullImage]=pathimage
+              [magnification]="1"
+              [enableScrollZoom]="true"
+              [enableLens]="true"
+              [lensWidth]="200"
+            ></lib-ngx-image-zoom>
+            </div>
+        </div>
+        <br>
+
+
+
+
+
+<!--
+        <div class="row">
+
+
+            <label class="col-sm-1 col-form-label">Locandina</label>
+
+            <div class="col-md-3"  style="width: 15rem; height: 200px;">
+              <lib-ngx-image-zoom
+              [thumbImage]=pathimage
+              [fullImage]=pathimage
+              [magnification]="1"
+              [enableScrollZoom]="true"
+              [enableLens]="true"
+              [lensWidth]="200"
+            ></lib-ngx-image-zoom>
+            </div>
+
+        </div>  -->
+
+
+<!--  i totalizzatori vanno messi sui singoli eventi
+
+          <div class="col-sm-6 borde1">
+            <div class="row">
+              <label class="col-sm-2 col-form-label borde2">tot. posti</label>
+              <div class=" col-md-1 margingm">
+                <span class="badge bg-primary rounded-pill">{{xxx}}</span>
+                <span class="badge bg-primary rounded-pill">{{xxx}}</span>
+                <span class="badge bg-primary rounded-pill">{{xxx}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2 col-form-label borde2">Prenotati</label>
+              <div class=" col-md-1">
+                <span class="badge bg-primary rounded-pill">{{xxx}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2 col-form-label borde2">Disponibili</label>
+              <div class=" col-md-1">
+                <span class="badge bg-primary rounded-pill">{{xxx}}</span>
+              </div>
+            </div>
+          </div>    -->
+
+
+
+
+
+
+
+
+      <div class="row">
+
+
+
+          <div class="row">
+
+            <div class=" col-md-3" *ngIf="activemanif1  === true">
+              <div class="card cardMoreno" >
+                <div class="contenuto-centrato">
+                  <img src="{{pathimageEvento1}}" class="card-img-top  img-centrata borde2" alt="..." style="width:200px; height:150px; max-width:200px;max-height:150px; text-align: center;">
+                </div>
+
+                <br>
+                <div hidden>{{nEvento1}}</div>
+                <div class="fw-bold titleEvento" style="text-align: center;" >{{nameEvento1}}</div>
+                <br>
+                  <div class="row" >
+                    <div class="col-md-12" style="text-align: center;">
+                      <label style="color: green;">{{ dataEvento1 | date:'dd/MM/yyyy' }}</label>
+                    </div>
+                  </div>
+
+                <div class="card-body">
+                 <!-- <button class="btn btn-success btn-sm"  (click)="Prenota(nEvento1)" disabled *ngIf="disponibileEvento1 === 0">Prenota 1</button>  -->
+               <button class="btn btn-success btn-sm textgm"  (click)="Prenota(nEvento1)">Prenota</button>
+                  &nbsp;&nbsp;
+                  <span class="badge bg-primary rounded-pill">{{disponibileEvento1}}</span>
+                </div>
+
+              </div>
+            </div>
+
+            <div class=" col-md-3"  *ngIf="activemanif2  === true">
+                  <div class="card cardMoreno" >
+                    <div class="contenuto-centrato">
+                      <img src="{{pathimageEvento2}}" class="card-img-top  img-centrata borde2" alt="..." style="max-width:200px;max-height:150px; text-align: center;">
+                  </div>
+                    <br>
+                    <div hidden>{{nEvento2}}</div>
+                    <div class="fw-bold titleEvento" style="text-align: center;">{{nameEvento2}}</div>
+                    <br>
+                      <div class="row">
+
+                        <div class="col-md-12" style="text-align: center;">
+                          <label style="color: green;">{{ dataEvento1 | date:'dd/MM/yyyy' }}</label>
+                        </div>
+
+
+<!--
+                          <div class="col-sm-2">
+                            <label  style="color: red; text-align: center;" >Data1</label>
+                          </div>
+                          <div class=" col-md-1">
+
+                          </div>
+                          <div class=" col-sm-3">
+                              <label style="color: green;">{{ dataEvento2 | date:'dd/MM/yyyy' }}</label>
+                          </div>  -->
+                      </div>
+
+
+
+                   <!-- <div style="color: red;">data:</div> {{ dataEvento2 | date:'dd/MM/yyyy' }}  -->
+                    <div class="card-body">
+                      <button class="btn btn-success btn-sm textgm"  (click)="Prenota(nEvento2)">Prenota 2</button>
+                  &nbsp;&nbsp;
+                    <!--  <button class="btn btn-success btn-sm"  (click)="Prenota(nEvento2)" disabled *ngIf="disponibileEvento2 === 0">Prenota</button>
+                      &nbsp;&nbsp;  -->
+                      <span class="badge bg-primary rounded-pill">{{disponibileEvento2}}</span>
+                    </div>
+
+                  </div>
+            </div>
+            <div class=" col-md-3"  *ngIf="activemanif3  === true">
+                  <div class="card" >
+                    <img src="{{pathimageEvento3}}" class="card-img-top " alt="..." style="max-width:200px;max-height:150px;">
+                    <br>
+                    <div hidden>{{nEvento3}}</div>
+                    <div class="fw-bold titleEvento" style="text-align: center;">{{nameEvento3}}</div>
+                    <div class="col-sm-6">
+                      <div class="row">
+                          <div class="col-sm-2">
+                            <label  style="color: red;">Data</label>
+                          </div>
+                          <div class=" col-md-1">
+
+                          </div>
+                          <div class=" col-sm-3">
+                              <label style="color: green;">{{ dataEvento3 | date:'dd/MM/yyyy' }}</label>
+                          </div>
+                      </div>
+
+                    </div>
+                    <div class="card-body">
+                      <button class="btn btn-success btn-sm"  (click)="Prenota(nEvento3)">Prenota</button>
+                      &nbsp;&nbsp;
+                      <span class="badge bg-primary rounded-pill">{{disponibileEvento3}}</span>
+                    </div>
+                  </div>
+            </div>
+            <div class=" col-md-3"  *ngIf="activemanif4  === true">
+              <div class="card" >
+                <img src="{{pathimageEvento4}}" class="card-img-top" alt="..." style="max-width:200px;max-height:150px;">
+                <br>
+                <div hidden>{{nEvento4}}</div>
+                <div class="fw-bold titleEvento" style="text-align: center;">{{nameEvento4}}</div>
+                <div class="col-sm-6">
+                  <div class="row">
+                      <div class="col-sm-2">
+                        <label  style="color: red;">Data</label>
+                      </div>
+                      <div class=" col-md-1">
+
+                      </div>
+                      <div class=" col-sm-3">
+                          <label style="color: green;">{{ dataEvento4 | date:'dd/MM/yyyy' }}</label>
+                      </div>
+                  </div>
+
+                </div>
+                  <div class="card-body">
+                    <button class="btn btn-success btn-sm"  (click)="Prenota(nEvento4)">Prenota</button>
+                    &nbsp;&nbsp;
+                      <span class="badge bg-primary rounded-pill">{{disponibileEvento4}}</span>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+
+            <div class=" col-md-3"  *ngIf="activemanif5  === true">
+                <div class="card" style="width: 14rem;">
+                  <img src="{{pathimageEvento5}}" class="card-img-top" alt="..." style="max-width:200px;max-height:150px;">
+                  <br>
+                  <div hidden>{{nEvento5}}</div>
+                  <div class="fw-bold titleEvento" style="text-align: center;">{{nameEvento5}}</div>
+                  <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-2">
+                          <label  style="color: red;">Data</label>
+                        </div>
+                        <div class=" col-md-1">
+
+                        </div>
+                        <div class=" col-sm-3">
+                            <label style="color: green;">{{ dataEvento5 | date:'dd/MM/yyyy' }}</label>
+                        </div>
+                    </div>
+
+                  </div>
+                    <div class="card-body">
+                      <button class="btn btn-success btn-sm"  (click)="Prenota(nEvento5)">Prenota</button>
+                      &nbsp;&nbsp;
+                      <span class="badge bg-primary rounded-pill">{{disponibileEvento5}}</span>
+                  </div>
+                    </div>
+             </div>
+
+           <div class=" col-md-3"  *ngIf="activemanif6  === true">
+                <div class="card" style="width: 14rem;">
+                  <img src="{{pathimageEvento6}}" class="card-img-top" alt="..." style="max-width:200px;max-height:150px;">
+                  <br>
+                  <div hidden>{{nEvento6}}</div>
+                  <div class="fw-bold titleEvento" style="text-align: center;">{{nameEvento6}}</div>
+                  <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-2">
+                          <label  style="color: red;">Data</label>
+                        </div>
+                        <div class=" col-md-1">
+
+                        </div>
+                        <div class=" col-sm-3">
+                            <label style="color: green;">{{ dataEvento6 | date:'dd/MM/yyyy' }}</label>
+                        </div>
+                    </div>
+
+                  </div>
+                    <div class="card-body">
+                      <button class="btn btn-success btn-sm"  (click)="Prenota(nEvento6)">Prenota</button>
+                      &nbsp;&nbsp;
+                      <span class="badge bg-primary rounded-pill">{{disponibileEvento6}}</span>
+                  </div>
+                    </div>
+              </div>
+
+
+
+            <div class=" col-md-3"  *ngIf="activemanif7  === true">
+              <div class="card" style="width: 14rem;">
+                <img src="{{pathimageEvento7}}" class="card-img-top" alt="..." style="max-width:200px;max-height:150px;">
+                <br>
+                <div hidden>{{nEvento7}}</div>
+                <div class="fw-bold titleEvento">{{nameEvento7}}</div>
+                <div class="col-sm-6">
+                  <div class="row">
+                      <div class="col-sm-2">
+                        <label  style="color: red;">Data</label>
+                      </div>
+                      <div class=" col-md-1">
+
+                      </div>
+                      <div class=" col-sm-3">
+                          <label style="color: green;">{{ dataEvento7 | date:'dd/MM/yyyy' }}</label>
+                      </div>
+                  </div>
+
+                </div>
+                  <div class="card-body">
+                    <button class="btn btn-success btn-sm"  (click)="Prenota(nEvento7)">Prenota</button>
+                    &nbsp;&nbsp;
+                      <span class="badge bg-primary rounded-pill">{{disponibileEvento7}}</span>
+                  </div>
+                  </div>
+             </div>
+
+
+          <div class=" col-md-3"  *ngIf="activemanif8  === true">
+            <div class="card" style="width: 14rem;">
+              <img src="{{pathimageEvento8}}" class="card-img-top" alt="..." style="max-width:200px;max-height:150px;">
+              <br>
+
+              <div hidden>{{nEvento8}}</div>
+              <div class="fw-bold titleEvento">{{nameEvento8}}</div>
+              <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-2">
+                      <label  style="color: red;">Data</label>
+                    </div>
+                    <div class=" col-md-1">
+
+                    </div>
+                    <div class=" col-sm-3">
+                        <label style="color: green;">{{ dataEvento8 | date:'dd/MM/yyyy' }}</label>
+                    </div>
+                </div>
+
+              </div>
+                <div class="card-body">
+                  <button class="btn btn-success btn-sm"  (click)="Prenota(nEvento8)">Prenota</button>
+                  &nbsp;&nbsp;
+                      <span class="badge bg-primary rounded-pill">{{disponibileEvento8}}</span>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class=" col-md-3"  *ngIf="activemanif9  === true">
+                <div class="card" style="width: 14rem;">
+                  <img src="{{pathimageEvento9}}" class="card-img-top" alt="..." style="max-width:200px;max-height:150px;">
+                  <br>
+                  <div hidden>{{nEvento9}}</div>
+                  <div class="fw-bold titleEvento">{{nameEvento9}}</div>
+                  <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-2">
+                          <label  style="color: red;">Data</label>
+                        </div>
+                        <div class=" col-md-1">
+
+                        </div>
+                        <div class=" col-sm-3">
+                            <label style="color: green;">{{ dataEvento9 | date:'dd/MM/yyyy' }}</label>
+                        </div>
+                    </div>
+
+                  </div>
+                    <div class="card-body">
+                      <button class="btn btn-success btn-sm"  (click)="Prenota(nEvento9)">Prenota</button>
+                      &nbsp;&nbsp;
+                      <span class="badge bg-primary rounded-pill">{{disponibileEvento9}}</span>
+                  </div>
+                    </div>
+             </div>
+
+           <div class=" col-md-3"  *ngIf="activemanif10  === true">
+                <div class="card" style="width: 14rem;">
+                  <img src="{{pathimageEvento10}}" class="card-img-top" alt="..." style="max-width:200px;max-height:150px;">
+                  <br>
+                  <div hidden>{{nEvento10}}</div>
+                  <div class="fw-bold titleEvento">{{nameEvento10}}</div>
+                  <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-2">
+                          <label  style="color: red;">Data</label>
+                        </div>
+                        <div class=" col-md-1">
+
+                        </div>
+                        <div class=" col-sm-3">
+                            <label style="color: green;">{{ dataEvento10 | date:'dd/MM/yyyy' }}</label>
+                        </div>
+                    </div>
+
+                  </div>
+                    <div class="card-body">
+                      <button class="btn btn-success btn-sm"  (click)="Prenota(nEvento10)">Prenota</button>
+                      &nbsp;&nbsp;
+                      <span class="badge bg-primary rounded-pill">{{disponibileEvento10}}</span>
+                  </div>
+                    </div>
+           </div>
+
+
+
+            <div class=" col-md-3"  *ngIf="activemanif11  === true">
+              <div class="card" style="width: 14rem;">
+                <img src="{{pathimageEvento11}}" class="card-img-top" alt="..." style="max-width:200px;max-height:150px;">
+                <br>
+                <div hidden>{{nEvento11}}</div>
+                <div class="fw-bold titleEvento">{{nameEvento11}}</div>
+                <div class="col-sm-6">
+                  <div class="row">
+                      <div class="col-sm-2">
+                        <label  style="color: red;">Data</label>
+                      </div>
+                      <div class=" col-md-1">
+
+                      </div>
+                      <div class=" col-sm-3">
+                          <label style="color: green;">{{ dataEvento11 | date:'dd/MM/yyyy' }}</label>
+                      </div>
+                  </div>
+
+                </div>
+                  <div class="card-body">
+                    <button class="btn btn-success btn-sm"  (click)="Prenota(nEvento11)">Prenota</button>
+                    &nbsp;&nbsp;
+                      <span class="badge bg-primary rounded-pill">{{disponibileEvento11}}</span>
+                  </div>
+                  </div>
+             </div>
+
+
+          <div class=" col-md-3"  *ngIf="activemanif12  === true">
+            <div class="card" style="width: 14rem;">
+              <img src="{{pathimageEvento12}}" class="card-img-top" alt="..." style="max-width:200px;max-height:150px;">
+              <br>
+
+              <div hidden>{{nEvento12}}</div>
+              <div class="fw-bold titleEvento">{{nameEvento12}}</div>
+              <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-2">
+                      <label  style="color: red;">Data</label>
+                    </div>
+                    <div class=" col-md-1">
+
+                    </div>
+                    <div class=" col-sm-3">
+                        <label style="color: green;">{{ dataEvento12 | date:'dd/MM/yyyy' }}</label>
+                    </div>
+                </div>
+
+              </div>
+                <div class="card-body">
+                  <button class="btn btn-success btn-sm"  (click)="Prenota(nEvento12)">Prenota</button>
+                  &nbsp;&nbsp;
+                      <span class="badge bg-primary rounded-pill">{{disponibileEvento12}}</span>
+                  </div>
+                </div>
+            </div>
+          </div>
+      </div>
+      <br>
+       <div class="footer" >
+            <div class="row col-sm-10 offset-2">
+           <!--  nessun bottone-->
+            </div>
+       </div>
+       <br>
+  <!--   messaggio con esito operazione -->
+
+       <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+    <!--     <h4 class="alert-heading">Errore in Registrazione User</h4>   -->
+         <p>{{Message}}</p>
+         <hr>
+         <p class="mb-0">{{Message1err}}</p>
+       </div>
+       <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+  <!--       <h4 class="alert-heading">Registrazione User</h4>   -->
+         <p>{{Message}}</p>
+         <hr>
+         <p class="mb-0"></p>
+       </div>
+
+
+
+
+
+
+
+     </form>
+    </div>
+  </div>
+</div>
+
+
+
+

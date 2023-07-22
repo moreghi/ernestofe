@@ -51,7 +51,7 @@
 <div class="row">
   <label for="descrizione" class="col-sm-1 col-form-label">Descrizione</label>
   <div class=" col-md-6">
-    <input #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione" required minlength="4" maxlength="80" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire descrizione" style="text-transform : uppercase">
+    <input #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione" required minlength="4" maxlength="80" pattern="[0-9a-zA-Z_-&\s]*" placeholder="Inserire descrizione" style="text-transform : uppercase">
   </div>
   <br>
   <div *ngIf="descrizione.invalid && (descrizione.dirty || descrizione.touched)" class="alert-danger">
@@ -69,9 +69,32 @@
      </div>
   </div>
 
+
+  <label for="descbreve" class="col-sm-1 col-form-label">Descr. Ridotta</label>
+  <div class=" col-md-3">
+    <input #descbreve="ngModel"  [(ngModel)]="evento.descbreve" class="form-control" name="descbreve" id="descbreve" required minlength="4" maxlength="25" pattern="[0-9a-zA-Z_-&\s]*" placeholder="Inserire descrizione breve" style="text-transform : uppercase">
+  </div>
+  <br>
+  <div *ngIf="descbreve.invalid && (descbreve.dirty || descbreve.touched)" class="alert-danger">
+    <div *ngIf="descbreve.errors.required">
+        <span>la descrizione breve è obbligatoria</span>
+    </div>
+    <div *ngIf="descbreve.errors.minlength">
+       <span>la descrizione breve deve essere di almeno {{descbreve.errors.minlength.requiredLength }} caratteri</span>
+    </div>
+    <div *ngIf="descbreve.errors.maxlength">
+        <span>la descrizione breve non può essere più lunga di {{descbreve.errors.maxlength.requiredLength }} caratteri</span>
+     </div>
+     <div *ngIf="descbreve.errors?.pattern">
+      <span>descrizione breve errata</span>
+     </div>
+  </div>
+
+
+
 </div>
 <br>
-<div class="row">
+<div class="row" *ngIf="fase  ===  'M'">
    <label for="statoe" class="col-sm-1 col-form-label">Stato</label>
       <div class="dropdown col-sm-3">
         <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedStato" ngModel name="statoe" id="statoe" class="form-select" required (change)="onSelectedStato($event.target.value)" aria-label="Default select example">
@@ -127,7 +150,7 @@
       </div>
       <!-- cap -->
       <label for="cap" class="col-sm-1 col-form-label">Cap</label>
-      <div class=" col-md-2">
+      <div class=" col-md-1">
         <input #cap="ngModel"  [(ngModel)]="evento.cap" class="form-control" name="cap" id="cap" required minlength="5" maxlength="5" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire cap" style="text-transform : uppercase">
       </div>
       <br>
@@ -173,7 +196,7 @@
           <div class="invalid-feedback">effettuare la scelta della logistica</div>&nbsp;
 
 
-        <div class="col-sm-2" *ngIf="evento.idlogistica != 0">
+        <div class="col-sm-2" *ngIf="evento.idlogistica !== 0">
           <button  class="btn btn-info btn-md "  (click)="openpopup()" [(ngModel)]="evento.idlogistica"> Visualizza
             <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
           </button>
@@ -189,6 +212,84 @@
 
 </div>
  <br>
+ <!--{{pathimageloc}} -->
+
+ <div class="row">
+
+  <div class="col-md-1">
+    <label class="col-form-label">Locandina</label>
+  </div>
+
+  <div class="col-md-1">
+    <button class="btn btn-success btn-sm"  (click)="viewLocandina()">Visualizza
+    </button>
+  </div>
+  <div class="col-md-3" *ngIf="visualizzaLocandina === true">
+    <lib-ngx-image-zoom
+    [thumbImage]=pathimageloc
+    [fullImage]=pathimageloc
+    [magnification]="1"
+    [enableScrollZoom]="true"
+    [enableLens]="true"
+    [lensWidth]="200"
+  ></lib-ngx-image-zoom>
+  </div>
+</div>
+<br>
+
+
+
+<!--    eliminare
+<div  class="row">
+        <label for="locandina" class="col-sm-1 col-form-label">Locandina</label>
+        <div class="col-sm-2 noloc" *ngIf="evento.locandina === 0">
+          <label>nessuna locandina</label>
+        </div>
+        <div class="col-sm-2 siloc " *ngIf="evento.locandina !== 0">
+          <label for="locandinasi" class="col-sm-4 col-form-label">Impostata</label>
+        </div>
+
+// eliminare
+
+
+          <div class="col-md-8 " *ngIf="evento.locandina === 0">
+            <div  class="row">
+                <div class="col-6 ">
+                  <label class="btn btn-default p-0">
+                    <input type="file" (change)="selectFile($event)" />
+                  </label>
+                </div>
+                <div class="col-4 ">
+                  <button class="btn btn-success btn-sm" [disabled]="!selectedFiles" (click)="upload()">
+                    Upload
+                  </button>
+                </div>
+            </div>
+          </div>
+         <div class="col-sm-2" *ngIf="evento.locandina !== 0">
+          <button  class="btn btn-info btn-md "  (click)="openpopuplocandina()" [(ngModel)]="evento.locandina"> Visualizza
+            <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+          </button>
+        </div>
+</div>
+<br>   -->
+
+<div class="row">
+  <div class="col-8">
+    <label class="btn btn-default p-0">
+      <input type="file" (change)="selectFile($event)" />
+    </label>
+  </div>
+
+  <div class="col-4">
+    <button class="btn btn-success btn-sm" [disabled]="!selectedFiles" (click)="upload()">
+      Upload
+    </button>
+  </div>
+</div>
+<br>
+
+
 
 
 
@@ -268,9 +369,10 @@
   <!-- data -->
   <label for="dataev" class="col-sm-1 col-form-label">Data</label>
   <div class=" col-md-2">
+       data evento {{evento.data | date:'dd/MM/yyyy'}}
          <input type="date" [(ngModel)]="evento.data"  [ngModel]="evento.data | date:'dd/MM/yyyy'"  #ddataev="ngModel" class="form-control"  name="dataev" id="dataev" required placeholder="dd/mm/yyyy" />
   </div>
-  <!-- indirizzo -->
+  <!-- ora -->
   <label for="ora" class="col-sm-1 col-form-label">ora</label>
   <div class=" col-md-2">
     <input #ora="ngModel"  [(ngModel)]="evento.ora" class="form-control" name="ora" id="ora" required minlength="5" maxlength="5" pattern="[0-9:\s]*" placeholder="ora HH:mm" style="text-transform : uppercase">
@@ -315,14 +417,168 @@
       <span>il numero posti è errato</span>
     </div>
   </div>
+<!--
+  <div class="form-row">
+    <div class="form-group row">
+      <div class="col-sm-1"><strong>Tipo biglietto</strong></div>
+      <div class="col-sm-8">
+        <div class="form-check form-check-inline" *ngFor="let option of options; let idx = index">
+          <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option" (change)="onSelectionChange(option)">&nbsp; {{option}}
+        </div>
+      </div>
+
+-->
+
+
+
+
+
+<!--  vecchia gestione prezzo
+Prezzo
+        <div class="col-sm-3 borde1">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"  [(ngModel)]="evento.tipobiglietto" value="0" (click)="selectTipoBiglietto($event.target.value)">
+                <label class="form-check-label" for="inlineRadio1">Nessuno</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"  [(ngModel)]="evento.tipobiglietto" value="1" (click)="selectTipoBiglietto($event.target.value)">
+                <label class="form-check-label" for="inlineRadio2">Unico</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"  [(ngModel)]="evento.tipobiglietto" value="2" (click)="selectTipoBiglietto($event.target.value)">
+                <label class="form-check-label" for="inlineRadio3">Fascie</label>
+              </div>
+        </div>
+
+        <div class="col-md-4" *ngIf="viewPrezzoUnico === true && viewPrezzoFascie === false">
+          <div class="row">
+                      visualizzare il prezzo unico
+         <--   <input #cap="ngModel"  [(ngModel)]="evento*ngIf="viewPrezzoUnico === true".cap" class="form-control" name="cap" id="cap" required minlength="5" maxlength="5" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire cap" style="text-transform : uppercase">
+          </div>
+        </div>
+        <div class="col-md-4" *ngIf="viewPrezzoFascie === true && viewPrezzoUnico === false">
+          <div class="row">
+            visualizzare il prezzo a fascie
+          </div>
+        </div>
+        <div class="col-sm-2" *ngIf="viewPrezzoFascie === true || viewPrezzoUnico === true">
+          <button  class="btn btn-success btn-md " (click)="GestionePrezzo()">Gestione Prezzo
+            <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+          </button>
+        </div>  -->
+  </div>
+
+
+  <br>
+  <div class="row">
+      <div class="col-md-1">
+        Prezzo
+      </div>
+      <div class="col-md-3" *ngIf="loadedTipoBiglietti === false">
+          <div class="row">
+            <div class="col-sm-3" >
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="inlineRadio01"  value="1" (click)="selectTipoBiglietto($event.target.value)"/>
+                <label class="form-check-label" for="inlineRadio01"> Unico </label>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="inlineRadio02"  value="2" (click)="selectTipoBiglietto($event.target.value)"/>
+                <label class="form-check-label" for="inlineRadio02"> Fascie </label>
+              </div>
+            </div>
+        </div>
+      </div>
+<div class="col-md-3"  *ngIf="loadedTipoBiglietti === true">
+  <div class="row">
+    <div  class="col-md-10" *ngIf="evento.tipobiglietto === 2" >  <!-- class="col-md-5"-->
+      <input disabled  [(ngModel)]="namePrezzo" class="form-control" name="namePrezzo" id="namePrezzo" style="text-transform : uppercase; text-align: center; background-color: red; color: yellow; font-weight: bold; border-radius: 10px;">
+     </div>
+    <div class="col-md-5" *ngIf="evento.tipobiglietto === 1">
+      <input disabled  [(ngModel)]="namePrezzo" class="form-control" name="namePrezzo" id="namePrezzo" style="text-transform : uppercase; text-align: center; background-color: blue; color: red; font-weight: bold; border-radius: 10px;">
+    </div>
+  </div>
 </div>
+
+
+
+      <div class="col-md-2" *ngIf="viewPrezzoUnico === true || viewPrezzoFascie === true">
+          <button  class="btn btn-success btn-md " (click)="GestionePrezzo()">Gestione
+            <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+          </button>
+      </div>
+
+      <div class="col-md-2" >
+        <button  class="btn btn-primary btn-md " (click)="Test()">Test
+          <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+        </button>
+    </div>
+
+
+
+
+      <div class="col-md-5"  *ngIf="loadedTipoBiglietti === true && evento.tipobiglietto === 2 " >
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Taglia</th>
+              <th scope="col">Importo</th>
+              <th scope="col">n. Bigl.</th>
+              <th scope="col">Serie</th>
+              <th scope="col">n. inizio</th>
+              <th scope="col"></th>
+
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr  *ngFor ="let taglia of tipobiglietti  let i = index">
+              <td >{{i + 1}}</td>
+              <td>{{taglia.d_tipo}}</td>
+              <td>{{taglia.importo | currency:'EUR':true}}</td>
+              <td>{{taglia.ntot}}</td>
+              <td>{{taglia.serie}}</td>
+              <td>{{taglia.ultimoemesso}}</td>
+              <td>
+                <div  >
+                  <button class="btn btn-danger btn-sm " (click)="deletePostobyFascia(taglia)">
+                    <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <hr>
 <!-- Bottoni funzionali -->
 <div class="footer" >
   <div class="row col-sm-10 offset-2">
 
 
-    <div class="col-sm-3">
+    <div class="col-sm-3" *ngIf="fase === 'M'">
       <button [disabled]="fm.invalid" class="btn btn-success btn-md " (click)="conferma()">Conferma
         <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
       </button>

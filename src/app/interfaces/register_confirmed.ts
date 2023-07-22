@@ -2,11 +2,11 @@
 
 export class RegisterconfirmedInterface {
 
-  email: string;
-  id_titolo: number;
-  username: string;
+  id: number;
   cognome: string;
   nome: string;
+  email: string;
+  username: string;
   password: string;
   token: string;
   created_at: Date;

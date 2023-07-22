@@ -77,6 +77,21 @@ constructor(private http: HttpClient, private auth: AuthService) { }
           });
         }
 
+        getAllbyEvento(id: number) {
+          this.rottafunction = 'getby/Evento';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id , {
+            headers: this.getAuthHeader()
+          });
+        }
+
+        getAllbyTipo(id: number) {
+          this.rottafunction = 'getby/Tipologia';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id , {
+            headers: this.getAuthHeader()
+          });
+        }
+
+
 
 }
 

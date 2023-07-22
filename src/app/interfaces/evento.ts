@@ -4,6 +4,7 @@ export interface EventoInterface {
 
   id: number;
   descrizione: string;
+  descbreve: string;
   idmanif: number;
   stato: number;
   statobiglietti: number;
@@ -14,10 +15,15 @@ export interface EventoInterface {
   indirizzo: string;
   cap: string;
   idtipo: number;
+  tipobiglietto: number;
   idlogistica: number;
   d_logistica: string;   // vecchio da eliminare
   photo: string;         // vecchio da eliminare
+  locandina: number;
   nposti: number;
+  npostiDisponibili: number;
+  npostiAssegnati: number;
+  npostipren: number;
   incassato: number;
   spese: number;
   key_utenti_operation: number;

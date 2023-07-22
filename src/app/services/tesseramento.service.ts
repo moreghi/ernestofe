@@ -102,5 +102,12 @@ private APIURLSEARCH = '';
           });
         }
 
+        countTesserebyanno(anno: number){
+          this.rottafunction = 'gettesserebyAnno';
+
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + anno,  {
+            headers: this.getAuthHeader()
+          });
+        }
 
 }

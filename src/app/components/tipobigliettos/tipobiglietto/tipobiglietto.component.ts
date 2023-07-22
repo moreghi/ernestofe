@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 // service
 import { TtipobigliettoService} from '../../../services/ttipobiglietto.service';
 import { TtagliabigliettoService} from '../../../services/ttagliabiglietto.service';
@@ -26,6 +26,8 @@ export class TipobigliettoComponent implements OnInit {
     // variabili passate dal componente padre
     @Input('tipobiglietto-data') tipobiglietto: Ttipobiglietto;
     @Input('tipobiglietto-prog') i: number;
+
+    @Output('onSelecttipologia') onSelecttipologia = new EventEmitter<number>();
 
     public tagliabiglietto: Ttagliabiglietto;
 
@@ -90,7 +92,7 @@ export class TipobigliettoComponent implements OnInit {
      this.textMessage1 = '?????????? ';
   //   this.textUser = this.messa.demessa;
      this.textMessage2 = 'Registrazione non possibile';
-     this.loadTagliabiglietto(this.tipobiglietto.idtipotaglia);
+   //  this.loadTagliabiglietto(this.tipobiglietto.idtipotaglia);   non serve
 
   }
 
@@ -208,6 +210,44 @@ open(content: any, tipobiglietto: Ttipobiglietto) {
       this.showNotification(this.type, this.Message);
     });
   }
+
+
+  dettaglio(tipobiglietto: Ttipobiglietto) {
+    this.onSelecttipologia.emit(tipobiglietto.idtipotaglia);
+  }
+
+
+  getColor(tipo: string) {
+    switch (tipo) {
+      case "INTERO":
+        return 'blue';
+      case "RIDOTTO":
+        return 'yellow';
+      case "GRATIS":
+        return 'red';
+      case "PREZZO UNICO":
+        return 'orange';
+      default:
+        return 'violet';
+    }
+  }
+
+  getBackground(tipo: string) {
+    switch (tipo) {
+      case "INTERO":
+        return 'yellow';
+      case "RIDOTTO":
+        return 'green';
+      case "GRATIS":
+        return 'black';
+      case "PREZZO UNICO":
+        return 'blue';
+      default:
+        return 'green';
+    }
+  }
+
+
 
 }
 

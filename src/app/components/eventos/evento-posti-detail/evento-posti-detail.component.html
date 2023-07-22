@@ -1,7 +1,8 @@
-<p>evento-posti-detail -----------------  works!</p>
+
 
 <div class="container">
   <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <br>
   <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
      <div >
       <form #fm ="ngForm">
@@ -10,7 +11,7 @@
       <div class="row">
         <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
         <div class=" col-md-6">
-          <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"   style="text-transform : uppercase">{{evento.id}}
+          <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"   style="text-transform : uppercase">
         </div>
         <div class=" col-md-2">
     <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
@@ -69,7 +70,7 @@
             </thead>
             <tbody>
 
-             <tr app-evento-posto *ngFor ="let posto of eventoposti | paginate: { itemsPerPage: 5, currentPage: p }; let i = index"
+             <tr app-evento-posto *ngFor ="let posto of eventoposti | paginate: { itemsPerPage: 10, currentPage: p }; let i = index"
                 [evento-posto-prog] = i+1
                 [evento-posto-data] = "posto"
 

@@ -9,6 +9,7 @@ import { TstatoManifestazione } from './../../../classes/T_stato_manifestazione'
 // service
 import { ManifestazioneService } from './../../../services/manifestazione.service';
 import { TstatomanifestazioneService } from './../../../services/tstatomanifestazione.service';
+import { UploadFilesService } from './../../../services/upload-files.service';
 
 // per gestire il popup con esito operazione
 import { NotifierService } from 'angular-notifier';
@@ -23,6 +24,20 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./manifestazione-detail.component.css']
 })
 export class ManifestazioneDetailComponent implements OnInit {
+
+
+  // per upload image
+  selectedFiles?: FileList;
+  currentFile?: File;
+  progress = 0;
+  messageimage = '';
+  fileInfos?: Observable<any>;
+  messageupload = '';
+  public folderImage = '';   // salvo la cartella in cui salvare immagine
+// per upload image -- fine
+
+
+
 
   public manif: Manifestazione;
   public statimanif: TstatoManifestazione[] = [];
@@ -55,7 +70,7 @@ export class ManifestazioneDetailComponent implements OnInit {
   public saveValueStd: boolean;
   public lastNumber = 0;
   public fase = '';
-
+  public pathimage = '';
 
   public isLoading = false;
   public fieldVisible = false;
@@ -152,11 +167,12 @@ public dataOdierna;
 public anno  = 0;
 public namepage = ' - manifestazione-detail';
 public selectedStato = 0;
-
+public visualizzaLocandina = false;
 
 constructor(public modalService: NgbModal,
             private manifestazioneService: ManifestazioneService,
             private statomanifestazioneService: TstatomanifestazioneService,
+            private uploadService: UploadFilesService,
             private route: ActivatedRoute,
             private router: Router,
             private notifier: NotifierService) {
@@ -180,6 +196,9 @@ constructor(public modalService: NgbModal,
               console.log('goApplication - anno: ' + this.anno);
               this.isVisible = true;
               this.alertSuccess = true;
+
+              this.visualizzaLocandina = false;
+
               this.loadStati();
 
               this.rotta = this.route.snapshot.url[0].path;
@@ -193,6 +212,8 @@ constructor(public modalService: NgbModal,
                 this.title = 'Inserimento nuova Manifestazione' + this.namepage;
                 this.Message = 'inserire i dati della nuova Manifestazione';
                 this.manif = new Manifestazione();
+                this.manif.photo = 'nessunaManifestazione.png';
+                this.pathimage = environment.APIURL + '/upload/files/manifestaziones/' + this.manif.photo;
                 this.manif.key_utenti_operation = +localStorage.getItem('id');
                 this.manif.d_stato_manifestazione = 'in fase inserimento';
               } else {
@@ -215,6 +236,7 @@ constructor(public modalService: NgbModal,
               if(response['rc'] === 'ok') {
                 console.log('manifestazione da editare  ' + JSON.stringify(response['data']));
                 this.manif = response['data'];
+                this.pathimage = environment.APIURL + '/upload/files/manifestaziones/' + this.manif.photo;
               }
               if(response['rc'] === 'nf') {
                 this.Message = response['message'];
@@ -268,6 +290,17 @@ constructor(public modalService: NgbModal,
                  }
 
                 }
+
+    viewLocandina() {
+      if(this.visualizzaLocandina === true) {
+        this.visualizzaLocandina = false;
+      } else {
+        this.visualizzaLocandina = true;
+      }
+    }
+
+
+
 
 
 //
@@ -427,6 +460,57 @@ showNotification( type: string, message: string ): void {
     }
     this.showNotification(this.type, this.Message);
   }
+
+ // --------------   metodi per upload
+
+ selectFile(event: any): void {
+  this.selectedFiles = event.target.files;
+  console.log('selectfile - nome file: ' + JSON.stringify(this.selectedFiles));
+}
+
+upload(): void {
+  this.progress = 0;
+
+  if (this.selectedFiles) {
+    const file: File | null = this.selectedFiles.item(0);
+    console.log('.............................................. upload - file pronto per upload in backend: ' + file.name);
+
+
+    if (file) {
+      this.manif.photo = file.name;   // salvo su record il nome del file selezionato
+      this.folderImage = 'manifestaziones';    // imposto la cartella in cui passare
+      this.currentFile = file;
+
+      this.uploadService.upload(this.currentFile, this.folderImage).subscribe(
+        (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progress = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            this.messageimage = event.body.message;
+            this.fileInfos = this.uploadService.getFiles();
+          }
+        },
+        (err: any) => {
+          console.log(err);
+          this.progress = 0;
+
+          if (err.error && err.error.message) {
+            this.messageimage = err.error.message;
+          } else {
+            this.messageimage = 'Could not upload the file!';
+          }
+
+          this.currentFile = undefined;
+        });
+    }
+
+    this.selectedFiles = undefined;
+  }
+}
+
+
+
+
 
 
 }

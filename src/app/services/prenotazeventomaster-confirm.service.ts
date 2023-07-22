@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PrenotazeventomasterConfirm } from '../classes/PrenotazeventomasterConfirm';
+import { EventoPosto } from '../classes/Eventoposto';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { observable, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -45,46 +46,81 @@ export class PrenotazeventomasterConfirmService {
          return this.http.get(this.APIURL);
     }      // ok      // ok
 
-        getbyId(id: number) {
+    getbyId(id: number) {
           return this.http.get(this.APIURL + '/' + id);      // ok
         }
 
-        delete(prenotazevento: PrenotazeventomasterConfirm) {
-
+    delete(prenotazevento: PrenotazeventomasterConfirm) {
           this.rottafunction = 'deletebyid';
           return this.http.delete(this.APIURL + '/' + this.rottafunction + '/' + prenotazevento.id);      // ok
-
         }
 
     update(prenotazevento: PrenotazeventomasterConfirm) {
-
-      this.rottafunction = 'updatebyid';
-      return this.http.put(this.APIURL + '/' + this.rottafunction + '/' +  prenotazevento.id, prenotazevento);      // ok
-
+          this.rottafunction = 'updatebyid';
+          return this.http.put(this.APIURL + '/' + this.rottafunction + '/' +  prenotazevento.id, prenotazevento);      // ok
     }
 
-     create(prenotazevento: PrenotazeventomasterConfirm){
-      this.rottafunction = 'create';
-      return this.http.post(this.APIURL + '/' + this.rottafunction, prenotazevento);      // ok
+    create(prenotazevento: PrenotazeventomasterConfirm){
+          this.rottafunction = 'create';
+          return this.http.post(this.APIURL + '/' + this.rottafunction, prenotazevento);      // ok
     }
 
-
-    getPrenotazinbycodpren(codpren: string) {
+    getbycodpren(codpren: string) {
 
       this.rottafunction = 'getPrenotazbycodpren/codpren';
       return this.http.get(this.APIURL + '/' + this.rottafunction + '/' +  codpren);      // ok      // ok
     }
 
-    deletePreConfirmbycodpren(codpren: string) {
+    deletebycodpren(codpren: string) {
       this.rottafunction = 'destroycodpren';
       return this.http.delete(this.APIURL + '/' + this.rottafunction + '/'  + codpren);
     }
 
-    deletePreConfirmbytoken(token: string) {
+    deletebytoken(token: string) {
       this.rottafunction = 'destroytoken';
       return this.http.delete(this.APIURL + '/' + this.rottafunction + '/'  + token);
     }
 
+    invioemail(prenotazevento: PrenotazeventomasterConfirm){
+
+      this.rottafunction = 'confirmedprenmasterevento';
+      return this.http.post(this.APIURL + '/' + this.rottafunction , prenotazevento);      // ok
+
+
+      /*   vecchia modalità. non passo più parametri, ma in body
+      let cognome = prenotazevento.cognome;
+      let nome = prenotazevento.nome;
+      let dataev = prenotazevento.dataEvento;
+      let datapren = prenotazevento.datapren;
+      let descev = prenotazevento.descEvento;
+      let email = prenotazevento.email;
+      let oraev = prenotazevento.oraEvento;
+      let importo = prenotazevento.importo;
+      let codpren = prenotazevento.codpren;
+      let token = prenotazevento.token;
+      let telefono = prenotazevento.telefono;
+
+      this.rottafunction = 'confirmedprenmasterevento';
+      return this.http.post(this.APIURL + '/' + this.rottafunction + '/' + cognome + '/' + nome + '/' + dataev + '/' + datapren + '/' + descev  + '/' + email + '/' + oraev + '/' + codpren + '/' + token + '/' + telefono + '/' + importo, prenotazevento);      // ok
+      */
+
 
 
 }
+
+getbytoken(token: string) {
+
+  this.rottafunction = 'getPrenotazbytoken';
+  return this.http.get(this.APIURL + '/' + this.rottafunction + '/' +  token);      // ok      // ok
+}
+
+getAllbyEvento(id: number) {
+
+  this.rottafunction = 'getAllby/Evento';
+  return this.http.get(this.APIURL + '/' + this.rottafunction + '/' +  id);      // ok      // ok
+}
+
+
+}
+
+

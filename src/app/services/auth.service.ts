@@ -55,6 +55,7 @@ export class AuthService {
 
   private APIAUTHURL = environment.APIAUTURL;  // definisco l'url su cui effettuare la lettura sul server
   private func = '';
+  private rottafunction = '';
 
   constructor(private http: HttpClient) {
   }
@@ -65,6 +66,7 @@ export class AuthService {
     this.isUserLogged = !!localStorage.getItem('token');     // originariamente 'acces_token'
 
                    console.log('auth.service - isUserLoggedIn -- isUserLogged: ' + this.isUserLogged);
+
 
     return this.isUserLogged;
 
@@ -84,7 +86,7 @@ export class AuthService {
 
 //    versione in uso fino al 23/11/2021
 //  versione 2 - sposto il subscribe nel componente che chiama il service
- async signIn(email: string, password: string): Promise<JwtInterface> {
+ signIn(email: string, password: string) {          // : Promise<JwtInterface>
 
   // ok test
   // alert('auth-service -- signIn: - username: ' + username + ' --  password: ' + password);
@@ -94,6 +96,9 @@ export class AuthService {
   // fine test
 
 
+
+    // -------------------------   versione con promise (da errore)
+/*
     return this.http.post(this.APIAUTHURL + 'login',
       {
         email,
@@ -127,36 +132,58 @@ export class AuthService {
           return true;
 
         }
-      )).toPromise();
+      ));
 
 
-  }
+      */
+
+   // ----------------------------  versione con subscribe
 
 
 
+   return this.http.post(this.APIAUTHURL + 'login',    // nuova modalità - con email di prenotazione da confermare
+      {
+        email,
+        password
+      });
 
 
+/*
+.subscribe(
+        (payload: JwtInterface) => {
+          // salvo su localStorage i valori del token
+          localStorage.setItem('token', payload.accessToken);
+          localStorage.setItem('username', payload.username);
+          localStorage.setItem('cognome', payload.cognome);
+          localStorage.setItem('email', payload.email);
+          localStorage.setItem('level', payload.level);
+          localStorage.setItem('id', String(payload.id));   // posso salvare su localstorage solo campi string
+          localStorage.setItem('user', String(payload));
+          this.usersignedup.emit(this.user);
+          this.isUserLogged = true;
 
-  registerMoreno(cognome: string, nome: string, username: string, email: string, password: string) {
+    },
+    error => {
+      console.log(error);
+    });
 
-    console.log(`frontend - auth.service - registerMoreno ------  inizio -- cognome passato: ${cognome} ` );
 
-    this.registerconfirmed = new Registerconfirmed();
-    this.registerconfirmed.email = email;
-    this.registerconfirmed.username = username;
-    this.registerconfirmed.password = password;
-    this.registerconfirmed.cognome = cognome;
-    this.registerconfirmed.nome = nome;
+    */
 
-   //  registerMoreno(account: Account) {
-    console.log(`auth.service - registerMoreno ${this.registerconfirmed.cognome} ` );
-    return this.http.post(this.APIAUTHURL + "confirmedregister", this.registerconfirmed);
-    //  return this.http.post(`this.APIAUTHURL/gmmailforregister`,  this.registerconfirmed );
+}
 
-  }
+// metodo creato da Moreno per creare evenemitter da ascoltare i nav
+creaevenemitterlogin(user: User) {
+  localStorage.removeItem('evemitlogin');
+  this.usersignedin.emit(user);
+  localStorage.setItem('evemitlogin', String(user.id));
+}
+
+
 
   // registrazione prenotazione cena a sanfra tramite mail 2022/03/16
-  registerConfermetPrenotazioneMoreno(cognome: string, nome: string, email: string, telefono: string, giornata: string, numpersone: number) {
+  registerConfermetPrenotazioneMoreno(cognome: string, nome: string, email: string, telefono: string,
+                                      giornata: string, numpersone: number) {
 
     console.log(`frontend - auth.service - registerConfermetPrenotazioneMoreno ------  inizio -- cognome passato: ${cognome} ` );
 
@@ -200,7 +227,7 @@ export class AuthService {
     this.user = new User();
     this.user.email = email;
     this.user.username = username;
-    this.user.password = password;
+    this.user.password = password.toLowerCase();
     this.user.cognome = cognome;
     this.user.nome = nome;
 
@@ -261,7 +288,7 @@ export class AuthService {
     const data = JSON.parse(localStorage.getItem('user'));  // normalizzo la variabile user salvata con JSON.stringify
     const user = new User();
     if (data) {
-      user.idRuolo_Day = data.user_ruolo;
+    //  user.idRuolo_Day = data.user_ruolo;   user_ruolo non esiste  22/03/2023
       user.username = data.username;
       user.cognome = data.cognome;
       user.idRuolo_Day = parseInt(data.level, 10);
@@ -340,6 +367,11 @@ controlemail(email: string) {
 }
 
 
+// devo passare in chiaro la password
+controlpassword(email: string, password: string)  {
+  this.rottafunction = "controlpassword";
+  return this.http.get(this.APIAUTHURL + this.rottafunction +  '/' + email +  '/' + password);
+}
 
 
 
@@ -509,3 +541,33 @@ controlemail(email: string) {
 
 
 }
+
+
+/*
+
+  spostato in registerconfirmedService per gestire l'invio della mail e confermare la registrazione
+
+  registerMoreno(cognome: string, nome: string, username: string, email: string, password: string) {
+
+    console.log(`frontend - auth.service - registerMoreno ------  inizio -- cognome passato: ${cognome} ` );
+
+    this.registerconfirmed = new Registerconfirmed();
+    this.registerconfirmed.email = email;
+    this.registerconfirmed.username = username;
+    this.registerconfirmed.password = password;
+    this.registerconfirmed.cognome = cognome;
+    this.registerconfirmed.nome = nome;
+
+   //  registerMoreno(account: Account) {
+    console.log(`auth.service - registerMoreno ${this.registerconfirmed.cognome} ` );
+    return this.http.post(this.APIAUTHURL + "confirmedregister", this.registerconfirmed);
+    //  return this.http.post(`this.APIAUTHURL/gmmailforregister`,  this.registerconfirmed );
+
+  }
+
+
+
+
+
+
+*/

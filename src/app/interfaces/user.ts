@@ -14,6 +14,7 @@ export interface UserInterface {
   telefono: string;
   idRuolo: number;
   idRuolo_Day: number;
+  idLevel: number;
   idruoloweb: number;
   noteUtente: string;
   eseguitaAbilitazione: string;
@@ -29,3 +30,6 @@ export interface UserInterface {
   d_ruolo_web: string;
 
 }
+
+
+

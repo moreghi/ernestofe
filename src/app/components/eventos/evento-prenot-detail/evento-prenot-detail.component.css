@@ -1,0 +1,58 @@
+.borde {
+  border: 3px solid violet;
+}
+.borde1 {
+  border: 3px solid red;
+}
+.borde2 {
+  border: 3px solid blue;
+}
+.borde3 {
+  border: 3px solid orange;
+}
+
+.classRidotto{
+  color:white;
+  background-color: Red;
+  text-align: left;
+  vertical-align: middle;
+}
+.classIntero{
+
+ /* color:blue;
+  background-color: yellow; */
+  text-align: center;
+  vertical-align: middle;
+
+}
+.classGratis{
+  color:Red;
+  background-color: Yellow;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.Carta {
+  color:Red;
+  background-color: black;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: bold;
+
+}
+.Bonifico {
+  color:white;
+  background-color: red;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: bold;
+
+}
+.Contanti {
+  color:greenyellow;
+  background-color: orange;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: bold;
+
+}

@@ -9,6 +9,7 @@ import { first } from 'rxjs/operators';
 // per gestire il popup con esito operazione
 import { NotifierService } from 'angular-notifier';
 import { AuthService } from '../../../services/auth.service';
+import { RegisterconfirmedService } from '../../../services/registerconfirmed.service';
 import { JwtInterface } from '../../../interfaces/jwt';
 
 // vedere su nodejs_test  cosa fanno
@@ -76,6 +77,7 @@ public form = {
   constructor( private route: ActivatedRoute,
                private router: Router,
                private authService: AuthService,
+               private regconfirmService: RegisterconfirmedService,
                private notifier: NotifierService) {
                 this.notifier = notifier;
               }
@@ -165,7 +167,7 @@ public form = {
 
     console.log(`Moreno - registerComponent - prima di service.register ------ cognome - ${form.value.cognome}`);
 
-    this.authService.registerMoreno(form.value.cognome, form.value.nome, form.value.username, form.value.email, form.value.password).subscribe(
+    this.regconfirmService.registerMoreno(form.value.cognome, form.value.nome, form.value.username, form.value.email, form.value.password).subscribe(
           resp => {
            //     this.prenotazione = resp['data'];
               this.type = 'success';

@@ -1,0 +1,432 @@
+<p>request-evento-normal works!</p>
+<!--  copia della pagina di registrazione originale dove effettuavo registrazione multipla 2023/06/10 -->
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-2">
+      <!--  vuoto -->
+    </div>
+    <div class="col-md-8">
+      <div class="card-header centrata textbold">{{title}}</div>
+    </div>
+    <div class="col-md-2">
+      <!--  vuoto -->
+    </div>
+  </div>
+  <br>
+
+  <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
+     <div >
+      <!--<form #fm ="ngForm"> -->
+        <form name="formRegistrazione"  #formRegistrazione=ngForm (ngSubmit)="onSubmit(formRegistrazione)">
+          <input Hidden #id="ngModel"  [(ngModel)]="manif.id" class="form-control" name="id" id="id">
+          <input Hidden #id="ngModel"  [(ngModel)]="evento.id" class="form-control" name="idev" id="idev">
+          <div class="row">
+              <label for="descManif" class="col-sm-2 col-form-label">Manifestazione</label>
+              <div class=" col-md-6">
+                <input disabled #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif"   style="text-transform : uppercase">
+              </div>
+              <div class=" col-md-2">
+          <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+              <div>
+                <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : 'white'"  [style.background-color]="manif.stato == 2 ? 'yellow' : 'red'">
+              </div>
+              </div>
+          </div>
+          <hr>
+          <div class="row">
+            <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
+            <div class=" col-md-6">
+              <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"   style="text-transform : uppercase">
+            </div>
+            <div class=" col-md-2">
+        <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+                <div>
+                  <input disabled #d_stato_evento="ngModel"  [(ngModel)]="evento.d_stato_evento" class="form-control" name="d_stato_evento" id="d_stato_evento" [style.color]="evento.stato == 2 ? 'red' : 'white'"  [style.background-color]="evento.stato == 2 ? 'yellow' : 'red'">
+                </div>
+              </div>
+          </div>
+          <br>
+          <div class="row">
+            <label for="localita" class="col-sm-2 col-form-label">Localita</label>
+            <div class=" col-md-6">
+              <input disabled #localita="ngModel"  [(ngModel)]="evento.localita" class="form-control" name="localita" id="localita"   style="text-transform : uppercase">
+            </div>
+            <div class=" col-md-2">
+        <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+                <div>
+                  <input  disabled [(ngModel)]="evento.data" [ngModel]="evento.data | date:'dd/MM/yyyy'" #data="ngModel" class="form-control"  name="data" id="data">
+                </div>
+            </div>
+          </div>
+          <br>
+token:{{token}}<br>
+          <div class="mt-2 col-10 offset-1">
+
+            <div class="card col-sm-11">    <!-- card -->
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="center-block centrata">
+                    <img src="assets/images/logobandieragialla.jpg" width="30" height="30" alt="logo">
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="card-header centrata textbold">Registrazione Evento</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <!--<form name="formRegistrazione"  #formRegistrazione=ngForm (ngSubmit)="onSubmit(formRegistrazione)"> -->
+                  <!--  Cognome e Nome-->
+                  <div class="row">
+                    <div style="width: 130px;">
+                      <label for="cognome" >Cognome</label>
+                    </div>
+                    <div class="col-sm-5">
+                      <input type="text" name="cognome" class="form-control lowertxt" id="cognome" placeholder="cognome" [(ngModel)]="form.cognome" required  minlength="5" maxlength="40" #cognome="ngModel" ngModel  style="text-transform : uppercase">
+                      <br>
+                      <div *ngIf="cognome.dirty && cognome.touched && cognome.invalid" class="alert alert-danger">
+                        <div  *ngIf="cognome.errors.required">
+                          il campo cognome è obbligatorio
+                        </div>
+                        <div  *ngIf="cognome.errors.minlength">
+                          lunghezza nimima di {{ cognome.errors.minlength.requiredLength }} caratteri
+                        </div>
+                        <div  *ngIf="cognome.errors.maxlength">
+                          lunghezza massima di {{ cognome.errors.maxlength.requiredLength }} caratteri
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-1">
+                      <label for="nome"  class="col-form-label">Nome</label>
+                    </div>
+                    <div class="col-sm-4">
+                      <input type="text" name="nome" class="form-control lowertxt" id="inputnome3" placeholder="nome" [(ngModel)]="form.nome" required  minlength="5" maxlength="40" #nome="ngModel" ngModel  style="text-transform : uppercase">
+                      <br>
+                      <div *ngIf="nome.dirty && nome.touched && nome.invalid" class="alert alert-danger">
+                        <div  *ngIf="nome.errors.required">
+                          il campo nome è obbligatorio
+                        </div>
+                        <div  *ngIf="nome.errors.minlength">
+                          lunghezza nimima di {{ nome.errors.minlength.requiredLength }} caratteri
+                        </div>
+                        <div  *ngIf="nome.errors.maxlength">
+                          lunghezza massima di {{ nome.errors.maxlength.requiredLength }} caratteri
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                   <!--  Email e Telefono-->
+                  <div class="row">
+                    <div style="width: 130px;">
+                      <label for="email">Email</label>
+                    </div>
+                    <div class="col-sm-5">
+                      <input type="email" name="email" class="form-control lowertxt" id="email" placeholder="email" [(ngModel)]="form.email" required email #email="ngModel" ngModel  style="text-transform : lowercase">
+                      <br>
+                      <div *ngIf="email.dirty && email.touched && email.invalid">
+                        <div  *ngIf="email.errors.required"  class="alert alert-danger">
+                          il campo email è obbligatorio
+                        </div>
+                        <div *ngIf="email.errors?.email"  class="alert alert-danger">
+                          Email errata
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-1">
+                      <label for="telefono" >Telefono</label>
+                    </div>
+                    <div class="col-sm-4">
+                      <input type="text" name="telefono" class="form-control" id="telefono" placeholder="telefono" [(ngModel)]="form.telefono"  #telefono="ngModel" minlength="10" maxlength="10" ngModel pattern="^[0-9]*$">
+                      <br>
+                      <div *ngIf="telefono.dirty && telefono.touched && telefono.invalid" class="alert alert-danger">
+                        <div  *ngIf="telefono.errors.required">
+                          il campo telefono è obbligatorio
+                        </div>
+                        <div  *ngIf="telefono.errors.pattern">
+                          il campo telefono deve contenere solo numeri
+                        </div>
+                        <div  *ngIf="telefono.errors.minlength">
+                          lunghezza minima {{ telefono.errors.minlength.requiredLength }} caratteri
+                        </div>
+                        <div  *ngIf="telefono.errors.maxlength">
+                          lunghezza massima di {{ telefono.errors.maxlength.requiredLength }} caratteri
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+
+<div class="row">
+  <div class="col-md-5">
+    <!--  vuoto-->
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-info btn-sm " (click)="proseguiRegistrazione(formRegistrazione)">
+      <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+    </button>
+  </div>
+</div>
+
+
+                  <div class="row">
+                    <div class=" col-md-3" >
+                      <input type="checkbox" id="myCheck" (change)="prenotazioneMultipla($event)">&nbsp; Prenotazione Multipla ?
+                    </div>
+                    <div class=" col-md-6" *ngIf="prenotMultipla === true">
+                      <label style="color: red; background-color: yellow;    font-weight: bold; text-align: center;  " >Inserire i dati dell utente  partecipante all evento</label>
+                    </div>
+                  </div>
+                  <br>
+
+
+                <!--  Cognome e Nome utente -->
+                <div class="row" *ngIf="prenotMultipla === true">
+                  <div style="width: 130px;">
+                    <label for="cognomeu" style="color: blue; font-weight: bold; " >Cognome</label>
+                  </div>
+                  <div class="col-sm-5">
+                    <input type="text" name="cognomeu" class="form-control lowertxt" id="cognomeu" placeholder="cognome Utente" [(ngModel)]="form.cognomeu" required  minlength="5" maxlength="40" #cognomeu="ngModel" ngModel  style="text-transform : uppercase">
+                    <br>
+                    <div *ngIf="cognomeu.dirty && cognomeu.touched && cognomeu.invalid" class="alert alert-danger">
+                      <div  *ngIf="cognomeu.errors.required">
+                        il campo cognome è obbligatorio
+                      </div>
+                      <div  *ngIf="cognomeu.errors.minlength">
+                        lunghezza nimima di {{ cognomeu.errors.minlength.requiredLength }} caratteri
+                      </div>
+                      <div  *ngIf="cognomeu.errors.maxlength">
+                        lunghezza massima di {{ cognomeu.errors.maxlength.requiredLength }} caratteri
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-md-1">
+                    <label for="nomeu"  class="col-form-label" style="color: blue; font-weight: bold; ">Nome</label>
+                  </div>
+                  <div class="col-sm-4">
+                    <input type="text" name="nomeu" class="form-control lowertxt" id="nomeu" placeholder="nome Utente" [(ngModel)]="form.nomeu" required  minlength="5" maxlength="40" #nomeu="ngModel" ngModel  style="text-transform : uppercase">
+                    <br>
+                    <div *ngIf="nomeu.dirty && nomeu.touched && nomeu.invalid" class="alert alert-danger">
+                            <div  *ngIf="nomeu.errors.required">
+                              il campo nome è obbligatorio
+                            </div>
+                            <div  *ngIf="nomeu.errors.minlength">
+                              lunghezza minima di {{ nomeu.errors.minlength.requiredLength }} caratteri
+                            </div>
+                            <div  *ngIf="nomeu.errors.maxlength">
+                              lunghezza massima di {{ nomeu.errors.maxlength.requiredLength }} caratteri
+                            </div>
+                    </div>
+                  </div>
+                </div>
+                 <!--  Email e Telefono  utente -->
+                <div class="row" *ngIf="prenotMultipla === true">
+                  <div style="width: 130px;">
+                    <label for="emailu" style="color: blue; font-weight: bold; ">Email</label>
+                  </div>
+                  <div class="col-sm-5">
+                    <input type="email" name="emailu" class="form-control lowertxt" id="emailu" placeholder="email Utente" [(ngModel)]="form.emailu" required email #emailu="ngModel" ngModel  style="text-transform : lowercase">
+                    <br>
+                    <div *ngIf="emailu.dirty && emailu.touched && emailu.invalid">
+                      <div  *ngIf="email.errors.required"  class="alert alert-danger">
+                        il campo email è obbligatorio
+                      </div>
+                      <div *ngIf="emailu.errors?.email"  class="alert alert-danger">
+                        Email errata
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <label for="telefonou" style="color: blue; font-weight: bold; ">Telefono</label>
+                  </div>
+                  <div class="col-sm-4">
+                    <input type="text" name="telefonou" class="form-control" id="telefonou" placeholder="telefono Utente" [(ngModel)]="form.telefonou"  #telefonou="ngModel" minlength="10" maxlength="10" ngModel pattern="^[0-9]*$">
+                    <br>
+                    <div *ngIf="telefonou.dirty && telefonou.touched && telefonou.invalid" class="alert alert-danger">
+                      <div  *ngIf="telefonou.errors.required">
+                        il campo telefono è obbligatorio
+                      </div>
+                      <div  *ngIf="telefonou.errors.pattern">
+                        il campo telefono deve contenere solo numeri
+                      </div>
+                      <div  *ngIf="telefonou.errors.minlength">
+                        lunghezza nimima di {{ telefonou.errors.minlength.requiredLength }} caratteri
+                      </div>
+                      <div  *ngIf="telefonou.errors.maxlength">
+                        lunghezza massima {{ telefonou.errors.maxlength.requiredLength }} caratteri
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                 <!--  tipo biglietti-->
+                <div class="row">
+                  <div  style="width: 130px;">
+                    <label class="control-label ">tipi biglietti</label>
+                  </div>
+                  <div class="dropdown col-sm-3">
+                    <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedtipobiglietto" ngModel name="tipobiglietto" id="tipobiglietto" class="form-select" required (change)="onSelectedtipoBiglietto($event.target.value)" aria-label="Default select example">
+                      <option selected value="9999"  >Seleziona il tipo</option>
+                      <option *ngFor="let tipobiglietto of tipibiglietto" [value]="tipobiglietto.id"  class="form-control"  >{{tipobiglietto.d_tipo}}&nbsp;Importo:&nbsp;{{tipobiglietto.importo | currency:'EUR'}}&nbsp;Disp:&nbsp;{{tipobiglietto.ntot - tipobiglietto.npren - tipobiglietto.nemessi}}</option>
+                    </select>
+                  </div>
+                  <div class="invalid-feedback">effettuare la scelta del tipo logistica</div>
+
+                  <div class=" col-md-7" *ngIf="bigliettoRidotto === true">
+                    <input type="checkbox" id="myCheck" (change)="confermaScontabile($event)">&nbsp; Confermo di poter usufruire dello sconto (minore,cat.Protette)
+                  </div>
+                </div>
+                <hr>
+<!--  elenco delle prenotazioni effettuate  visibile solo se effettuo più prenotazioni -->
+wprenotazeventi:{{wprenotazeventi |json}}<br>
+presentiPrenotazioni: {{presentiPrenotazioni}}<br>
+
+<div class="row" >  <!-- *ngIf="presentiPrenotazioni === true "-->
+  <div class="row">
+
+    <div class="col-md-10"  >
+      <div class="row">
+        <div class="col-md-10">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Cognome</th>
+                <th scope="col">Nome</th>
+                <th scope="col">email</th>
+                <th scope="col">Cellulare</th>
+                <th scope="col">Biglietto</th>
+                <th scope="col">Importo</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr  *ngFor ="let evposto of wprenotazeventi  let i = index " >
+                <td >{{i + 1}}</td>
+                <td>{{evposto.cognome}}</td>
+                <td>{{evposto.nome}}</td>
+                <td>{{evposto.email}}</td>
+                <td>{{evposto.telefono}}</td>
+                <td>{{evposto.d_taglia}}</td>
+                <td>{{evposto.importo | currency:'EUR'}}</td>
+               <td>
+                  <div  >
+                    <button class="btn btn-danger btn-sm " (click)="deletePostoPrenotato(evposto)">
+                      <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-md-1">
+      <label class="col-form-label" style="text-align: center;"><strong>Totale:</strong>&nbsp;</label>
+    </div>
+    <div class="col-md-1">
+      <label class="col-form-label" style="color:red; text-align: center;"><strong>{{importoTotb | currency:'EUR'}}</strong></label>
+    </div>
+
+
+  </div>
+</div>
+<br>
+
+
+                <hr>
+                <div class="form-group row">
+                    <div class="col-sm-10 offset-3">
+                      <div class="row">
+                          <div class="col-sm-3" *ngIf="presentiPrenotazioni  === true">  <!--createdRegistration === true -->
+                            <button type="submit" class="btn btn-success btn-sm-2" (click)="nuovaPrenotazione(formRegistrazione)" >Nuova
+                              <fa-icon [icon]="faPlus"  fixed="true"></fa-icon>
+                            </button>
+                          </div>
+                          <div class="col-sm-3" *ngIf="visibleConferma === true">
+                            <button type="submit" class="btn btn-primary" [disabled]="!formRegistrazione.valid ">Conferma
+                              <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+                            </button>
+                          </div>
+                          <div class="col-sm-3" *ngIf="abilitaPrenotazione  === true">
+                            <button type="submit" class="btn btn-primary"  (click)="prenota()">Prenota
+                              <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+                            </button>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<br>
+<!-- messaggi -->
+<div class="row">
+  <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+    <p>{{Message}}</p>
+  </div>
+  <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+    <p>{{Message}}</p>
+  </div>
+</div>
+
+
+        </form>
+     </div>
+  </div>
+</div>
+
+      <br>
+
+<!--  <-- {{tipobiglietto.d_tipo}}&nbsp;Importo:&nbsp;{{tipobiglietto.importo | currency:'EUR'}}
+      <div class="row">
+        <label class="col-sm-2 control-label ">tipi biglietti</label>
+        <div  class="col-sm-3 ">
+          <select [(ngModel)]="selectedtipobiglietto" ngModel name="tipobi" id="tipobi" class="custom-select" (change)="onSelectedtipoBiglietto($event.target.value)"  aria-label="Default select example">
+            <option value="99" disabled >Seleziona il tipo biglietto</option>
+            <option *ngFor="let tipobiglietto of tipibiglietto" [value]="tipobiglietto.id"  class="form-control"  >{{tipobiglietto.d_tipo}}</option>
+          </select>
+       <div class="invalid-feedback">effettuare la scelta del tipo biglietto</div>
+        </div>
+        <div class=" col-md-7" *ngIf="selectedtipobiglietto !== 99 && tipobiglietto.d_tipo === 'RIDOTTO'">
+          <input type="checkbox" id="myCheck" (change)="confermaScontabile($event)">&nbsp; Confermo di poter usufruire dello sconto (minore,cat.Protette)
+        </div>
+
+      </div>  -->
+
+
+
+
+
+
+
+
+
+
+
+    <!--  </form>  -->
+
+
+
+
+
+
+
+
+<!---
+      </form>
+    </div>
+  </div>
+</div>  fine  -->
+
+
+
+
+
+
+

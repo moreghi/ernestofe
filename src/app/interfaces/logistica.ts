@@ -8,6 +8,7 @@ export interface LogisticaInterface {
   localita: string;
   luogo: string;
   photo: string;
+  nposti: number;
   key_utenti_operation: number;
   created_at: Date;
   updated_at: Date;

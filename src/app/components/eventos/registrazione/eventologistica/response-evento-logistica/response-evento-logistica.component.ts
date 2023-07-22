@@ -213,7 +213,7 @@ constructor(private router: Router,
 
   async   loadEventoPosti(keyuserpren: string) {
     console.log('frontend - loadEventoPosti: ' + keyuserpren);
-    let rc = await  this.eventopostoService.getbykeyuserpren(keyuserpren).subscribe(
+    let rc = await  this.eventopostoService.getbykeypren(keyuserpren).subscribe(
     response => {
         console.log('loadEventoPosti: --------- posti ------------- ' + JSON.stringify(response['data']));
         this.eventoposti = response['data'];
@@ -326,7 +326,7 @@ async  deleteAllPreneventConfirmed(token: string) {
   }
 
   deletePreneventmasterConfirmed(token: string) {
-    let rc =  this.prenotazeventomasterConfirmService.deletePreConfirmbytoken(token).subscribe(
+    let rc =  this.prenotazeventomasterConfirmService.deletebytoken(token).subscribe(
       resp => {
          if(resp['rc'] === 'ok') {
           this.isVisible = true;

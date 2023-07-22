@@ -22,6 +22,7 @@ export class ManifestazioniComponent implements OnInit {
   public isVisible = false;
   public alertSuccess = false;
 
+
   public manifestazioni: Manifestazione[] = [];
   public manifestazione: Manifestazione;
 
@@ -103,11 +104,20 @@ constructor(private manifService: ManifestazioneService,
           this.isVisible = true;
           let rc =  await  this.manifService.getAll().subscribe(
                res => {
+
+                if(res['rc'] === 'ok') {
+                  console.log('loadManifestazioni ---- elenco ' + JSON.stringify(res['data']));
                   this.manifestazioni = res['data'];
                   this.nRec = res['number'];
                   this.trovatoRec = true;
                   this.Message = 'Situazione Attuale';
                   this.alertSuccess = true;
+                }
+                if(res['rc'] === 'nf') {
+                  this.trovatoRec = false;
+                  this.Message = 'Nessuna Manifestazione presente';
+                  this.alertSuccess = true;
+                }
               },
               error => {
                  alert('Manifestazioni  -- loadManifestazioni - errore: ' + error.message);
@@ -180,16 +190,18 @@ onSelectionChange(tipo: string)   {
     this.isVisible = true;
     let rc = await  this.manifService.getManifbyStato(stato).subscribe(
          res => {
-              this.manifestazioni = res['data'];
-              this.nRec = res['number'];
-              this.trovatoRec = true;
-              this.alertSuccess = true;
-              if(res['number'] > 0) {
-                this.Message = 'Situazione Attuale';
-              } else {
-                this.nRec = 0;
-                this.Message = res['message'];
-              }
+          if(res['rc'] === 'ok') {
+            this.manifestazioni = res['data'];
+            this.nRec = res['number'];
+            this.trovatoRec = true;
+            this.alertSuccess = true;
+          }
+          if(res['rc'] === 'nf') {
+            this.trovatoRec = false;
+            this.Message = 'Nessuna Manifestazione presente';
+            this.alertSuccess = true;
+            this.nRec = 0;
+         }
         },
         error => {
            alert('Manifestazioni  -- loadManifestazionibyStato - errore: ' + error.message);

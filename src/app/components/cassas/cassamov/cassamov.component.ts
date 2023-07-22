@@ -2,9 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 // Service
 import { BigliettoService} from '../../../services/biglietto.service';
+import { TtipopagamentoService } from '../../../services/ttipopagamento.service'
 // Model
 import { Biglietto } from '../../../classes/Biglietto';
 import { Cassamov } from '../../../classes/Cassamov';
+import { Ttipopagamento } from '../../../classes/T_tipo_pagamento';
+
 // per gestire il popup con esito operazione
 import { NotifierService } from 'angular-notifier';
 import { faPlusSquare, faSearch, faSave, faUserEdit, faMinus, faPlus, faWindowClose, faTrash, faInfo,
@@ -25,7 +28,8 @@ export class CassamovComponent implements OnInit {
    @Input('cassamov-data') cassamov: Cassamov;
    @Input('cassamov-prog') i: number;
 
-   public biglietto: Biglietto
+   public biglietto: Biglietto;
+   public tipopagamento: Ttipopagamento;
 
    faUserEdit = faUserEdit;
    faTrash = faTrash;
@@ -75,17 +79,19 @@ export class CassamovComponent implements OnInit {
 
 
    constructor(private bigliettoService: BigliettoService,
+               private tipopagamentoService: TtipopagamentoService,
                private modalService: NgbModal,
                private route: Router,
                private datePipe: DatePipe,
                private notifier: NotifierService) {
-                this.notifier = notifier;
+                   this.notifier = notifier;
               }
 
 
 
   ngOnInit(): void {
     this.loadBiglietto(this.cassamov.idbiglietto);
+    this.loadtipopagamento(this.cassamov.modpag);
   }
 
 
@@ -105,6 +111,24 @@ async loadBiglietto(id: number) {
       this.showNotification(this.type, this.Message);
     });
 }
+
+async loadtipopagamento(modpag: number) {
+  let rc =  await this.tipopagamentoService.getbyid(modpag).subscribe(
+    response => {
+        if(response['rc'] === 'ok') {
+          this.tipopagamento = response['data'];
+        }
+    },
+    error =>
+    {
+      console.log(error);
+      this.Message = error.message;
+      this.alertSuccess = false;
+      this.isVisible = true;
+      this.showNotification(this.type, this.Message);
+    });
+}
+
 
 /*
      Show a notification

@@ -1,0 +1,122 @@
+
+<!-- {{user | json}} -->
+
+
+
+<div class="container">
+  <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
+     <div >
+      <form #fm ="ngForm">
+        <input hidden #id="ngModel"  [(ngModel)]="user.id" class="form-control" name="id" id="id">
+        <br>
+        <!--  riga anagrafica  prima riga -->
+        <div class="row">
+            <label for="cognome" class="col-sm-1 col-form-label">Cognome</label>
+            <div class=" col-md-3">
+              <input disabled #cognome="ngModel"  [(ngModel)]="user.cognome" class="form-control" name="cognome" id="cognome" style="text-transform : uppercase">
+            </div>
+            <br>
+
+            <!-- nome -->
+            <label for="nome" class="col-sm-1 col-form-label">Nome</label>
+            <div class=" col-md-3">
+              <input disabled #nome="ngModel"  [(ngModel)]="user.nome" class="form-control" name="nome" id="nome"  style="text-transform : uppercase">
+            </div>
+            <br>
+
+
+        </div>
+        <br>
+
+
+        <!-- seconda riga -->
+        <div class="form-row">
+          <div class="form-group row">
+            <!-- prima colonna -->
+            <!--
+            <div class="col-sm-3"><strong>Profilo Attuale</strong></div>
+             seconda colonna
+            <div class="col-sm-4">
+                  <div class=" col-md-6">
+                      <input disabled type="date" [(ngModel)]="userlevel.UserLevelName"  #profilo="ngModel" ngModel class="form-control"  name="profilo" id="profilo"  />
+                  </div>
+            </div> -->
+            <br>
+            <!-- terza colonna -->
+            <div class="col-md-4">
+              <div class="row">
+                <label for="locNascita" class="col-sm-2 col-form-label">Profilo</label>
+                <div class="dropdown col-sm-8">
+                  <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedUserLevel" ngModel name="profilo" id="profilo" class="form-select" required (change)="onSelectedUserLevel($event.target.value)" aria-label="Default select example">
+                    <option selected value="9999"  >Seleziona il Profilo</option>
+                    <option *ngFor="let userlevel of userlevels" [value]="userlevel.id"  class="form-control"  >{{userlevel.UserLevelName}}</option>
+                  </select>
+                </div>
+                <div class="invalid-feedback">effettuare la scelta del profilo</div>
+              </div>
+           </div>
+
+
+                           <!-- </div> <i class="fas fa-google-plus-g    "></i>  -->
+          </div>
+        </div>
+        <br>
+      <hr>
+<!-- Bottoni funzionali -->
+      <div class="footer" >
+        <div class="row col-sm-10 offset-2">
+
+
+          <div class="col-sm-3">
+            <button [disabled]="fm.invalid || selectedUserLevel === 9" class="btn btn-success btn-md " (click)="conferma()">Conferma
+              <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+            </button>
+          </div>
+
+          <div class="col-sm-3" >
+            <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+              <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+            </button>
+          </div>
+
+
+
+        </div>
+      </div>
+
+
+
+        <!--  fine personaizzazione  -->
+
+
+
+
+        <br>
+        <div class="form-row col-md-12">
+          <div class="row col-md-12">
+
+            <div class="form-row">
+              <div class="col-md-12">
+                <!-- messaggi -->
+                <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+                  <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+                        <div class="col md-12">
+                          <p>{{Message}}</p>
+                        </div>
+                </div>
+                <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+                  <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+                        <div class="col md-12">
+                          <p>{{Message}}</p>
+                        </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+    </form>
+     </div>
+   </div>
+</div>

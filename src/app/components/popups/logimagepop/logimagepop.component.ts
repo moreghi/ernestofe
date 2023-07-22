@@ -76,7 +76,7 @@ export class LogimagepopComponent implements OnInit {
                  console.log('Logisticapop -----------------------------     dati passati da chiamante: ' + this.selectedUser.id );
                //  alert('sono in oninit - title ...................................................... : ' + this.title);
                  this.logistica = this.selectedUser;   // salvo la località ricevuta.
-                 this.pathimage = environment.APIURL + '/upload/files/eventos/' + this.logistica.photo;
+                 this.pathimage = environment.APIURL + '/upload/files/eventos/logistica/' + this.logistica.photo;
 
 
 

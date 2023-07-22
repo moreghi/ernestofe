@@ -59,6 +59,9 @@ export class EventoPosto2Component implements OnInit {
    public function = 0;
    public nRec = 0;
 
+   public d_settore = '';
+   public d_fila = '';
+
    public navigateEdit = 'Edit';
    public navigateTicket = 'Ticket';
    public navigatePosti = 'Posti';
@@ -69,6 +72,28 @@ export class EventoPosto2Component implements OnInit {
 
   // variabili per notifica esito operazione con Notifier
   public type = '';
+
+  public str = '';
+  // const lenstr = str.length;
+  public searchPosto = 'POSTO';
+  public searchFila = 'FILA';
+
+  public startFila = 0;
+  public startPosto = 0;
+
+  public postoUser = '';
+  public filaUser = '';
+  public settoreUser = '';
+
+
+//      console.log('stringa completa: ' + str);
+//  console.log(' ricerco POSTO: ' + str.indexOf(searchPosto) + ' startPosto ' + startPosto + ' lunghezza ' + str.length);
+//  console.log(' ricerco FILA: ' + str.indexOf(searchFila) + '  startFila ' + startFila);
+
+
+
+
+
 
 
   constructor(private eventopostoService: EventopostoService,
@@ -81,9 +106,25 @@ export class EventoPosto2Component implements OnInit {
               }
 
 
+
+
               ngOnInit(): void {
+                // non più usati da quando sono passato a eventoPosto
                 this.loadFila(this.eventoposto.idlogistica, this.eventoposto.idFila);
                 this.loadSettore(this.eventoposto.idlogistica, this.eventoposto.idSettore);
+
+                this.str = this.eventoposto.desposto;
+                this.startFila = this.str.indexOf(this.searchFila);
+                this.startPosto = this.str.indexOf(this.searchPosto);
+
+                this.postoUser = this.str.substring(this.startPosto);  // ok
+                this.filaUser = this.str.substring(this.startFila, (this.startPosto - 4)); // ok
+                 // this.settoreUser = str.substring(0, (startFila - 1)); // ok
+                this.settoreUser = this.str.substring(0, 10); // ok
+
+
+
+
               }
 
               async  loadFila(idlog: number, id: number) {
@@ -142,7 +183,7 @@ export class EventoPosto2Component implements OnInit {
                 console.log(`navigate ---- funzione: ${pathNavigate} ---------------------  id: ${eventoposto.id} `);
                 switch (pathNavigate) {
                   case 'Edit':
-                    alert('da fare');
+                   // non faccio niente;
                    // this.route.navigate(['evento/edit/' + evento.id + '/' + evento.idmanif]);
                     break;
                   case 'Ticket':
@@ -150,7 +191,7 @@ export class EventoPosto2Component implements OnInit {
                    // this.route.navigate(['evento/' + evento.id + '/tipobiglietti']);
                     break;
                   case 'Posti':
-                    alert('da fare');
+                    //alert('da fare');
                    // this.route.navigate(['evento/' + evento.id + '/Posti']);
                     break;
                   default:

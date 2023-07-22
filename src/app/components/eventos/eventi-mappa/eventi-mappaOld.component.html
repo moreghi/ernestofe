@@ -1,0 +1,144 @@
+<p>eventi-mappa works!</p>
+{{manifestazioni | json}}
+<div class="container">
+  <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
+     <div >
+      <form #fm ="ngForm">
+        <input Hidden #id="ngModel"  [(ngModel)]="manif.id" class="form-control" name="id" id="id">
+<!-- visualizzo in una combo le manifestazioni attive per le quali posso eseguire le registrazioni -->
+
+
+<br>
+
+<div class="form-group row" >
+  <label for="idmanif"  class="col-sm-3 control-label ">Manifestazioni</label>{{manifestazioni | json}}
+  <div  class="col-sm-5 was-validated ">
+
+    <select [(ngModel)]="selectedmanif" ngModel name="idmanif" id="idmanif" class="custom-select" required (change)="onSelectedManifestazione($event.target.value)">
+      <option value="99" disabled >Seleziona la Manifestazione</option>
+      <option *ngFor="let manifestazione of manifestazioni" [value]="manifestazione.id"  class="form-control"  >{{manifestazione.descManif }}</option>
+    </select>
+    <div class="invalid-feedback">effettuare la scelta della Manifestazione</div>
+  </div>
+</div>
+<br>
+
+
+
+
+
+
+
+
+
+        <div class="row" >  <!-- *ngIf="manifselected === true" -->
+            <label for="descManif" class="col-sm-2 col-form-label">Manifestazione</label>
+            <div class=" col-md-6">
+              <input disabled #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif"  style="text-transform : uppercase">
+            </div>
+
+          <div class=" col-md-2">
+        <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+            <div>
+              <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : 'white'"  [style.background-color]="manif.stato == 2 ? 'yellow' : 'red'">
+            </div>
+          </div>
+        </div>
+
+        <br>
+        <!--  riga date inizio e finei  -->
+        <div class="row" *ngIf="manifselected === true">
+          <label for="dtInizio" class="col-sm-2 col-form-label">Data Inizio</label>
+          <div class=" col-md-2">
+            <input  disabled [(ngModel)]="manif.dtInizio" [ngModel]="manif.dtInizio | date:'dd/MM/yyyy'" #dtInizio="ngModel" class="form-control"  name="dtInizio" id="dtInizio" placeholder="sel. data Inizio">
+          </div>
+          <label for="dtFine" class="col-sm-2 col-form-label">Data Fine</label>
+          <div class=" col-md-2">
+            <input disabled [(ngModel)]="manif.dtFine"  [ngModel]="manif.dtFine | date:'dd/MM/yyyy'" #dtFine="ngModel" class="form-control"  name="dtFine" id="dtFine"  placeholder="sel. data Fine" >
+          </div>
+      </div>
+      </form>
+    </div>
+   </div>
+
+   <br>
+   <div class="row" *ngIf="manifselected === true">
+     <div class="col-md-4">
+       <div class="col-sm-12" *ngIf="nomeevento[0] != ''">
+         <button  class="btn  btn-rounded btnevento"  (click)="registra(idevento[0])">{{nomeevento[0]}}</button>
+       </div>
+     </div>
+     <div class="col-md-4">
+       <div class="col-sm-12" *ngIf="nomeevento[1] != ''">
+         <button  class="btn  btn-rounded btnevento1"  (click)="registra(idevento[1])">{{nomeevento[1]}}</button>
+       </div>
+     </div>
+     <div class="col-md-4">
+       <div class="col-sm-12" *ngIf="nomeevento[2] != ''">
+         <button  class="btn  btn-rounded btnevento"  (click)="registra(idevento[2])">{{nomeevento[2]}}</button>
+       </div>
+     </div>
+   </div>
+   <br>
+   <div class="row" *ngIf="manifselected === true">
+      <div class="col-md-4">
+       <div class="col-sm-12" *ngIf="nomeevento[3] != ''">
+         <button  class="btn  btn-rounded btnevento"  (click)="registra(idevento[3])">{{nomeevento[3]}}</button>
+       </div>
+     </div>
+     <div class="col-md-4">
+       <div class="col-sm-12" *ngIf="nomeevento[4] != ''">
+         <button  class="btn  btn-rounded btnevento1"  (click)="registra(idevento[4])">{{nomeevento[4]}}</button>
+       </div>
+     </div>
+     <div class="col-md-4">
+       <div class="col-sm-12" *ngIf="nomeevento[5] != ''">
+         <button  class="btn  btn-rounded btnevento"  (click)="registra(idevento[5])">{{nomeevento[5]}}</button>
+       </div>
+     </div>
+   </div>
+   <br>
+   <div class="row" *ngIf="manifselected === true">
+    <div class="col-md-4">
+     <div class="col-sm-12" *ngIf="nomeevento[6] != ''">
+       <button  class="btn  btn-rounded btnevento"  (click)="registra(idevento[6])">{{nomeevento[6]}}</button>
+     </div>
+   </div>
+   <div class="col-md-4">
+     <div class="col-sm-12" *ngIf="nomeevento[7] != ''">
+       <button  class="btn  btn-rounded btnevento1"  (click)="registra(idevento[7])">{{nomeevento[7]}}</button>
+     </div>
+   </div>
+   <div class="col-md-4">
+     <div class="col-sm-12" *ngIf="nomeevento[8] != ''">
+       <button  class="btn  btn-rounded btnevento"  (click)="registra(idevento[8])">{{nomeevento[8]}}</button>
+     </div>
+   </div>
+ </div>
+ <br>
+
+  <div class="form-row col-md-12">
+    <div class="row col-md-12">
+
+       <div class="form-row">
+        <div class="col-md-12">
+           <!-- messaggi -->
+          <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+           </div>
+           <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+            </div>
+          </div>
+       </div>
+    </div>
+  </div>
+  <br>
+</div>

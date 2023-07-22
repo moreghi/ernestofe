@@ -142,7 +142,7 @@ async loadSocio(id: number) {
    if(response['rc'] === 'ok') {
      console.log('socio da editare in Tesseramento: ' + JSON.stringify(response['data']));
      this.socio = response['data'];
-     this.selectedLocalitaResidenza = this.socio.locNascita;
+     this.selectedLocalitaNascita = this.socio.locNascita;
      this.selectedLocalitaResidenza = this.socio.residenza;
      this.selectedOperativita = this.socio.operativo;
      this.selectedSesso = this.socio.sesso;

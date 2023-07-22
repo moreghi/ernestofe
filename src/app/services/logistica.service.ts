@@ -72,17 +72,23 @@ export class LogisticaService {
 
     }
 
-    getAllActive() {
+    getAllActive(stato: number) {
 
       this.rottafunction = '/getbyActive/Act';
+      return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + stato,  {
+              headers: this.getAuthHeader()
+            });      // ok;
+
+    }
+
+    getLast() {
+
+      this.rottafunction = '/getLast/Last';
       return this.http.get(this.APIURL + '/' + this.rottafunction ,  {
               headers: this.getAuthHeader()
             });      // ok;
 
-  }
-
-
-
+    }
 
 }
 

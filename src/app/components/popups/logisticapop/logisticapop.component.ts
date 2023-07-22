@@ -78,9 +78,11 @@ export class LogisticapopComponent implements OnInit {
                    console.log('Logisticapop -----------------------------     dati passati da chiamante: ' + this.selectedUser.id );
                  //  alert('sono in oninit - title ...................................................... : ' + this.title);
                    this.logistica = this.selectedUser;   // salvo la località ricevuta.
-                   this.pathimage = environment.APIURL + '/upload/files/eventos/' + this.logistica.photo;
+                  // fino al 15/04/2023  --  vecchio percorso
+                  // this.pathimage = environment.APIURL + '/upload/files/eventos/logistica/' + this.logistica.photo;
 
-
+                   // dal 16/04/2023  --  nuovo percorso
+                   this.pathimage = environment.APIURL + '/upload/files/logistica/' + this.logistica.photo;
 
 
                    console.log('Logisticapop ------ selectUser ---------     dati ricevuti da chiamante: ' + JSON.stringify(this.selectedUser) );

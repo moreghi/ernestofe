@@ -5,6 +5,8 @@ export class Cassamov implements CassamovInterface {
   id: number;
   idcassa: number;
   idevento: number;
+  causale: string;
+  idevPosto: number;
   idbiglietto: number;
   importo: number;
   stato: number;
@@ -19,6 +21,8 @@ export class Cassamov implements CassamovInterface {
     this.id = 0;
     this.idcassa = 0;
     this.idevento = 0;
+    this.causale = '';
+    this.idevPosto = 0;
     this.idbiglietto = 0;
     this.importo = 0;
     this.stato = 0;

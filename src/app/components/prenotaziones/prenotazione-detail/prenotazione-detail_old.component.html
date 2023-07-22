@@ -1,0 +1,605 @@
+<p>prenotazione-detail works!</p>
+<div class="container ">
+  <div class="header_Edit title_Edit" >
+      <strong>{{title}}</strong>
+  </div>
+ <br>
+
+ token: {{token | json}}
+  <div >
+    <div class="col-md-auto">
+      <form #fm ="ngForm"  method="POST">
+        <input hidden #id="ngModel"  [(ngModel)]="evento.id" class="form-control" name="id" id="id">
+        <input hidden #key_utenti_operation="ngModel"  [(ngModel)]="evento.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation">
+        <!-- Descrizione  -->
+         <div class="row">
+            <div class="col-md-5">
+                  <div class="mb-3 row margini">
+                    <div class="col-md-2">
+                      <label for="descrizione" class="col-form-label">Evento:</label>
+                    </div>
+
+                    <div class="col-sm-9">
+                      <input disabled type="text" #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"   style="text-transform : uppercase">
+                    </div>
+                  </div>
+             </div>
+             <div class="col-md-4">
+               <!--  totale Posti -->
+              <div class="row">
+                <div class=" col-md-3">
+                  <label  class="col-form-label">T. Posti</label>
+                </div>
+                <div class=" col-md-1"></div>
+                <div class=" col-md-2">
+                    <span class="badge bg-primary rounded-pill">{{evento.nposti}}</span>
+                </div>
+               </div>
+               <!--  Prenotati -->
+               <div class="row">
+                  <div class=" col-md-3">
+                    <label  class="col-form-label">Prenotati:</label>
+                  </div>
+                  <div class=" col-md-1"></div>
+                  <div class=" col-md-2">
+                      <span class="badge bg-warning rounded-pill">{{evento.npostipren}}</span>
+                  </div>
+               </div>
+               <!--  disponibile -->
+               <div class="row">
+                    <div class=" col-md-3">
+                      <label  class="col-form-label"  [style.color]="evento.npostiDisponibili > 50 ? 'black' : 'red'"  [style.background-color]="evento.npostiDisponibili > 50 ? '' : 'yellow'">Disponibile:</label>
+                    </div>
+                    <div class=" col-md-1"></div>
+
+                    <div class=" col-md-2">
+                      <span class="badge bg-success rounded-pill  dispon"  >{{evento.npostiDisponibili}}</span>
+                    </div>
+
+                    <div class="col-md-6 msgwarning" *ngIf="evento.npostiDisponibili < 11">
+                        {{ msgwarning}}
+                    </div>
+
+               </div>
+
+             </div>
+
+            <!-- visualizza locandina -->
+            <div class="col-sm-2" >
+              <button  class="btn btn-primary btn-rounded"  (click)="viewlocandina()">
+                <fa-icon [icon]="faSearch"  fixed="true"></fa-icon> &nbsp; visualizza
+              </button>
+            </div>
+
+
+
+             <!--  originale -->
+            <!--  la locandina viene visualizzata direttamente in mappa  (troppo spazio)
+                  la vidualizzo con il bottone "visualizza" -->
+                  <!--
+             <div Class="col-md-2">
+              <div class="col-md-3"  style="width: 220px; height: 200px;">
+                <lib-ngx-image-zoom
+                [thumbImage]=pathimageEvent
+                [fullImage]=pathimageEvent
+                [magnification]="1"
+                [enableScrollZoom]="true"
+                [enableLens]="true"
+                [lensWidth]="200"
+              ></lib-ngx-image-zoom>
+               </div>
+             </div>    -->
+
+
+
+
+
+                <!--  originale   fine-->
+
+               <!--   variante che non funziona completamente -->
+               <!--
+
+              <div [ngStyle]="{'transform': 'scale(' + scaleRange +  ')','transform-origin': xValue + 'px ' + yValue + 'px'}">
+                  <div Class="col-md-2">
+                      <lib-ngx-image-zoom
+                            (zoomScroll)="scroll($event)" (zoomPosition)="mouseMove($event)"
+                            zoomMode="toggle-click"
+                            [thumbImage]=pathimageEvent
+                            [fullImage]=pathimageEvent
+                            maxZoomRatio="10"
+                          [scrollStepSize]=".1"
+                          magnification="1"
+                          enableScrollZoom="true" altText="img-not-found">
+                      </lib-ngx-image-zoom>
+                  </div>
+              </div>
+              <input type="range" min="1" max="10" step=".1" value={{scaleRange}} class="form-range"
+              style="width: 200px; height: 50px;" #ref (change)="valueChanged(ref.value)">   -->
+<!-- 2023/04/14 fine variante per visualizzazione locandina-->
+
+in fase di rilascio, creare il master con i dati testata di registrazione e token.
+fare invio via email e fare la pagina di ricezione e conferma con token
+
+          </div>
+
+          <input disabled #token="ngModel"  [(ngModel)]="wprenotazevento.token" class="form-control" name="token" id="token" >
+          <br>
+          <div class="row">
+            <div class="col-md-2" style="color:red">Tipo Biglietto</div>
+            <div class="col-md-5">
+              <div class="row" *ngIf="evento.tipobiglietto === 1" style="color:orange">
+                <label for="importo" class="col-sm-3 col-form-label">Prezzo fisso</label>&nbsp;
+                <div class=" col-md-4">
+                  <input disbled #importo="ngModel"  [(ngModel)]="wEventoTagliaBiglietto.importo" class="form-control" name="importo" id="importo" >
+                </div>
+              </div>
+              <div class="row" *ngIf="evento.tipobiglietto === 2" style="color:blue">
+                <label for="taglie" class="col-sm-1 col-form-label">Taglie</label>&nbsp;
+                <div class="col-md-5">
+                  <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Taglia</th>
+                        <th scope="col">Importo</th>
+                        <th scope="col"></th>
+                       </tr>
+                    </thead>
+                    <tbody>
+                      <tr  *ngFor ="let taglia of wEventoTagliaBiglietti  let i = index">
+                        <td >{{i + 1}}</td>
+                        <td>{{taglia.d_taglia}}</td>
+                        <td>{{taglia.importo | currency:'EUR':true}}&nbsp;</td>
+                        <td><button type="button" class="btn btn-outline-primary btn-sm"  (click)="SelectTaglia(taglia.id)">Scegli</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+               </div>
+            </div>
+            <div class="col-md-4"  *ngIf="selectedtaglia === true">
+              <div class="row">
+                <label class="col-sm-5 col-form-label" style="color:black">Taglia Selezionata:</label>&nbsp;
+                <div class="col-md-1" style="color:red">{{wEventoTagliaBiglietto.d_taglia}}</div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+         <!--  righe libere per inserimento campi -->
+        <!-- *ngIf="presentiPrenotazioni === false"  -->
+          <div class="row" >
+              <div class= col-md-3 style="color:red">Riferimento</div>
+              <div class="row">
+                <label for="cognome" class="col-sm-1 col-form-label"></label>
+                <div class=" col-md-4">
+                  <!-- disabled *ngIf="presentiPrenotazioni === true" -->
+                  <input  #cognome="ngModel"  [(ngModel)]="wprenotazevento.cognome" class="form-control" name="cognome" id="cognome"  required minlength="4" maxlength="40" pattern="[0-9a-zA-Z\s]*" placeholder="Cognome"  style="text-transform : uppercase" >
+                </div>
+                <br>
+                <div *ngIf="cognome.invalid && (cognome.dirty || cognome.touched)" class="alert-danger">
+                  <div *ngIf="cognome.errors.required">
+                      <span>il cognome è obbligatorio</span>
+                  </div>
+                  <div *ngIf="cognome.errors.minlength">
+                     <span>il cognome deve essere di almeno 4 caratteri</span>
+                  </div>
+                  <div *ngIf="cognome.errors.maxlength">
+                      <span>il cognome non può essere più lunga di 40 caratteri</span>
+                   </div>
+                   <div *ngIf="cognome.errors?.pattern">
+                    <span>il cognome non rispetta le regole sintattiche</span>
+                   </div>
+                </div>
+                <div class=" col-md-3">
+                  <!-- disabled *ngIf="presentiPrenotazioni === true" -->
+                  <input  #nome="ngModel"  [(ngModel)]="wprenotazevento.nome" class="form-control" name="nome" id="nome"  required minlength="4" maxlength="20" pattern="[0-9a-zA-Z\s]*" placeholder="Nome"  style="text-transform : uppercase">
+                </div>
+                <br>
+                <div *ngIf="nome.invalid && (nome.dirty || nome.touched)" class="alert-danger">
+                  <div *ngIf="nome.errors.required">
+                      <span>il nome è obbligatorio</span>
+                  </div>
+                  <div *ngIf="nome.errors.minlength">
+                     <span>il nome deve essere di almeno 4 caratteri</span>
+                  </div>
+                  <div *ngIf="nome.errors.maxlength">
+                      <span>il nome non può essere più lunga di 20 caratteri</span>
+                   </div>
+                   <div *ngIf="nome.errors?.pattern">
+                    <span>il nome non rispetta le regole sintattiche</span>
+                   </div>
+                </div>
+
+                <div class=" col-md-3" *ngIf="selectedtaglia === true && wEventoTagliaBiglietto.d_taglia === 'RIDOTTO'">
+                  <input type="checkbox" id="myCheck" (change)="confermaScontabile($event)">&nbsp; Confermo di poter usufruire dello sconto (minore,cat.Protette)
+                </div>
+
+
+
+
+<!--
+                <div class=" col-md-3" *ngIf="selectedtaglia === true && wEventoTagliaBiglietto.d_taglia === 'RIDOTTO'">
+                  <input #scontabile="ngModel"  [(ngModel)]="wprenotazevento.datanasc | date:'dd/MM/yyyy'" class="form-control" name="datanasc" id="datanasc"  required  placeholder="data nascita">
+                </div>
+                <br>
+                <div *ngIf="scontabile.invalid && (datanasc.dirty || datanasc.touched)" class="alert-danger">
+                  <div *ngIf="datanasc.errors.required">
+                      <span>la data di nascita è obbligatoria</span>
+                  </div>
+                </div> -->
+              </div>
+          </div>
+          <br>
+          <!--  *ngIf="presentiPrenotazioni === false" -->
+          <div class="row">
+            <div class= col-md-3></div>
+            <div class="row">
+
+              <label for="email" class="col-sm-1 col-form-label"></label>
+              <div class=" col-md-4">
+                <!--  disabled *ngIf="presentiPrenotazioni === true" -->
+                <input  type="email" name="email" class="form-control lowertxt" id="email" placeholder="inserire email" [(ngModel)]="wprenotazevento.email" email #email="ngModel" ngModel required  style="text-transform : lowercase">
+              </div>
+              <br>
+              <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert-danger">
+                  <div  *ngIf="email.errors.required" >
+                    il campo email è obbligatorio
+                  </div>
+                  <div *ngIf="email.errors?.email"  class="alert alert-danger">
+                    Email non valida
+                  </div>
+
+              </div>
+              <div class=" col-md-3">
+                <!-- disabled *ngIf="presentiPrenotazioni === true" -->
+                <input  type="text" #cell="ngModel"  [(ngModel)]="wprenotazevento.telefono" class="form-control" name="cell" id="cell" pattern="[0-9]*" minlength="10" maxlength="10" placeholder="Inserire cellulare">
+              </div>
+              <br>
+              <div *ngIf="cell.invalid && (cell.dirty || cell.touched)" class="alert-danger">
+                  <div *ngIf="cell.errors.required">
+                      <span>il cellulare è obbligatorio</span>
+                  </div>
+                  <div *ngIf="cell.errors.length">
+                    <span>il cellulare deve essere di 10 caratteri - nessuno spazio</span>
+                  </div>
+                  <div *ngIf="cell.errors.maxlength">
+                      <span>il cellulare non può essere più lunga di 10 caratteri</span>
+                  </div>
+                  <div *ngIf="cell.errors?.pattern">
+                    <span>il cellulare non rispetta le regole sintattiche</span>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <br>
+
+ <!--  righe libere per inserimento campi -->
+ <!--
+ <div class="row" *ngIf="presentiPrenotazioni === true">
+  <div class= col-md-3 style="color:red">Riferimento</div>
+  <div class="row">
+    <label for="cognome" class="col-sm-1 col-form-label"></label>
+    <div class=" col-md-4">
+
+      <input disabled #cognome="ngModel"  [(ngModel)]="wprenotazevento.cognome" class="form-control" name="cognome" id="cognome"  style="text-transform : uppercase" >
+    </div>
+    <div class=" col-md-3">
+
+      <input disabled  #nome="ngModel"  [(ngModel)]="wprenotazevento.nome" class="form-control" name="nome" id="nome" style="text-transform : uppercase">
+    </div>
+    <div class=" col-md-3" *ngIf="selectedtaglia === true && wEventoTagliaBiglietto.d_taglia === 'RIDOTTO'">
+      <input type="checkbox" id="myCheck" (change)="confermaScontabile($event)">&nbsp; Confermo di poter usufruire dello sconto (minore,cat.Protette)
+    </div>
+  </div>
+</div>
+<br>
+<div class="row" *ngIf="presentiPrenotazioni === true">
+  <div class= col-md-3></div>
+  <div class="row">
+
+    <label for="email" class="col-sm-1 col-form-label"></label>
+    <div class=" col-md-4">
+      <input disabled type="email" name="email" class="form-control lowertxt" id="email" [(ngModel)]="wprenotazevento.email" email #email="ngModel" ngModel style="text-transform : lowercase">
+    </div>
+    <div class=" col-md-3">
+        <input  disabled type="text" #cell="ngModel"  [(ngModel)]="wprenotazevento.telefono" class="form-control" name="cell" id="cell" >
+    </div>
+  </div>
+</div>
+<br>  -->
+
+
+
+
+
+
+<div class="row" *ngIf="fm.valid">
+  <div class="form-group">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div >
+            <table class="table table-striped table-hover">
+              <tr>
+                <td>
+                  <div >
+                    <table class="table table-striped table-hover">
+                      <thead>
+                        <tr>
+                        <!--        <th scope="col">#</th>  -->
+                          <th scope="col">Settore</th>
+                          <th scope="col">File</th>
+                       <!--  <th scope="col">Posti</th>  -->
+                          <th scope="col">Disp.</th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor ="let settore of logsettori  let i = index">
+                        <!--  <td >{{i + 1}}</td>  -->
+
+                          <td><button  class="btn btn-primary btn-sm btn-rounded"  (click)="viewfilebySettore(settore)">
+                            <fa-icon [icon]="faSearch"  fixed="true"></fa-icon> &nbsp; {{settore.dsettore}}
+                          </button></td>
+                            <td ><span class="badge bg-warning rounded-pill">{{settore.nfile}}</span></td>
+                          <!--  <td ><span class="badge bg-success rounded-pill">{{settore.nposti}}</span></td>  -->
+                            <td ><span class="badge bg-primary rounded-pill" >{{settore.nposti - settore.npostipren}}</span></td>
+                            <td >
+                              <button [hidden]="settore.nfile > 0" class="btn btn-light btn-sm " (click)="delSettore(settore.id)">  <!-- (click)="deleteSettore(settore.id)" -->
+                                <fa-icon [icon]="faTrash"  fixed="true" style="color:red;"></fa-icon>
+                              </button>
+                            </td>
+                              <!---
+                            <td hidden ngIf="nameselectedSettoreview === ' ' ||  nameselectedSettoreview !== settore.dsettore">
+                              <fa-icon [icon]="faCheck"  fixed="true"></fa-icon>
+                            </td>  -->
+                       <!--
+                          <td [style.color]="getColor(evento.statobiglietti)" [style.background]="getBackground(evento.statobiglietti)">{{evento.d_stato_evento_biglietto}}</td>
+                          <td [style.color]="getColor(evento.statoposti)" [style.background]="getBackground(evento.statoposti)">{{evento.d_stato_evento_posto}}</td>  -->
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                 </td>
+              </tr>
+            </table>
+
+
+
+        </div>
+        </div>
+        <div class="col-md-4" *ngIf="SettoreSelected === false">
+          <table class="table table-striped table-hover" style="color: white; background-color: white;">
+            <tr>
+              <td>
+                <div >
+                  <table class="table table-striped table-hover" style="color: white; background-color: white;">
+                    <thead style="color:white; background-color: white;">
+                      <tr style="color:white; background-color: white;">
+                        <th scope="col" style="color:white; background-color: white;">messaggio</th>
+                      </tr>
+                    </thead>
+                    <tbody style="color:white; background-color: white;">
+                      <tr style="color:white; background-color: white;">
+                          <td style="color:white; background-color: white;">
+        <label class="col-form-label col-md-6" style="background-color: blue; color: yellow; border-color: red; border-radius: 10px; text-align: center;">{{alertSettore}}</label>
+         </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                 </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="col-md-5" *ngIf="SettoreSelected === true">
+          <div >   <!--  *ngIf="settoreSelected === true" -->
+            <table class="table table-striped table-hover">
+              <tr>
+                <td>
+                  <div >
+                    <table class="table table-striped table-hover">
+                      <thead>
+                        <tr>
+                  <!--        <th scope="col">#</th>  -->
+                          <th scope="col">Fila</th>
+                  <!--        <th scope="col">Posti</th>   -->
+                          <th scope="col">In.</th>
+                          <th scope="col">Fi.</th>
+                          <th scope="col">Disp.</th>
+                          <th scope="col"></th>
+                          <th style="color:red; background-color: yellow; text-align: center;">{{workSettoreDetail.dsettore}}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <!--  workfileSelected: {{workfileSelected | json}}  -->
+                        <tr *ngFor ="let fila of logfile  | paginate: { itemsPerPage: 5, currentPage: p_righe }; let i = index">
+                       <!--   <td >{{i + 1}}</td>  -->
+                          <td><button  class="btn btn-warning btn-sm btn-rounded  badge"  (click)="viewpostybyFila(fila)">
+                            <fa-icon [icon]="faSearch"  fixed="true"></fa-icon> &nbsp; {{fila.dfila}}
+                          </button></td>
+                          <td><span class="badge bg-success rounded-pill">{{fila.nstart}}</span></td>
+                          <td><span class="badge bg-success rounded-pill">{{fila.nend}}</span></td>
+                       <!--   <td><san class="badge bg-primary rounded-pill">{{fila.nposti}}</san></td>  -->
+                          <td><span class="badge bg-primary rounded-pill">{{fila.nposti - fila.npostipren}}</span></td>
+
+                        </tr>
+                      </tbody>
+                    </table>
+                    <pagination-controls (pageChange)="p_righe = $event"></pagination-controls>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+<!-- dettaglio posti della fila-->
+
+<div class="col-md-4" *ngIf="SettoreSelected === true && FilaSelected === false">
+  <table class="table table-striped table-hover" style="color: white; background-color: white;">
+    <tr>
+      <td>
+        <div >
+          <table class="table table-striped table-hover" style="color: white; background-color: white;">
+            <thead style="color:white; background-color: white;">
+              <tr style="color:white; background-color: white;">
+                <th scope="col" style="color:white; background-color: white;">messaggio</th>
+              </tr>
+            </thead>
+            <tbody style="color:white; background-color: white;">
+              <tr style="color:white; background-color: white;">
+                  <td style="color:white; background-color: white;">
+<label class="col-form-label col-md-6" style="background-color: blue; color: yellow; border-color: red; border-radius: 10px; text-align: center;">{{alertFila}}</label>
+ </td>
+              </tr>
+            </tbody>
+          </table>
+         </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+
+        <div class="col-md-3" *ngIf="SettoreSelected === true && FilaSelected === true">
+          <div >
+            <table class="table table-striped table-hover">
+              <tr>
+                <td>
+                  <div >
+                    <table class="table table-striped table-hover">
+                      <thead>
+                        <tr>
+
+                          <th scope="col">Posto</th>
+
+
+                          <th scope="col"></th>
+                          <th style="color:red; background-color: yellow; text-align: center;">{{workFilaDetail.dfila}}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                        <tr *ngFor ="let posto of eventoPosti  | paginate: { itemsPerPage: 5, currentPage: p_posti }; let i = index">
+
+                          <td >
+                            <div class="col-md-1">
+                              {{posto.idPosto}}
+                            </div>
+                          </td>
+
+                          <td><button  class="btn btn-primary btn-sm btn-rounded"  (click)="selectedPosto(posto)">
+                            <fa-icon [icon]="faCheck"  fixed="true"></fa-icon> &nbsp; Seleziona
+                          </button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <pagination-controls (pageChange)="p_posti = $event"></pagination-controls>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <hr>
+  </div>
+</div>
+<hr>
+
+<div class="row"  *ngIf="loadedlogPostiPren === true ">
+  <div class="row">
+
+    <div class="col-md-1">
+      <label  class="col-sm-1 col-form-label" style="color:red;" >Prenotati</label>
+    </div>
+    <div class="col-md-7"  >
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Cognome</th>
+            <th scope="col">Nome</th>
+            <th scope="col">email</th>
+            <th scope="col">Cellulare</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr  *ngFor ="let evposto of eventoPostipren  let i = index">
+            <td >{{i + 1}}</td>
+            <td>{{evposto.cognome}}</td>
+            <td>{{evposto.nome}}</td>
+            <td>{{evposto.email}}</td>
+            <td>{{evposto.cellulare}}</td>
+          <td>
+              <div  >
+                <button class="btn btn-danger btn-sm " (click)="deletePostoPrenotato(evposto)">
+                  <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-3">
+      <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-5">
+          <button class="btn btn-success btn-sm float-end" type="submit">
+            Conferma
+          </button>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-5">
+            <button class="btn btn-primary btn-sm float-end" (click)="nuovaPren()">
+              <fa-icon [icon]="faPlus"  fixed="true"></fa-icon> &nbsp; Nuova
+            </button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<br>
+<div class="row col-md-12">
+  <!-- messaggi -->
+  <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+    <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+       <p>{{Message}}</p>
+       <hr>
+     </div>
+     <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+     <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+       <p>{{Message}}</p>
+     </div>
+</div>
+
+        </form>
+    </div>
+  </div>
+
+
+
+
+
+

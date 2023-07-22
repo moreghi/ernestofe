@@ -1,0 +1,713 @@
+<p>biglietto-emissione-detail new   works!</p>
+
+
+<div class="container">
+  <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+   <br>
+  <div class="row col-md-12">
+     <div >
+      <form #fm ="ngForm">
+        <input hidden #id="ngModel"  [(ngModel)]="eventoposto.id" class="form-control" name="id" id="id">
+        <div class="row">
+          <div class="col-md-2">Cassa del:</div>
+          <div class="col-md-1">
+            <label  class="col-sm-2 col-form-label">{{cassa.datacassa}}</label>
+          </div>
+          <div class="col-md-1" *ngIf="presentaCassa === false">
+            <button  class="btn btn-info btn-md "  (click)="openCassa()"> Apri
+              <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+            </button>
+          </div>
+          <div class="col-md-1" *ngIf="presentaCassa === true">
+            <button  class="btn btn-info btn-md "  (click)="VisualizzaCassa()"> Visualizza
+              <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+            </button>
+          </div>
+          <!--
+          <div class="col-md-1" *ngIf="presentaCassa === true">
+            <button  class="btn btn-info btn-md "  (click)="chiudiCassa()"> Chiudi
+              <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+            </button>
+          </div>  -->
+
+          <!--
+          <div class=" col-md-1"  *ngIf="presentaCassa === false && openNewCassa === true || presentaCassa === true && modifyCassa === true">
+
+            <input #importo="ngModel"  [(ngModel)]="cassa.cassaIniziale" class="form-control" name="importo" id="importo" required placeholder="Cassa" >
+
+
+          </div>
+          <br>
+
+          <div *ngIf="importo.invalid && (importo.dirty || importo.touched)" class="alert-danger">
+            <div *ngIf="cassaIniziale.errors.required" class="alert-danger">
+                <span>importo è obbligatorio</span>
+            </div>
+            <div *ngIf="cassaIniziale < 0" class="alert-danger">
+              <span>importo deve essere maggiore di zero</span>
+            </div>
+            <div *ngIf="cassaIniziale.errors?.pattern" class="alert-danger">
+              <span>importo errato</span>
+            </div>
+          </div>  -->
+          <!--
+          <div class=" col-md-1"  *ngIf="chiusuraCassa === true">
+            <input #cassafine="ngModel"  [(ngModel)]="cassa.cassaFinale" class="form-control" name="cassafine" id="cassafine" >
+          </div>
+          <div class="col-md-1" *ngIf="presentaCassa === false && openNewCassa === true ">
+            <button  class="btn btn-success btn-md"  (click)="GestisciCassaIniziale(cassa)"> Conferma
+              <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+            </button>
+          </div>
+          <div class="col-md-1" *ngIf="presentaCassa === true && modifyCassa === true ">
+            <button  class="btn btn-success btn-md"  (click)="GestisciCassaIniziale(cassa)"> Conferma1
+              <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+            </button>
+          </div>
+          <div class="col-md-1" *ngIf="chiusuraCassa === true">
+            <button  class="btn btn-success btn-md" *ngIf="presentaCassa === false && openNewCassa === true || presentaCassa === true && modifyCassa === true"  (click)="GestisciCassaFinale(cassa)"> Conferma
+              <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+            </button>
+          </div>  -->
+        </div>
+        <br>
+<!--  Evento  -->
+<!--           da cancellare
+presentaCassa: {{presentaCassa}}<br>
+openNewCassa: {{openNewCassa}}<br>
+modifyCassa: {{modifyCassa}}<br>  -->
+
+<div class="container" *ngIf="presentaCassa === true">
+         <!--  evento -->
+        <div class="row">
+          <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
+          <div class="col-md-6">
+              <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"   style="text-transform : uppercase">
+          </div>
+          <div class="col-md-2">
+              <input disabled #d_stato_evento="ngModel"  [(ngModel)]="evento.d_stato_evento" class="form-control" name="d_stato_evento" id="d_stato_evento" [style.color]="evento.stato == 2 ? 'red' : 'white'"  [style.background-color]="evento.stato == 2 ? 'yellow' : 'red'">
+          </div>
+        </div>
+        <br>
+      <!--  località -->
+        <div class="row">
+          <label for="localita" class="col-sm-2 col-form-label">Localita</label>
+          <div class=" col-md-6">
+            <input disabled #localita="ngModel"  [(ngModel)]="evento.localita" class="form-control" name="localita" id="localita"   style="text-transform : uppercase">
+          </div>
+          <div class=" col-md-2">
+      <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+              <div>
+                <input  disabled [(ngModel)]="evento.data" [ngModel]="evento.data | date:'dd/MM/yyyy'" #data="ngModel" class="form-control"  name="data" id="data">
+              </div>
+            </div>
+        </div>
+        <hr>
+      <!--   cognome  e nome -->
+      <div class="row">
+        <label for="cognome"  class="col-sm-2 col-form-label">Utente</label>
+        <div class="col-sm-4">
+          <input type="text" disabled class="form-control lowertxt" id="cognome" [(ngModel)]="eventoposto.cognome" #cognome="ngModel" name="cognome" ngModel  style="text-transform : uppercase" >
+        </div>
+        <div class="col-sm-4">
+          <input type="text" disabled class="form-control lowertxt" id="nome" [(ngModel)]="eventoposto.nome" #nome="ngModel" name="nome" ngModel  style="text-transform : uppercase" >
+        </div>
+      </div>
+      <hr>
+    <!-- Posto -->
+
+    <div class="row" *ngIf="eventoposto.idSettore !== 0" >
+      <label for="settore"  class="col-sm-2 col-form-label">Posto</label>
+      <div class="col-sm-3">
+        <label  class="col-form-label" >Settore:&nbsp;&nbsp;<strong style="color: blue;">{{settoreUser}}</strong></label>
+        <!--<input type="text" disabled class="form-control lowertxt" id="settore" [(ngModel)]="eventosettore.dsettore" #settore="ngModel" name="settore" ngModel  style="text-transform : uppercase" > -->
+      </div>
+      <div class="col-sm-3">
+        <label  class="col-form-label" >Fila:&nbsp;&nbsp;<strong style="color: blue;">{{filaUser}}</strong></label>
+         <!--<input type="text" disabled class="form-control lowertxt" id="fila" [(ngModel)]="logfila.dfila" #nome="ngModel" name="fila" ngModel  style="text-transform : uppercase" > -->
+      </div>
+       <div class="col-sm-3">
+        <label  class="col-form-label" >Posto:&nbsp;&nbsp;<strong style="color: blue;">{{postoUser}}</strong></label>
+      <!--  <input type="text" disabled class="form-control" id="posto" [(ngModel)]="eventoposto.idPosto" #posto="ngModel" name="posto" ngModel>  -->
+      </div>
+    </div>
+    <br>
+    <div class="row" *ngIf="eventoposto.idSettore === 0">
+      <label for="settore"  class="col-sm-2 col-form-label">Posto</label>
+      <div class="col-sm-3">
+        <label  class="col-form-label" ><strong style="color: blue;">Evento senza Posti prenotati</strong></label>
+      </div>
+    </div>
+    <br>
+      <!-- tipo biglietto  -->
+
+      <div class="row">
+        <label for="tipob"  class="col-sm-2 col-form-label">Tipo Biglietto</label>
+        <div class="col-sm-2">
+          <input type="text" disabled class="form-control lowertxt" id="tipob" [(ngModel)]="tipobiglietto.d_tipo" #tipob="ngModel" name="tipob" ngModel  style="text-transform : uppercase" >
+        </div>
+        <label for="importo"  class="col-sm-1 col-form-label">Importo</label>
+        <div class="col-sm-1">
+          <input type="text" disabled class="form-control " id="impo" [(ngModel)]="tipobiglietto.importo" #impo="ngModel" name="impo" ngModel >
+        </div>
+        <label for="serie"  class="col-sm-1 col-form-label">Serie</label>
+        <div class="col-sm-1">
+          <input type="text" disabled class="form-control " id="serie" [(ngModel)]="tipobiglietto.serie " #serie="ngModel" name="serie" ngModel >
+        </div>
+        <div class="col-md-1"  *ngIf="bigliettoemesso === true">
+          <label for="numero"  class="col-sm-1 col-form-label">Numero</label>
+        </div>
+        <div class="col-sm-1" *ngIf="bigliettoemesso === true">
+          <input type="text" disabled class="form-control " id="numero" [(ngModel)]="biglietto.numero" #numero="ngModel" name="numero" ngModel style="color: white; background-color: red; text-align: right;">
+        </div>
+
+      </div>
+      <br>
+      <!-- tipo pagamento -->
+      <div class="row">
+          <label  class="col-sm-2 col-form-label">Tipo Pagamento</label>
+          <div class="col-md-6">
+            <div class="form-check form-check-inline" *ngFor="let option of options; let idx = index">
+              <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option" (change)="onSelectionChange(option)">&nbsp; {{option}}
+            </div>
+          </div>
+      </div>
+      <!-- pagamento per contanti -->
+      <div class="row" *ngIf="tPagamento === 'C'">
+          <!-- Importo biglietto -->
+          <label for="importo" class="col-sm-2 col-form-label">Importo incassato</label>
+          <div class=" col-md-1">
+            <input #importo="ngModel"  [(ngModel)]="biglietto.importo" class="form-control" name="importo" id="importo" required pattern="[0-9]{1,5}" placeholder="Inserire importo" >
+          </div>
+          <!--
+          <br>
+          biglietto.importo: {{biglietto.importo}}<BR>
+          tipobiglietto.importo: {{tipobiglietto.importo}}<BR>
+          <div *ngIf="importo.invalid && (importo.dirty || importo.touched)" class="alert-danger">
+            <div *ngIf="importo.errors.required">
+                <span>importo è obbligatorio</span>
+            </div>
+            <div *ngIf="importo.errors?.pattern">
+              <span>il campo importo è errato</span>
+            </div>
+          </div>
+
+          <div *ngIf="biglietto.importo < 0 || biglietto.importo !== tipobiglietto.importo" class="alert-danger">
+            <div *ngIf="biglietto.importo < 0">
+              <span>il prezzo del biglietto non può essere negativo</span>
+            </div>
+            <div *ngIf="biglietto.importo !== tipobiglietto.importo">
+                <span>importo da incassare deve essere di € {{tipobiglietto.importo }}</span>
+            </div>
+          </div>   -->
+
+      </div>
+      <div class="row" *ngIf="tPagamento === 'B' ||  tPagamento === 'E'" >
+         <div class="col-md-5">
+            <label class="col-sm-12 col-form-label" style="text-align: center; color: red; font-weight: bold; " >pagamento in elettronico o tramite bonifico</label>
+        </div>
+        <div class=" col-md-7">
+          <input type="checkbox" id="myCheck" (change)="confermaPagamentonocontanti($event)">&nbsp; Confermo di aver verificato l'avvenuto pagamento in elettronico o tramite bonifico
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-7">
+          <!--   vuoto -->
+        </div>
+      <!--  <div class="col-sm-2" *ngIf="pagamentoperContanti === true || confermaPagamentonoContanti === true || effettuatoIncasso === false">  -->
+        <div class="col-sm-2" *ngIf="effettuatoIncasso === false">
+          <button  class="btn btn-info btn-md "  (click)="incassaImportoBiglietto(biglietto)" > Incassa
+            <fa-icon [icon]="faEuroSign"  fixed="true"></fa-icon>
+           </button>
+        </div>
+      </div>
+
+
+      <br>
+
+        <div class="row col-md-12">
+             <div *ngIf="!alertSuccess && isVisible === true" class="alert alert-danger" role="alert">
+              <p>{{Message}}</p><br>
+            </div>
+             <div *ngIf="alertSuccess === true && isVisible === true" class="alert alert-success" role="alert">
+                <p>{{Message}}</p><br>
+             </div>
+        </div>
+      </div> <!--  fine del container -->
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!--
+<div class="container">
+
+  <div class="header_Edit title_Edit" *ngIf="fase  ===  'M'">
+    <strong>{{title}}</strong>
+  </div>
+ <div class="header_New" *ngIf="fase  ===  'N'">
+    <caption class="title_New  col-md-12 ">{{title}}</caption>
+  </div>
+
+  <br>
+
+
+  <div class="row col-md-12">
+     <div >
+      <form #fm ="ngForm">
+        <input Hidden #id="ngModel"  [(ngModel)]="manif.id" class="form-control" name="id" id="id">
+        <input Hidden #idmanif="ngModel"  [(ngModel)]="evento.idmanif" class="form-control" name="idmanif" id="idmanif">
+        <input Hidden #key_utenti_operation="ngModel"  [(ngModel)]="evento.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation">
+        <div class="row">
+            <label for="descManif" class="col-sm-2 col-form-label">Manifestazione</label>
+            <div class=" col-md-6">
+              <input disabled #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif"  style="text-transform : uppercase">
+            </div>
+
+          <div class=" col-md-2">
+
+            <div>
+              <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : 'white'"  [style.background-color]="manif.stato == 2 ? 'yellow' : 'red'">
+            </div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+          <label for="dtInizio" class="col-sm-2 col-form-label">Data Inizio</label>
+          <div class=" col-md-2">
+            <input  disabled [(ngModel)]="manif.dtInizio" [ngModel]="manif.dtInizio | date:'dd/MM/yyyy'" #dtInizio="ngModel" class="form-control"  name="dtInizio" id="dtInizio" placeholder="sel. data Inizio">
+          </div>
+          <label for="dtFine" class="col-sm-2 col-form-label">Data Fine</label>
+          <div class=" col-md-2">
+            <input disabled [(ngModel)]="manif.dtFine"  [ngModel]="manif.dtFine | date:'dd/MM/yyyy'" #dtFine="ngModel" class="form-control"  name="dtFine" id="dtFine"  placeholder="sel. data Fine" >
+          </div>
+      </div>
+      </form>
+    </div>
+   </div>
+<br>
+
+<div class="row">
+  <label for="descrizione" class="col-sm-1 col-form-label">Descrizione</label>
+  <div class=" col-md-6">
+    <input #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione" required minlength="4" maxlength="80" pattern="[0-9a-zA-Z_-&\s]*" placeholder="Inserire descrizione" style="text-transform : uppercase">
+  </div>
+  <br>
+  <div *ngIf="descrizione.invalid && (descrizione.dirty || descrizione.touched)" class="alert-danger">
+    <div *ngIf="descrizione.errors.required">
+        <span>la descrizione è obbligatoria</span>
+    </div>
+    <div *ngIf="descrizione.errors.minlength">
+       <span>la descrizione deve essere di almeno {{descrizione.errors.minlength.requiredLength }} caratteri</span>
+    </div>
+    <div *ngIf="descrizione.errors.maxlength">
+        <span>la descrizione non può essere più lunga di {{descrizione.errors.maxlength.requiredLength }} caratteri</span>
+     </div>
+     <div *ngIf="descrizione.errors?.pattern">
+      <span>descrizione errata</span>
+     </div>
+  </div>
+
+
+  <label for="descbreve" class="col-sm-1 col-form-label">Descr. Ridotta</label>
+  <div class=" col-md-3">
+    <input #descbreve="ngModel"  [(ngModel)]="evento.descbreve" class="form-control" name="descbreve" id="descbreve" required minlength="4" maxlength="25" pattern="[0-9a-zA-Z_-&\s]*" placeholder="Inserire descrizione breve" style="text-transform : uppercase">
+  </div>
+  <br>
+  <div *ngIf="descbreve.invalid && (descbreve.dirty || descbreve.touched)" class="alert-danger">
+    <div *ngIf="descbreve.errors.required">
+        <span>la descrizione breve è obbligatoria</span>
+    </div>
+    <div *ngIf="descbreve.errors.minlength">
+       <span>la descrizione breve deve essere di almeno {{descbreve.errors.minlength.requiredLength }} caratteri</span>
+    </div>
+    <div *ngIf="descbreve.errors.maxlength">
+        <span>la descrizione breve non può essere più lunga di {{descbreve.errors.maxlength.requiredLength }} caratteri</span>
+     </div>
+     <div *ngIf="descbreve.errors?.pattern">
+      <span>descrizione breve errata</span>
+     </div>
+  </div>
+
+
+
+</div>
+<br>
+<div class="row" *ngIf="fase  ===  'M'">
+   <label for="statoe" class="col-sm-1 col-form-label">Stato</label>
+      <div class="dropdown col-sm-3">
+        <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedStato" ngModel name="statoe" id="statoe" class="form-select" required (change)="onSelectedStato($event.target.value)" aria-label="Default select example">
+          <option selected value="9999"  >Seleziona lo stato</option>
+          <option *ngFor="let stato of stati" [value]="stato.id"  class="form-control"  >{{stato.d_stato_evento}}</option>
+        </select>
+      </div>
+      <div class="invalid-feedback">effettuare la scelta dello stato</div>
+ </div>
+ <br>
+ <div class="row">
+
+      <label for="localita" class="col-sm-1 col-form-label">Localita</label>
+      <div class="col-md-3">
+        <input #localita="ngModel"  [(ngModel)]="evento.localita" class="form-control" name="localita" id="localita" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire localita" style="text-transform : uppercase">
+      </div>
+      <br>
+      <div *ngIf="localita.invalid && (localita.dirty || localita.touched)" class="alert-danger">
+        <div *ngIf="localita.errors.required">
+            <span>la localita è obbligatoria</span>
+        </div>
+        <div *ngIf="localita.errors.minlength">
+          <span>la localita deve essere di almeno  {{localita.errors.minlength.requiredLength }} caratteri</span>
+        </div>
+        <div *ngIf="localita.errors.maxlength">
+            <span>la localita non può essere più lunga di {{localita.errors.maxlength.requiredLength }} caratteri</span>
+        </div>
+        <div *ngIf="localita.errors?.pattern">
+          <span>localita errata</span>
+        </div>
+
+    </div>
+
+
+      <label for="indirizzo" class="col-sm-1 col-form-label">Indirizzo</label>
+      <div class=" col-md-3">
+        <input #indirizzo="ngModel"  [(ngModel)]="evento.indirizzo" class="form-control" name="indirizzo" id="indirizzo" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z,.\s]*" placeholder="Inserire indirizzo" style="text-transform : uppercase">
+      </div>
+      <br>
+      <div *ngIf="indirizzo.invalid && (indirizzo.dirty || indirizzo.touched)" class="alert-danger">
+        <div *ngIf="indirizzo.errors.required">
+            <span>indirizzo è obbligatoria</span>
+        </div>
+        <div *ngIf="indirizzo.errors.minlength">
+          <span>indirizzo deve essere di almeno {{indirizzo.errors.minlength.requiredLength }} caratteri</span>
+        </div>
+        <div *ngIf="indirizzo.errors.maxlength">
+            <span>indirizzo non può essere più lunga di {{indirizzo.errors.maxlength.requiredLength }} caratteri</span>
+        </div>
+        <div *ngIf="indirizzo.errors?.pattern">
+          <span>indirizzo errata</span>
+        </div>
+      </div>
+
+      <label for="cap" class="col-sm-1 col-form-label">Cap</label>
+      <div class=" col-md-1">
+        <input #cap="ngModel"  [(ngModel)]="evento.cap" class="form-control" name="cap" id="cap" required minlength="5" maxlength="5" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire cap" style="text-transform : uppercase">
+      </div>
+      <br>
+      <div *ngIf="cap.invalid && (cap.dirty || cap.touched)" class="alert-danger">
+        <div *ngIf="cap.errors.required">
+            <span>cap è obbligatorio</span>
+        </div>
+        <div *ngIf="cap.errors.minlength">
+          <span>cap deve essere di almeno {{cap.errors.minlength.requiredLength }} caratteri</span>
+        </div>
+        <div *ngIf="cap.errors.maxlength">
+            <span>cap non può essere più lungo di {{cap.errors.maxlength.requiredLength }} caratteri</span>
+        </div>
+        <div *ngIf="cap.errors?.pattern">
+          <span>cap errato</span>
+        </div>
+      </div>
+
+
+ </div>
+ <br>
+
+
+ <div class="row">
+
+          <label for="logistica" class="col-sm-1 col-form-label">Logistica</label>
+
+          <div class="dropdown col-sm-3">
+            <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedtipoLogistica" ngModel name="tipologistica" id="tipologistica" class="form-select" required (change)="onSelectedtipoLogistica($event.target.value)" aria-label="Default select example">
+              <option selected value="9999"  >Seleziona il tipo</option>
+              <option *ngFor="let tipologist of tipilogistica" [value]="tipologist.id"  class="form-control"  >{{tipologist.d_tipo_logistica}}</option>
+            </select>
+          </div>
+          <div class="invalid-feedback">effettuare la scelta del tipo logistica</div>&nbsp;
+
+
+          <div class="dropdown col-sm-3"  *ngIf="evento.idtipo == 2">
+            <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedLogistica" ngModel name="logistica" id="logistica" class="form-select" required (change)="onSelectedLogistica($event.target.value)" aria-label="Default select example">
+              <option selected value="9999"  >Seleziona la logistica</option>
+              <option *ngFor="let logist of logistiche" [value]="logist.id"  class="form-control"  >{{logist.luogo}}</option>
+            </select>
+          </div>
+          <div class="invalid-feedback">effettuare la scelta della logistica</div>&nbsp;
+
+
+        <div class="col-sm-2" *ngIf="evento.idlogistica !== 0">
+          <button  class="btn btn-info btn-md "  (click)="openpopup()" [(ngModel)]="evento.idlogistica"> Visualizza
+            <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+          </button>
+        </div>
+
+
+
+
+
+</div>
+ <br>
+
+<div  class="row">
+        <label for="locandina" class="col-sm-1 col-form-label">Locandina</label>
+        <div class="col-sm-2 noloc" *ngIf="evento.locandina === 0">
+          <label>nessuna locandina</label>
+        </div>
+        <div class="col-sm-2 siloc " *ngIf="evento.locandina !== 0">
+          <label for="locandinasi" class="col-sm-4 col-form-label">Impostata</label>
+        </div>
+        <div class="col-md-8 " *ngIf="evento.locandina === 0">
+            <div  class="row">
+                <div class="col-6 ">
+                  <label class="btn btn-default p-0">
+                    <input type="file" (change)="selectFile($event)" />
+                  </label>
+                </div>
+                <div class="col-4 ">
+                  <button class="btn btn-success btn-sm" [disabled]="!selectedFiles" (click)="upload()">
+                    Upload
+                  </button>
+                </div>
+            </div>
+          </div>
+         <div class="col-sm-2" *ngIf="evento.locandina !== 0">
+          <button  class="btn btn-info btn-md "  (click)="openpopuplocandina()" [(ngModel)]="evento.locandina"> Visualizza
+            <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+          </button>
+        </div>
+</div>
+<br>
+
+
+ <br>
+ <div class="row">
+
+  <label for="dataev" class="col-sm-1 col-form-label">Data</label>
+  <div class=" col-md-2">
+       data evento {{evento.data | date:'dd/MM/yyyy'}}
+         <input type="date" [(ngModel)]="evento.data"  [ngModel]="evento.data | date:'dd/MM/yyyy'"  #ddataev="ngModel" class="form-control"  name="dataev" id="dataev" required placeholder="dd/mm/yyyy" />
+  </div>
+
+  <label for="ora" class="col-sm-1 col-form-label">ora</label>
+  <div class=" col-md-2">
+    <input #ora="ngModel"  [(ngModel)]="evento.ora" class="form-control" name="ora" id="ora" required minlength="5" maxlength="5" pattern="[0-9:\s]*" placeholder="ora HH:mm" style="text-transform : uppercase">
+  </div>
+  <br>
+  <div *ngIf="ora.invalid && (ora.dirty || ora.touched)" class="alert-danger">
+    <div *ngIf="ora.errors.required">
+        <span>ora è obbligatoria</span>
+    </div>
+    <div *ngIf="ora.errors.minlength">
+      <span>ora deve essere di almeno {{ora.errors.minlength.requiredLength }} caratteri -- HH:mm</span>
+    </div>
+    <div *ngIf="ora.errors.maxlength">
+        <span>ora non può essere più lunga di {{ora.errors.maxlength.requiredLength }} caratteri - HH:mm</span>
+    </div>
+    <div *ngIf="ora.errors?.pattern">
+      <span>ora errata</span>
+    </div>
+  </div>
+</div>
+<br>
+ <div class="row">
+  <label for="nposti" class="col-sm-1 col-form-label">Posti</label>
+  <div class=" col-md-1">
+    <input #nposti="ngModel"  [(ngModel)]="evento.nposti" class="form-control" name="nposti" id="nposti" required minlength="5" maxlength="5" pattern="[0-9]{1,5}" placeholder="Inserire nposti" style="text-transform : uppercase">
+  </div>
+  <br>
+  <div *ngIf="nposti.invalid && (nposti.dirty || nposti.touched)" class="alert-danger">
+    <div *ngIf="nposti.errors.required">
+        <span>il numero posti è obbligatorio</span>
+    </div>
+    <div *ngIf="nposti.errors.minlength">
+      <span>il numero posti deve essere di almeno {{nposti.errors.minlength.requiredLength }} caratteri</span>
+    </div>
+    <div *ngIf="nposti.errors.maxlength">
+        <span>il numero posti non può essere più lunga di {{nposti.errors.maxlength.requiredLength }} caratteri</span>
+    </div>
+    <div *ngIf="nposti.errors?.pattern">
+      <span>il numero posti è errato</span>
+    </div>
+  </div>
+  </div>
+
+
+  <br>
+  <div class="row">
+      <div class="col-md-1">
+        Prezzo
+      </div>
+      <div class="col-md-3" *ngIf="loadedTipoBiglietti === false">
+          <div class="row">
+            <div class="col-sm-3" >
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="inlineRadio01"  value="1" (click)="selectTipoBiglietto($event.target.value)"/>
+                <label class="form-check-label" for="inlineRadio01"> Unico </label>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="inlineRadio02"  value="2" (click)="selectTipoBiglietto($event.target.value)"/>
+                <label class="form-check-label" for="inlineRadio02"> Fascie </label>
+              </div>
+            </div>
+        </div>
+      </div>
+<div class="col-md-3"  *ngIf="loadedTipoBiglietti === true">
+  <div class="row">
+    <div  class="col-md-10" *ngIf="evento.tipobiglietto === 2" >
+      <input disabled  [(ngModel)]="namePrezzo" class="form-control" name="namePrezzo" id="namePrezzo" style="text-transform : uppercase; text-align: center; background-color: red; color: yellow; font-weight: bold; border-radius: 10px;">
+     </div>
+    <div class="col-md-5" *ngIf="evento.tipobiglietto === 1">
+      <input disabled  [(ngModel)]="namePrezzo" class="form-control" name="namePrezzo" id="namePrezzo" style="text-transform : uppercase; text-align: center; background-color: blue; color: red; font-weight: bold; border-radius: 10px;">
+    </div>
+  </div>
+</div>
+
+
+
+      <div class="col-md-2" *ngIf="viewPrezzoUnico === true || viewPrezzoFascie === true">
+          <button  class="btn btn-success btn-md " (click)="GestionePrezzo()">Gestione
+            <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+          </button>
+      </div>
+
+      <div class="col-md-2" >
+        <button  class="btn btn-primary btn-md " (click)="Test()">Test
+          <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+        </button>
+    </div>
+
+
+
+
+      <div class="col-md-5"  *ngIf="loadedTipoBiglietti === true && evento.tipobiglietto === 2 " >
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Taglia</th>
+              <th scope="col">Importo</th>
+              <th scope="col">n. Bigl.</th>
+              <th scope="col">Serie</th>
+              <th scope="col">n. inizio</th>
+              <th scope="col"></th>
+
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr  *ngFor ="let taglia of tipobiglietti  let i = index">
+              <td >{{i + 1}}</td>
+              <td>{{taglia.d_tipo}}</td>
+              <td>{{taglia.importo | currency:'EUR':true}}</td>
+              <td>{{taglia.ntot}}</td>
+              <td>{{taglia.serie}}</td>
+              <td>{{taglia.ultimoemesso}}</td>
+              <td>
+                <div  >
+                  <button class="btn btn-danger btn-sm " (click)="deletePostobyFascia(taglia)">
+                    <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <hr>
+
+<div class="footer" >
+  <div class="row col-sm-10 offset-2">
+
+
+    <div class="col-sm-3" *ngIf="fase === 'M'">
+      <button [disabled]="fm.invalid" class="btn btn-success btn-md " (click)="conferma()">Conferma
+        <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+      </button>
+    </div>
+
+    <div class="col-sm-3" >
+      <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+        <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  <br>
+  <div class="form-row col-md-12">
+    <div class="row col-md-12">
+
+       <div class="form-row">
+        <div class="col-md-12">
+
+          <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+           </div>
+           <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+            </div>
+          </div>
+       </div>
+    </div>
+  </div>
+
+
+
+
+
+
+</div>  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

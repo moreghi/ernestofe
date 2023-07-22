@@ -3,22 +3,23 @@ import { RegisterconfirmedInterface } from './../interfaces/register_confirmed';
 
 export class Registerconfirmed implements RegisterconfirmedInterface  {
 
-  email: string;
-  id_titolo: number;
-  username: string;
+  id: number;
   cognome: string;
   nome: string;
+  email: string;
+  username: string;
   password: string;
   token: string;
   created_at: Date;
   updated_at: Date;
+
   constructor()  {
 
-    this.email = '';
-    this.id_titolo = 0;
-    this.username = '';
+    this.id = 0;
     this.cognome = '';
     this.nome = '';
+    this.email = '';
+    this.username = '';
     this.password = '';
     this.token = '';
     this.created_at = new Date();

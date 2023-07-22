@@ -5,6 +5,10 @@
     <td>{{user.nome}} </td>
     <td>{{user.email}}</td>
     <td>{{user.username}}</td>
+    <td  [style.color]="getColor(user.idLevel)"><strong>{{userlevel.UserLevelName}}</strong></td>
+
+
+
     <!--  versione 1 -->
 <!--
     <td>
@@ -14,16 +18,16 @@
     </td>
 -->
 <!--  versione 2 -->
-    <td *ngIf="functionUser === navigateEdits">
-      <button class="btn btn-md btn-danger" (click)="open(content, user)">Delete</button>
+    <td >
+      <button class="btn btn-md btn-danger" (click)="open(content,user)">Delete</button>
     </td>
-    <td *ngIf="functionUser === navigateInqu">
+    <td >
       <button class="btn btn-md btn-primary" (click)="navigate(navigateInqu,user)">Inqu</button>
     </td>
-    <td *ngIf="functionUser === navigateEdits">
+    <td >
       <button class="btn btn-md btn-success" (click)="navigate(navigateEdits,user)">Update all</button>
     </td>
-    <td *ngIf="functionUser === navigateEdit">
+    <td >
       <button class="btn btn-md btn-danger" (click)="navigate(navigateEdit,user)">Update </button>
     </td>
 

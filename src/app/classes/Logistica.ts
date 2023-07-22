@@ -7,6 +7,7 @@ export class Logistica implements LogisticaInterface {
   localita: string;
   luogo: string;
   photo: string;
+  nposti: number;
   key_utenti_operation: number;
   created_at: Date;
   updated_at: Date;
@@ -19,6 +20,7 @@ export class Logistica implements LogisticaInterface {
     this.localita = '';
     this.luogo = '';
     this.photo = '';
+    this.nposti = 0;
     this.key_utenti_operation = 0;
     this.created_at  = new Date();
     this.updated_at = new Date();

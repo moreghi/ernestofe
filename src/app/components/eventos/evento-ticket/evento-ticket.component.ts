@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { faPlusSquare, faSearch, faInfoCircle, faUserEdit } from '@fortawesome/free-solid-svg-icons';
+import { faPlusSquare, faSearch, faInfoCircle, faUserEdit, faReply } from '@fortawesome/free-solid-svg-icons';
 // services
 import { ManifestazioneService} from './../../../services/manifestazione.service';
 import { EventoService } from './../../../services/evento.service';
 import { TtipobigliettoService } from './../../../services/ttipobiglietto.service';
+import { BigliettoService } from './../../../services/biglietto.service';
 // Models
 import { Manifestazione} from '../../../classes/Manifestazione';
 import { Evento} from '../../../classes/Evento';
 import { Ttipobiglietto} from '../../../classes/T_tipo_biglietto';
+import { Biglietto} from '../../../classes/Biglietto';
 
 import { ActivatedRoute, Router } from '@angular/router';
 // per gestire inserimento/Modifica con popup
@@ -32,7 +34,7 @@ export class EventoTicketComponent implements OnInit {
   faSearch = faSearch;
   faInfoCircle = faInfoCircle;
   faUserEdit = faUserEdit;
-
+  faReply = faReply;
 
 
   public manif: Manifestazione;
@@ -41,6 +43,7 @@ export class EventoTicketComponent implements OnInit {
   public tipibiglietto: Ttipobiglietto[] = [];
   public tipibigliettonull: Ttipobiglietto[] = [];
   public tipobiglietto: Ttipobiglietto;
+  public biglietti: Biglietto[] = [];
 
   public tipoRichiesta = '?';
   public ricManif = 0;
@@ -55,6 +58,7 @@ export class EventoTicketComponent implements OnInit {
 
    // per paginazone
 p: number = 1;
+p1:number = 1;
 
 // -----------------------------    da detail1
 
@@ -141,10 +145,12 @@ public functionSelected = '';
 public functionUrl = '';
 public rottafase = '';
 public dataEvento: Date;
+public neverRecord = false;
 
 constructor(private manifestazioneService: ManifestazioneService,
             private eventoService: EventoService,
             private tipobigliettoService: TtipobigliettoService,
+            private bigliettoService: BigliettoService,
             private route: ActivatedRoute,
             private router: Router,
             private datePipe: DatePipe,
@@ -221,11 +227,11 @@ async loadEvento(id: number) {
        }
     },
     error => {
-        alert('Manif-Data  --loadEventi: ' + error.message);
+        alert('loadEvento: ' + error.message);
         this.isVisible = true;
         this.alertSuccess = false;
         this.type = 'error';
-        this.Message = 'Errore loadEventi' + '\n' + error.message;
+        this.Message = 'Errore loadEvento' + '\n' + error.message;
         this.showNotification(this.type, this.Message);
         console.log(error);
     });
@@ -234,7 +240,7 @@ async loadEvento(id: number) {
 
 
 async loadtipibiglietto(id: number) {
-  console.log('frontend - loadEventi: ' + id);
+  console.log('frontend - loadtipibiglietto: ' + id);
   let rc = await  this.tipobigliettoService.getbyevento(id).subscribe(
   response => {
         if(response['rc'] === 'ok') {
@@ -251,7 +257,7 @@ error => {
     this.isVisible = true;
     this.alertSuccess = false;
     this.type = 'error';
-    this.Message = 'Erroreloadtipibiglietto' + '\n' + error.message;
+    this.Message = 'Errore loadtipibiglietto' + '\n' + error.message;
     this.showNotification(this.type, this.Message);
     console.log(error);
 });
@@ -280,11 +286,36 @@ registra() {
 //alert('da fare');
  this.router.navigate(['tbiglietto/new/' + this.evento.id]);
 
+}
 
-
+goback() {
+  this.router.navigate(['manif/' + this.evento.idmanif]);
 }
 
 
+async onSelecttipologia(idtipologia: number) {
+  console.log('frontend - onSelecttipologia: ' + idtipologia);
+  let rc = await  this.bigliettoService.getAllbyTipo(idtipologia).subscribe(
+  response => {
+        if(response['rc'] === 'ok') {
+          this.biglietti = response['data'];
+          this.neverRecord = false;
+          console.log('biglietti da editare: ' + JSON.stringify(this.biglietti));
+          }
+        if(response['rc'] === 'nf') {
+          this.neverRecord = true;
+        }
+    },
+error => {
+    alert('onSelecttipologia: ' + error.error.message);
+    this.isVisible = true;
+    this.alertSuccess = false;
+    this.type = 'error';
+    this.Message = 'Errore onSelecttipologia' + '\n' + error.error.message;
+    this.showNotification(this.type, this.Message);
+    console.log(error);
+});
 
 }
 
+}

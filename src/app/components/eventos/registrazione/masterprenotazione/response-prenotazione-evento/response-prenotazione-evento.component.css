@@ -1,0 +1,23 @@
+.borde {
+  border: 3px solid violet;
+}
+.borde1 {
+  border: 3px solid red;
+}
+.borde2 {
+  border: 3px solid blue;
+}
+.borde3 {
+  border: 3px solid orange;
+}
+
+.colorred {
+  color: white;
+  background-color: red;
+
+}
+.colorgreen {
+  color: yellow;
+  background-color: black;
+
+}

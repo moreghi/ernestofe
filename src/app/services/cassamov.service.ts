@@ -78,7 +78,12 @@ constructor(private http: HttpClient, private auth: AuthService) { }
           });
         }
 
-
+        getAllbyEvento(id: number) {
+          this.rottafunction = 'cassa/All/Evento';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id, {
+            headers: this.getAuthHeader()
+          });
+        }
 
 }
 

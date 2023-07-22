@@ -9,6 +9,7 @@ import { faPlusSquare, faSearch, faSave, faUserEdit, faMinus, faPlus, faWindowCl
 // popup per avviso cancellazione
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'tr[app-manifestazione]',
@@ -72,7 +73,8 @@ export class ManifestazioneComponent implements OnInit {
    public navigateGraficoDays = 'GraphDays';
 
    public messagenull = 'Nessun record presente !!!';
-
+   public pathimageRosso = environment.APIURL + '/upload/files/generic/rosso.jpg';
+   public pathimageVerde = environment.APIURL + '/upload/files/generic/verde.jpg';
    closeResult = '';
 
 // variabili per notifica esito operazione con Notifier
@@ -99,7 +101,7 @@ export class ManifestazioneComponent implements OnInit {
    //   this.textUser = this.messa.demessa;
       this.textMessage2 = 'Registrazione non possibile';
 
-     // this.loadManifestazioni();
+      // this.loadManifestazioni();
 
    }
 
@@ -159,7 +161,7 @@ open(content:any, manif:Manifestazione) {
   if(result === 'Delete click') {
     console.log('fare routine di cancellazione: ' + manif.id + ' - ' + manif.descManif );
    //this.cancellaProdotto(this.prodotto);
-   this.delete(manif.id);
+   this.delete(manif);
    this.cancellazioneCompleted(manif);
    // per riaggiornare elenco
    window.location.reload();
@@ -196,16 +198,29 @@ open(content:any, manif:Manifestazione) {
     this.showNotification(this.type, this.Message);
   }
 
-  delete(id:any) {
-    console.log(id,'cancelllllllllllllllllllllllo --->');
-    this.manifService.delete(id).subscribe((res)=> {
-      console.log(res,'res- delete -->');
+  async delete(manif: Manifestazione) {
+    console.log('cancelllllllllllllllllllllllo ---> ' + JSON.stringify(manif));
 
-      this.type = 'error';
-      this.Message = res['message'];
-      this.showNotification(this.type, this.Message);
-    });
-  }
+    const ret = await this.manifService.delete(manif).subscribe(
+       res => {
+            if(res['rc'] === 'ok')  {
+              this.type = 'success';
+              this.Message = 'Manifestazione cancellata correttamente';
+              this.alertSuccess = true;
+              this.showNotification(this.type, this.Message);
+            } else {
+              this.type = 'error';
+              this.Message = res['message'];
+              this.showNotification(this.type, this.Message);
+            }
+        },
+        error => {
+           alert('Users  -- loadUserSanfra - errore: ' + error.message);
+           console.log(error);
+           this.Message = error.message;
+           this.alertSuccess = false;
+        })
+     }
 
 /*
      Show a notification

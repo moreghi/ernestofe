@@ -3,11 +3,12 @@
   <td>{{cassamov.cognome}}</td>
   <td>{{cassamov.nome}}</td>
   <td>{{cassamov.importo | currency: 'EUR'}}</td>
-  <td>{{biglietto.numero}}</td>
-  <!--
-  <td class="statoMan">{{cassamov.d_stato_evento}}</td>
-  <td [style.color]="getColor(evento.statobiglietti)" [style.background]="getBackground(evento.statobiglietti)">{{evento.d_stato_evento_biglietto}}</td>
-  <td [style.color]="getColor(evento.statoposti)" [style.background]="getBackground(evento.statoposti)">{{evento.d_stato_evento_posto}}</td>  -->
+  <td>{{tipopagamento.d_tipo_pagamento}}</td>
+  <td>{{cassamov.idbiglietto}}</td>
+ <!--
+  <td class="statoMan">{{tipopagamento.d_tipo_pagamento}}</td>
+  <td [style.color]="getColor(cassamov.stato)" [style.background]="getBackground(cassamov.stato)">{{evento.d_stato_evento_biglietto}}</td>
+  <td [style.color]="getColor(cassamov.stato)" [style.background]="getBackground(cassamov.stato)">{{evento.d_stato_evento_posto}}</td>   -->
 
 
 

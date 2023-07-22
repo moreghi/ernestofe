@@ -10,6 +10,7 @@ export interface ManifestazioneInterface {
     dtFine: string;
     numUtentiTot: number;
     incassatoTot: number;
+    photo: string;
     noteManifestazione: string;
     stato: number;
     key_utenti_operation: number;

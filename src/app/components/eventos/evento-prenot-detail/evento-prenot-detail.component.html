@@ -1,0 +1,499 @@
+<p>evento-prenot-detail works!</p>
+<div class="container">
+  <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
+     <div >
+      <!--<form #fm ="ngForm">  -->
+
+      <form name="confRegEventoForm"  #confRegEventoForm=ngForm >  <!-- (ngSubmit)="onSubmit(confRegEventoForm)" -->
+         <input hidden #id="ngModel"  [(ngModel)]="manif.id" class="form-control" name="id" id="id">
+        <input  hidden #idev="ngModel"  [(ngModel)]="evento.id" class="form-control" name="idev" id="idev">
+        <div class="row">
+            <label for="descManif" class="col-sm-2 col-form-label">Manifestazione</label>
+            <div class=" col-md-6">
+              <input disabled #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif"   style="text-transform : uppercase">
+            </div>
+
+          <div class=" col-md-2">
+            <div>
+              <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : 'white'"  [style.background-color]="manif.stato == 2 ? 'yellow' : 'red'">
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
+          <div class=" col-md-4">
+            <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"   style="text-transform : uppercase">
+          </div>
+          <div class="col-sm-2">
+            <input  disabled [(ngModel)]="evento.data" [ngModel]="evento.data | date:'dd/MM/yyyy'" #data="ngModel" class="form-control"  name="data" id="data">
+          </div>
+          <div class=" col-md-2">
+              <div>
+                <input disabled #d_stato_evento="ngModel"  [(ngModel)]="evento.d_stato_evento" class="form-control" name="d_stato_evento" id="d_stato_evento" [style.color]="evento.stato == 2 ? 'red' : 'white'"  [style.background-color]="evento.stato == 2 ? 'yellow' : 'red'">
+              </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <label for="localita" class="col-sm-2 col-form-label">Localita</label>
+          <div class=" col-md-6">
+            <input disabled #localita="ngModel"  [(ngModel)]="evento.localita" class="form-control" name="localita" id="localita"   style="text-transform : uppercase">
+          </div>
+        </div>
+        <hr>
+
+        <div class="container-fluid">
+          <div class="row">
+
+              <div class="col-md-4 ">
+
+                <div class="form-group row">
+                  <div class="col-sm-1">
+                    <div class="alignicon">
+                      <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+                    </div>
+                  </div>
+                  <div class="col-sm-8 ">
+                    <div class="search-hero">
+                      <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="inserisci campo di ricerca">
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+              <div class="form-group row">
+                <div class="col-sm-8">
+                  <div class="form-check form-check-inline" *ngFor="let option of options; let idx = index">
+                    <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option" (change)="onSelectionChange(option)">&nbsp; {{option}}
+                  </div>
+                </div>
+                <div *ngIf="trovatoRec"  class="col col-md-2 ">
+                              <strong>Record :</strong>&nbsp;&nbsp; {{nRec}}
+                </div>
+
+              </div>
+            </div>
+
+
+
+
+            </div>
+
+       </div>
+<br>
+<!--
+datedioggi: {{date1}}<br>
+date2: {{date2}}<br>
+charRic: {{charRic}}<br>
+
+               <br>
+diffInDays:  {{+date2.valueOf() - +date1.valueOf()}}  -->
+
+
+
+<div class="row" *ngIf="charRic ===  'D' && nRec > 0">
+  <div class="col-md-2">
+    <div class="row">
+      <div class="col-md-7">
+        <label class="col-sm-2 col-form-label" style="color: red;">Prenotazioni</label>&nbsp;
+      </div>
+      <div class="col-md-5">
+
+        <label class="col-sm-12" style="color:blue; background-color: yellow;  text-align: center; vertical-align: middle;"><strong>{{importoTotb | currency:'EUR'}}</strong></label>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-md-9" >
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Cognome</th>
+              <th scope="col">Nome</th>
+              <th scope="col">email</th>
+              <th scope="col">Cellulare</th>
+              <th scope="col">n.Solleciti</th>
+              <th scope="col">Importo</th>
+              <th scope="col">dt.Pren</th>
+
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr  *ngFor ="let prenev of prenotazeventimaster  | filter:searchText | paginate: { itemsPerPage: 10, currentPage: p1 }; let i = index ">
+              <td >{{i + 1}}</td>
+              <td>{{prenev.cognome}}</td>
+              <td>{{prenev.nome}}</td>
+              <td>{{prenev.email}}</td>
+              <td>{{prenev.telefono}}</td>
+              <td style="text-align: right;">{{prenev.nSolleciti}}</td>
+              <td style="text-align: right;">{{prenev.importo | currency:'EUR'}}</td>
+              <td>{{prenev.datapren}}</td>
+
+             <td>
+                <div  >
+                  <button class="btn btn-danger btn-sm " (click)="previewCancella(prenev, content)">
+                    <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </td>
+              <td>
+                <div  >
+                  <button class="btn btn-primary btn-sm " (click)="openDetailPosti(prenev)">
+                    <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </td>
+              <td>
+                <div  >
+                  <button class="btn btn-info btn-sm " (click)="sendSollecito()">  <!-- (click)="sendSollecito(prenev)" -->
+                    <fa-icon [icon]="faEnvelope"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </td>
+
+
+
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls (pageChange)="p1 = $event"></pagination-controls>
+      </div>
+
+    </div>
+  </div>
+
+<!--
+  <div class="col-md-1">
+    <button class="btn btn-sm btn-success" (click)="openDetailPosti()">show
+      <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+  </button>
+  </div> -->
+
+
+
+</div>
+<br>
+<div class="row"  *ngIf="charRic ===  'D' && presentiPosti === true ">
+  <div  style="width: 240px;">
+    <label class="col-form-label" style="color: red;">Movimenti del richiedente </label>&nbsp;
+  </div>
+  <div class="col-md-3">
+    <label class="col-sm-5 col-form-label" style="color: orange;"><strong>{{RichiedenteCognome}}&nbsp;&nbsp;{{RichiedenteNome}}</strong></label>&nbsp;
+  </div>
+</div>
+
+<div class="row" *ngIf="charRic ===  'D' && presentiPosti === true ">
+  <div class="col-md-2">
+      <div class="row">
+        <div class="col-md-7">
+          <label class="col-sm-2 col-form-label" style="color: red;">Utenti</label>&nbsp;
+        </div>
+        <div class="col-md-4">
+          <label class="col-sm-12" style="color:blue; background-color: yellow;  text-align: center; vertical-align: middle;"><strong>{{importoTotb | currency:'EUR'}}</strong></label>
+        </div>
+      </div>
+
+
+  </div>
+  <div class="col-md-8" >
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Cognome</th>
+              <th scope="col">Nome</th>
+              <th scope="col">email</th>
+              <th scope="col">Cellulare</th>
+              <th scope="col">Biglietto</th>
+              <th scope="col">Importo</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr  *ngFor ="let evposto of eventoposti  let i = index ">
+
+              <td >{{i + 1}}</td>
+              <td>{{evposto.cognome}}</td>
+              <td>{{evposto.nome}}</td>
+              <td>{{evposto.email}}</td>
+              <td>{{evposto.cellulare}}</td>
+              <td>{{evposto.d_taglia}}</td>
+              <td style="text-align: right;">{{evposto.importo | currency:'EUR'}}</td>
+              <td>
+                <div  >
+                  <button class="btn btn-danger btn-sm " (click)="previewCancella(evposto, content)">  <!--  open(content)         deletePostoPrenotato(evposto)-->
+                    <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </td>
+              <td>
+                <div  >
+                  <button class="btn btn-success btn-sm " (click)="emettiBiglietto(evposto)">  <!--  open(content)         deletePostoPrenotato(evposto)-->
+                    <fa-icon [icon]="faTicketAlt"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+  <div class="col-md-2">
+    <!-- vuoto
+    -->
+  </div>
+</div>
+<br>
+
+<div class="row" *ngIf="charRic ===  'C' && presentiPosti === true ">
+ <div class="col-md-1">
+    <!-- vuoto -->
+  </div>
+  <div class="col-md-10">
+     <div class="form-row col-md-12" >
+      <div class="row col-md-12">
+
+
+         <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white table-bordered table-responsive-lg table-container">
+          <thead>
+           <tr>
+            <th scope="col">#</th>
+            <th scope="col" style="text-align: center;">Cognome</th>
+            <th scope="col" style="text-align: center;">Nome</th>
+            <th scope="col" style="text-align: center;">Cellulare</th>
+            <th scope="col" style="text-align: center;">email</th>
+            <th scope="col" style="text-align: center;">Biglietto</th>
+            <th scope="col" style="text-align: center;">Importo</th>
+           </tr>
+          </thead>
+          <tbody>
+            <tr></tr>
+
+           <tr *ngFor ="let evposto of eventoposti | filter:searchText | paginate: { itemsPerPage: 10, currentPage: p2 }; let i = index">
+           <td >{{i + 1}}</td>
+           <td>{{evposto.cognome}}</td>
+           <td>{{evposto.nome}}</td>
+           <td>{{evposto.cellulare}}</td>
+           <td>{{evposto.email}}</td>
+
+           <td [ngClass]="evposto.d_tipo == 'RIDOTTO' ? 'classRidotto' : 'classIntero'">{{evposto.d_tipo}}</td>
+         <!-- <td [ngClass]="evposto.d_tipo == 'RIDOTTO' : 'classRidotto', evposto.d_tipo == 'INTERO' : 'classIntero', evposto.d_tipo == 'GRATIS' : 'classGratis'">{{evposto.d_tipo}}</td>  -->
+           <td style="text-align: right;">{{evposto.importo | currency:'EUR'}}</td>
+           <td>
+             <div  >
+               <button class="btn btn-danger btn-sm " (click)="previewCancella(evposto, content)">  <!--  open(content)         deletePostoPrenotato(evposto)-->
+                 <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+               </button>
+             </div>
+           </td>
+           <td>
+             <div  >
+               <button class="btn btn-success btn-sm " (click)="emettiBiglietto(evposto)">  <!--  open(content)         deletePostoPrenotato(evposto)-->
+                 <fa-icon [icon]="faTicketAlt"  fixed="true"></fa-icon>
+               </button>
+             </div>
+           </td>
+         </tr>
+
+          </tbody>
+         </table>
+         <pagination-controls (pageChange)="p2 = $event"></pagination-controls>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-1">
+    <!-- vuoto -->
+  </div>
+</div>
+
+
+<div class="row" *ngIf="charRic ===  'E' && presentiPosti === true ">
+  <div class="col-md-1">
+    <!-- vuoto -->
+  </div>
+  <div class="col-md-10">
+     <div class="form-row col-md-12" >
+      <div class="row col-md-12">
+        <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white table-bordered table-responsive-lg table-container">
+          <thead>
+           <tr>
+            <th scope="col">#</th>
+            <th scope="col" style="text-align: center;">Cognome</th>
+            <th scope="col" style="text-align: center;">Nome</th>
+            <th scope="col" style="text-align: center;">Biglietto</th>
+
+            <th scope="col" style="text-align: center;">Importo</th>
+            <th scope="col" style="text-align: center;">Data em.</th>
+            <th scope="col" style="text-align: center;">Mod.Pag.</th>
+           </tr>
+          </thead>
+          <tbody>
+            <tr></tr>
+
+           <tr *ngFor ="let biglietto of biglietti | filter:searchText | paginate: { itemsPerPage: 10, currentPage: p3 }; let i = index">
+           <td >{{i + 1}}</td>
+           <td>{{biglietto.cognome}}</td>
+           <td>{{biglietto.nome}}</td>
+           <td>{{biglietto.numero}}</td>
+           <td [ngClass]="biglietto.d_tipo == 'RIDOTTO' ? 'classRidotto' : 'classIntero'">{{biglietto.d_tipo}}</td>
+           <td style="text-align: right;">{{biglietto.importo | currency:'EUR'}}</td>
+           <td>{{biglietto.dataemi}}</td>
+           <td [ngClass]="{
+            'Carta':biglietto.d_tipo_pagamento == 'CARTA CREDITO',
+            'Bonifico':biglietto.d_tipo_pagamento == 'BONIFICO',
+            'Contanti':biglietto.d_tipo_pagamento == 'CONTANTI',
+            'bold':true
+           }">{{biglietto.d_tipo_pagamento}}</td>
+           <td>
+             <div  >
+               <button class="btn btn-primary btn-sm " (click)="dettaglio(biglietto)">  <!--  open(content)         deletePostoPrenotato(evposto)-->
+                 <fa-icon [icon]="faTicketAlt"  fixed="true"></fa-icon>
+               </button>
+             </div>
+           </td>
+         </tr>
+
+          </tbody>
+         </table>
+         <pagination-controls (pageChange)="p3 = $event"></pagination-controls>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-1">
+    <!-- vuoto -->
+  </div>
+</div>
+<div class="row" *ngIf="charRic ===  'E' && presentiPosti === false ">
+  <label class="col-sm-10 col-form-label" style="color: red; text-align: center;">{{Message}}</label>&nbsp;
+</div>
+
+
+      <br>
+        <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+            <p>{{Message}}</p>
+        </div>
+        <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+           <p>{{Message}}</p>
+        </div>
+      <br>
+      <div class="form-group row">
+          <div class="col-sm-10 offset-2">
+
+            <div class="row">
+              <div class="col-sm-3"  >
+                <button  class="btn btn-danger float-right "  (click)="openMaster(contentMaster)"> Cancella
+                  <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                </button>
+              </div>
+              <div class="col-sm-3" >
+                <button  class="btn btn-primary btn-sm-2" [disabled]="!confRegEventoForm.valid  && visibleConferma === true"  (click)="conferma()">Conferma
+                  <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+                </button>
+              </div>
+            </div>
+
+          </div>
+      </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<ng-template #content let-modal>
+<div class="modal-header modal-header-color">
+<h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione Prenotazione</h4>
+<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<form>
+
+<p>confermi la cancellazione della Prenotazione &nbsp;&nbsp;</p>
+<p></p>
+<p> a nome <strong>{{delCognome}}&nbsp;{{delNome}} </strong>&nbsp;?</p>
+<!--   esempio di calendario che funziona benissimo
+<div class="form-group">
+  <label for="dateOfBirth">Date of birth</label>
+  <div class="input-group">
+    <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+    </div>
+  </div>
+</div>  -->
+
+</form>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+
+<button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+<fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+</button>
+</div>
+</ng-template>
+
+<br>
+
+<ng-template #contentMaster let-modal>
+  <div class="modal-header modal-header-color">
+  <h4 class="modal-title" id="modal-basic-title">Cancellazione Globale Prenotazione</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+  <div class="modal-body">
+  <form>
+
+  <p>confermi la cancellazione totale della Prenotazione &nbsp;&nbsp;</p>
+  <p></p>
+
+  <!--   esempio di calendario che funziona benissimo
+  <div class="form-group">
+    <label for="dateOfBirth">Date of birth</label>
+    <div class="input-group">
+      <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+      </div>
+    </div>
+  </div>  -->
+
+  </form>
+  </div>
+  <div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel Global click')">Cancel</button>
+
+  <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete Global click')"> Conferma
+  <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+  </button>
+  </div>
+  </ng-template>
+

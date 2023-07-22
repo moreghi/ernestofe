@@ -124,12 +124,14 @@ constructor(private manifService: ManifestazioneService,
               this.loadManifestazioniActive();
           }
 
+          // metodo modificato perchè la data cassa è legata a evento
+          // controllRE L logica
       async   loadcassaodierna() {
-
+const idEvento = 0;
             const date = Date();
             this.dataodierna = new Date(date);
             this.datadioggi =  this.datePipe.transform(this.dataodierna, 'dd-MM-yyyy');
-            let rc =  await  this.cassaService.getbydata(this.datadioggi).subscribe(
+            let rc =  await  this.cassaService.getbydata(this.datadioggi, idEvento).subscribe(
               res => {
                   console.log('loadcassaodirna - rc: ' + res['rc']);
                   this.keystatocassa = res['rc'];

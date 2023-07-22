@@ -1,4 +1,5 @@
 
+
   <td>{{i}}</td>
   <td>{{manif.descManif}}</td>
   <td>{{manif.dtInizio | date: 'dd-MM-yyyy'}}</td>
@@ -6,6 +7,12 @@
   <td>{{manif.numUtentiTot}}</td>
   <td class="statoMan">{{manif.d_stato_manifestazione}}</td>    <!--  {{manif.statoManifestazione}} - -->
 
+  <div *ngIf="manif.photo === 'nessunaManifestazione.png'">
+    <td><img src="http://localhost:3001/upload/files/generic/rosso.jpg" alt="r"></td>
+  </div>
+  <div *ngIf="manif.photo !== 'nessunaManifestazione.png'">
+    <td><img src="http://localhost:3001/upload/files/generic/verde.jpg" alt="g"></td>
+  </div>
 
 
 
@@ -16,17 +23,17 @@
 </button>
 </td>
 <td > <!-- *ngIf="functionUser === navigateEdit" -->
-  <button class="btn btn-sm btn-success" (click)="navigate(navigateEdit,manif)">Update
+  <button class="btn btn-sm btn-success"  data-placement="bottom" title="Modifica" (click)="navigate(navigateEdit,manif)">
   <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
 </button>
 </td>
 <td >   <!---*ngIf="functionUser === navigateEdit || functionUser === navigateEdits"  -->
-  <button class="btn btn-sm btn-warning" (click)="navigate(navigateDays,manif)">eventi
+  <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Eventi"  (click)="navigate(navigateDays,manif)">
   <fa-icon [icon]="faList"  fixed="true"></fa-icon>
 </button>
 </td>
 <td > <!-- *ngIf="(functionUser === navigateEdit || functionUser === navigateEdits) && manif.stato > 0" -->
-  <button class="btn btn-sm btn-info" (click)="navigate(navigateGraficoDays,manif)">Grafico
+  <button class="btn btn-sm btn-info"  data-placement="bottom" title="Grafico" (click)="navigate(navigateGraficoDays,manif)">Grafico
  <!--  <button class="btn btn-sm btn-info" (click)="naviga('GraphDays',manif)">Grafico  -->
   <fa-icon [icon]="faChartPie"  fixed="true"></fa-icon>
 </button>

@@ -31,9 +31,13 @@ export class EventiMappaComponent implements OnInit {
   faLocationArrow = faLocationArrow;
 
   public eventi: Evento[] = [];
+  public eventinull: Evento[] = [];
   public evento: Evento;
   public manif: Manifestazione;
-  public eventinull: Evento[] = [];
+  public manifestazioni: Manifestazione[] = [];
+  public manifestazione: Manifestazione;
+  public manifestazioninull: Manifestazione[] = [];
+
 
   public tipoRichiesta = '?';
   public ricManif = 0;
@@ -119,10 +123,15 @@ public functionSelected = '';
 public functionUrl = '';
 public rottafase = '';
 public inx = 0;
-
+public indend  = 0;
 public stato = 1;  // stato aperto
 public nomeevento: string[] = [];
 public idevento: number[] = [];
+
+public selectedmanif = 0;
+public manifselected = false;
+public statoAttivo = 1;
+
 
 constructor(private manifestazioneService: ManifestazioneService,
             private eventoService: EventoService,
@@ -139,7 +148,7 @@ constructor(private manifestazioneService: ManifestazioneService,
             }
 
             goApplication() {
-              console.log('goApplication - appena entrato');
+              console.log('goApplication ------------ eventi-mappa ---------------------- appena entrato');
 
               this.isVisible = true;
               this.alertSuccess = true;
@@ -150,17 +159,52 @@ constructor(private manifestazioneService: ManifestazioneService,
 
 
 
-             this.stato = 1;
-             this.loadManifestazioneActive(this.stato);
+             // vecchia modalità fino al 03/08/2022
+            // this.stato = 1;
+            // this.loadManifestazioneActive(this.stato);
+
+
+            // ora carico nella combo le manifestazioni attive
+            this.loadManifestazioniActive();
+
+
 
              }
 
-             async loadManifestazioneActive(stato: number) {
-              console.log('frontend - loadManifestazioneActive: ' + stato);
-              let rc = await  this.manifestazioneService.getManifAttiva(stato).subscribe(
+
+             async loadManifestazioniActive() {
+
+              //alert('Manifestazioni   -- loadManifestazioni :  inizio ');
+              this.trovatoRec = false;
+              this.nRec = 0;
+              this.isVisible = true;
+              let rc =  await  this.manifestazioneService.getManifbyStato(this.statoAttivo).subscribe(
+                   res => {
+                      if(res['rc'] === 'ok') {
+                        console.log('loadManifestazioniActive: ' + JSON.stringify(res['data']));
+                        this.manifestazioni = res['data'];
+                        this.Message = 'Effettua la selezione della manifestazione';
+                      }
+                      if(res['rc'] === 'nf') {
+                        this.manifestazioni = this.manifestazioninull;
+                        this.Message = 'Nessuna Manifestazione disponibile per registrazione evento';
+                      }
+                      this.alertSuccess = true;
+                  },
+                  error => {
+                     alert('loadManifestazioniActive - errore: ' + error.message);
+                     console.log(error);
+                     this.Message = error.message;
+                     this.alertSuccess = false;
+                  });
+            }
+
+             async loadManifestazione(id: number) {
+              console.log('frontend - loadManifestazione: ' + id);
+              let rc = await  this.manifestazioneService.getbyId(id).subscribe(
                 response => {
                     this.manif = response['data'];
-                    this.loadEventi(this.manif.id);
+
                   },
                 error => {
                   alert('Manif-Data  --loadManifestazioneActive: ' + error.message);
@@ -179,7 +223,7 @@ constructor(private manifestazioneService: ManifestazioneService,
 
               async loadEventi(id: number) {
                 console.log('frontend - loadEventi: ' + id);
-                let rc = await  this.eventoService.getbyIdManif(id).subscribe(
+                let rc = await  this.eventoService.getActivebyIdManif(id).subscribe(
                   response => {
                       if(response['rc'] === 'ok') {
                         this.eventi = response['data'];
@@ -232,14 +276,22 @@ constructor(private manifestazioneService: ManifestazioneService,
                 this.evento = response['data'];
                 console.log('eventi-mappa ---  registra: ' + JSON.stringify(response['data']));
                 if(this.evento.idtipo == 2) { // con logistica
-                  let xx = 'evento/registrazione/logisticax/' + this.evento.id;   // test
+                  let xx = 'evento/registrazione/logistica/' + this.evento.id;   // test
                   console.log('lancio: ' + xx);
-                  this.router.navigate(['evento/registrazione/logisticax/' + this.evento.id]);
+                  this.router.navigate(['evento/registrazione/logistica/' + this.evento.id]);
                 }
-                if(this.evento.idtipo == 0) { // senza logistica
-                  let xx1 = 'evento/registrazione/normalx/' + this.evento.id;   // test
+                if(this.evento.idtipo == 1) { // senza logistica
+                  let xx1 = 'evento/registrazione/normal/' + this.evento.id;   // test
                   console.log('lancio: ' + xx1);
-                  this.router.navigate(['evento/registrazione/normalx/' + this.evento.id]);
+                  this.router.navigate(['evento/registrazione/normal/' + this.evento.id]);
+                }
+                if(this.evento.idtipo == 0) { // non valorizzato
+                  console.log('evento senza indicazione se con o senza logistica ' + this.evento.id);
+                  this.Message = 'evento senza indicazione se con o senza logistica - avvisare ced';
+                  this.isVisible = true;
+                  this.alertSuccess = false;
+                  this.type = 'error';
+                  this.showNotification(this.type, this.Message);
                 }
                }
               if(response['rc'] === 'nf') {
@@ -267,20 +319,64 @@ constructor(private manifestazioneService: ManifestazioneService,
 
 
       salvanomieventi() {
+        // pulisco preliminarmente array per eliminare le selezioni precedenti
+        console.log('salvanomeeventi ' + this.nomeevento.length);
+        console.log('eventi: ------------------------   ' + JSON.stringify(this.eventi));
+       /*
+        for(this.inx = 0; this.inx < 30; this.inx++) {   // inx < this.nomeevento.length
+            this.nomeevento.splice(this.inx, 1);
+        }  */
 
+        this.nomeevento.splice(0, 30);
+        this.indend = 0;
         for(const evento of this.eventi) {
           this.nomeevento.push(evento.descrizione);
           this.idevento.push(evento.id);
+          this.indend = this.indend + 1;
         }
-        /*
-        for(let x:number=0;x<this.nomeevento.length;x++) {
-          console.log((x+1) + ')' + this.nomeevento[x]);
-        } */
-        for(this.inx = 0; this.inx < this.nomeevento.length; this.inx++) {
-          console.log((this.inx + 1) + ')' + this.nomeevento[this.inx] + ' ' + this.idevento[this.inx]);
+        for(this.inx = 0; this.inx < 30; this.inx++) {
+          console.log((this.inx + 1) + ')' + this.nomeevento[this.inx]);
         }
+        console.log('faccio reset degli array indefiniti ');
+        this.indend = this.indend + 1;
+        for(this.inx = this.indend; this.inx < 30; this.inx++) {
+          this.nomeevento.push('');
+        }
+        for(this.inx = 0; this.inx < 30; this.inx++) {
+          console.log((this.inx + 1) + ')' + this.nomeevento[this.inx]);
+        }
+        console.log('finito controllo su array')
 
       }
+
+      onSelectedManifestazione(selectedValue: number) {
+        //  alert('selezionato: ' + selectedValue);
+          if(selectedValue ==  99) {
+            this.type = 'error';
+            this.Message = 'selezione non corrette';
+            this.showNotification(this.type, this.Message);
+            this.alertSuccess = false;
+            this.isVisible = true;
+            this.selectedmanif = 0;
+            this.manifselected = false;
+            return;
+         } else {
+              this.selectedmanif = selectedValue;
+              this.loadManifestazione(this.selectedmanif);
+              this.loadEventi(this.selectedmanif);
+              this.manifselected = true;
+              this.alertSuccess = true;
+              this.Message = 'Effettua la selezione dell evento';
+              this.alertSuccess = true;
+         }
+
+     }
+
+
+
+
+
+
 
 
     }

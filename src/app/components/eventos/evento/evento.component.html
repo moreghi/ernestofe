@@ -1,4 +1,6 @@
 
+ <!-- {{ evento | json}}  -->
+
   <td >{{i}}</td>
   <td>{{evento.descrizione}}</td>
   <td>{{evento.localita}}</td>
@@ -6,7 +8,12 @@
   <td class="statoMan">{{evento.d_stato_evento}}</td>
   <td [style.color]="getColor(evento.statobiglietti)" [style.background]="getBackground(evento.statobiglietti)">{{evento.d_stato_evento_biglietto}}</td>
   <td [style.color]="getColor(evento.statoposti)" [style.background]="getBackground(evento.statoposti)">{{evento.d_stato_evento_posto}}</td>
-
+  <div *ngIf="evento.locandina == 0">
+    <td><img src="http://localhost:3001/upload/files/generic/rosso.jpg" alt="r"></td>
+  </div>
+  <div *ngIf="evento.locandina != 0">
+    <td><img src="http://localhost:3001/upload/files/generic/verde.jpg" alt="g"></td>
+  </div>
 
   <td >
     <button class="btn btn-sm  btn-danger" (click)="open(content, evento)">
@@ -14,24 +21,32 @@
     </button>
   </td>
 <td > <!-- *ngIf="functionUser === navigateEdit" -->
-  <button class="btn btn-sm btn-success" (click)="navigate(navigateEdit,evento)">Update
+  <button class="btn btn-sm btn-success" (click)="navigate(navigateEdit,evento)">
   <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
 </button>
 </td>
 
+
+<td >   <!---*ngIf="functionUser === navigateEdit || functionUser === navigateEdits"  -->
+  <button class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Prenotazioni" (click)="navigate(navigatePrenotazioni,evento)">
+    <fa-icon [icon]="faUsers"  fixed="true"></fa-icon>
+  </button>
+</td>
+<td *ngIf="evento.idtipo == 2">   <!---*ngIf="functionUser === navigateEdit || functionUser === navigateEdits"  -->
+  <button class="btn btn-sm btn-warning"  data-placement="bottom" title="Posti Logistica" (click)="navigate(navigatePosti,evento)">
+  <fa-icon [icon]="faChair"  fixed="true"></fa-icon>
+  </button>
+</td>
 <td > <!-- *ngIf="functionUser === navigateEdit" -->
-  <button class="btn btn-sm btn-primary" (click)="navigate(navigateTicket,evento)">biglietti
+  <button class="btn btn-sm btn-primary"  data-placement="bottom" title="Biglietti" (click)="navigate(navigateTicket,evento)">
   <fa-icon [icon]="faTicketAlt"  fixed="true"></fa-icon>
 </button>
 </td>
-
-<td *ngIf="evento.idtipo == 2">   <!---*ngIf="functionUser === navigateEdit || functionUser === navigateEdits"  -->
-  <button class="btn btn-sm btn-warning" (click)="navigate(navigatePosti,evento)">Posti
-  <fa-icon [icon]="faList"  fixed="true"></fa-icon>
-  </button>
-  </td>
-
-
+<td > <!-- *ngIf="functionUser === navigateEdit" -->
+  <button class="btn btn-sm btn-warning"  data-placement="bottom" title="Cassa" (click)="navigate(navigateCassa,evento)">
+  <fa-icon [icon]="faEuroSign"  fixed="true"></fa-icon>
+</button>
+</td>
 
 <!--
 <td >

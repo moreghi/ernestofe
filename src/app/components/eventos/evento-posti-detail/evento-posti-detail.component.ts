@@ -59,7 +59,7 @@ faPlus = faPlus;
 faTrash = faTrash;
 faReply = faReply;
 
- public title = 'merdaaaaaaa 3333333';
+ public title = 'Dettaglio per settore fila - evento-posti-detail';
 
   // variabili per visualizzazione messaggio di esito con notifier
   public type = '';

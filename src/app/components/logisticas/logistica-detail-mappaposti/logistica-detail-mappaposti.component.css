@@ -1,0 +1,14 @@
+.borde1 {
+  border: 3px solid red;
+}
+.borde2 {
+  border: 3px solid green;
+}
+.borde3 {
+  border: 3px solid violet;
+}
+
+.nposti {
+  color: red;
+  background-color: yellow;
+}

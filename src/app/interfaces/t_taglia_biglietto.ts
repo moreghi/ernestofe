@@ -6,6 +6,8 @@ export class TtagliabigliettoInterface  {
   idtipotaglia: number;
   d_taglia: string;
   stato: number;
+  flagpu: string;
+  tagliaUser: string;
   key_utenti_operation: number;
   created_at: Date;
   updated_at: Date;

@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewChecked } from '@angular/core';
 import { EventoService} from '../../../services/evento.service';
 import { Evento} from '../../../classes/Evento';
 import { Router } from '@angular/router';
 // per gestire il popup con esito operazione
 import { NotifierService } from 'angular-notifier';
 import { faPlusSquare, faSearch, faSave, faUserEdit, faMinus, faPlus, faWindowClose, faTrash, faInfo,
-         faInfoCircle, faList, faTicketAlt, faLocationArrow} from '@fortawesome/free-solid-svg-icons';
+         faInfoCircle, faList, faTicketAlt, faLocationArrow, faChair, faAddressBook, faUsers, faEuroSign} from '@fortawesome/free-solid-svg-icons';
 // popup per avviso cancellazione
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
@@ -36,7 +36,10 @@ export class EventoComponent implements OnInit {
     faWindowClose = faWindowClose;
     faTicketAlt = faTicketAlt;
     faLocationArrow = faLocationArrow;
-
+    faChair = faChair;
+    faAddressBook = faAddressBook;
+    faUsers = faUsers;
+    faEuroSign = faEuroSign;
   // -----
     public textMessage1 = '';
     public textMessage2 = '';
@@ -79,6 +82,8 @@ export class EventoComponent implements OnInit {
     public navigateEdit = 'Edit';
     public navigateTicket = 'Ticket';
     public navigatePosti = 'Posti';
+    public navigatePrenotazioni = 'Prenotazioni';
+    public navigateCassa = 'Cassa';
 
     public messagenull = 'Nessun record presente !!!';
 
@@ -111,7 +116,6 @@ export class EventoComponent implements OnInit {
 
 
 
-
 /*
      Show a notification
 
@@ -141,8 +145,12 @@ showNotification( type: string, message: string ): void {
       case 'Posti':
         this.route.navigate(['evento/' + evento.id + '/Posti']);
         break;
-
-
+      case 'Prenotazioni':
+        this.route.navigate(['Evento/prenotdetail/' + evento.id]);
+        break;
+      case 'Cassa':
+        this.route.navigate(['cassa/' + evento.id]);
+        break;
 
       default:
         alert('scelta errata \n navigazione non possibile');

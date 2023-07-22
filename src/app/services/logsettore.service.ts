@@ -66,22 +66,24 @@ export class LogsettoreService {
 
       getbyStato(idlog: number, stato: number) {
 
-        this.rottafunction = '/getbyStato';
+        this.rottafunction = 'getbyStato';
         return this.http.get(this.APIURL + '/' + this.rottafunction +  '/' + idlog  + '/' + stato,  {
                 headers: this.getAuthHeader()
               });      // ok;
     }
 
+
+
     getbySettore(idlog: number, settore: number) {
 
-      this.rottafunction = '/getbySettore';
+      this.rottafunction = 'getbySettore';
       return this.http.get(this.APIURL + '/' + this.rottafunction +  '/' + idlog  + '/' + settore,  {
               headers: this.getAuthHeader()
             });      // ok;
   }
    getbySettoreActive(idlog: number, stato: number) {
 
-    this.rottafunction = '/getbySettoreAct';
+    this.rottafunction = 'getbySettoreAct';
     return this.http.get(this.APIURL + '/' + this.rottafunction +  '/' + idlog  + '/' + stato,  {
             headers: this.getAuthHeader()
           });      // ok;

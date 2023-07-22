@@ -1,0 +1,40 @@
+.borde1 {
+  border: 3px solid red;
+}
+
+.borde2 {
+  border: 3px solid blue;
+}
+.borde3 {
+  border: 3px solid green;
+}
+
+.margingm {
+  border-top: -15px;
+}
+
+.titleEvento {
+
+   font-size: 13px
+}
+
+.imgLocandinax {
+  width: 500px;
+  height: 300px;
+}
+
+.contenuto-centrato {
+  text-align: center;
+}
+.img-centrata {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width:250px;
+  max-height:130px;
+}
+
+.cardMoreno {
+    width: 300px;
+    height: 270px;
+}

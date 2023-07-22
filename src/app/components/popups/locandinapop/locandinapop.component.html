@@ -1,0 +1,181 @@
+<p>locandinapop works!</p>
+
+<!--{{ selectedUser | json }} -->
+
+path {{ pathimage }}
+
+<div class="modal-header " [style.background]="fase === 'M' ? 'red' : 'green'" [style.color]="fase === 'M' ? 'white' : 'yellow'">
+  <div class="col-sm-3">
+    <img src="assets/images/logobandieragialla.jpg" width="40" height="40" alt="logo">
+  </div>
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+
+<div class="modal-body">
+ <form [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="editForm" >
+      <!-- Chiave del record -->
+      <input hidden type="text" formControlName="id" class="form-control" />
+      <input hidden type="text" formControlName="idManif" class="form-control" />
+      <input hidden type="text" formControlName="idEvento" class="form-control" />
+        <br>
+
+        <div class="row" *ngIf="idManif === 0">
+          <div class="form-row">
+            <div class="form-group col-sm-2 flex">
+                <lib-ngx-image-zoom
+                [thumbImage]=pathimage
+                [fullImage]=pathimage
+                [magnification]="1"
+                [enableScrollZoom]="true"
+                [enableLens]="true"
+                [lensWidth]="200"
+                [imgWidth]="250"
+                [imgHeight]="100"
+              ></lib-ngx-image-zoom>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row" *ngIf="idManif > 0">
+          <!-- localita -->
+          <label for="manifestazione" class="col-sm-2 col-form-label">Manifestazione</label>&nbsp;
+          <div class="col-md-6">
+            <input disabled type="text" formControlName="dManifestazione" class="form-control" style="text-transform : uppercase"/>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+            <label for="evento" class="col-sm-2 col-form-label">Evento</label>&nbsp;
+            <div class="col-md-6">
+              <input disabled type="text" formControlName="dEvento" class="form-control" style="text-transform : uppercase"/>
+            </div>
+        </div>
+        <br>
+
+           <!--      <input   type="text" formControlName="photo" class="form-control"  >  -->
+
+          <div class="form-row">
+                  <div class="form-group col-sm-2 flex">
+                      <!--  <label for="photo">foto</label>  -->
+
+                      <!--
+                      <ng-img-magnifier
+                          thumbImage='pathimage'
+                          fullImage='pathimage'
+                          [top]="50"
+                          [right]="1"
+                          [lensWidth]="100"
+                          [lensHeight]="100"
+                          [resultWidth]="55"
+                          [resultHeight]="55"
+                          [imgWidth]="300"
+                          [imgHeight]="200"
+                        >
+                        </ng-img-magnifier>    -->
+
+                      <!--   vecchia modaalità con immagine che non posso impostare larghezza e altezza -->
+
+                    <lib-ngx-image-zoom
+                        [thumbImage]=pathimage
+                        [fullImage]=pathimage
+                        [magnification]="1"
+                        [enableScrollZoom]="true"
+                        [enableLens]="true"
+                        [lensWidth]="200"
+                        [imgWidth]="250"
+                        [imgHeight]="100"
+                      ></lib-ngx-image-zoom>
+
+
+
+
+
+                  </div>
+          </div>
+          <br>
+          <div class="row">
+
+
+            <label for="formFile" class="form-label">Upload file </label>
+            <input (change)="this.onFilechange($event)" class="form-control" type="file" id="formFile">
+            <button (click)="this.upload()" type="button" class="btn btn-primary mt-3">Upload</button>
+
+            <!--
+
+            <div class="col-8">
+              <label class="btn btn-default p-0">
+                <input type="file" (change)="selectFile($event)" />
+              </label>
+            </div>
+
+            <div class="col-4">
+              <button class="btn btn-success btn-sm" [disabled]="!selectedFiles" (click)="upload()">
+                Upload
+              </button>
+            </div>   -->
+          </div>
+          <br>
+
+
+      <!-- messaggi -->
+         <div class="row col-md-12">
+             <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+               <p>{{Message}}</p>
+               <hr>
+             </div>
+             <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+               <p>{{Message}}</p>
+             </div>
+          </div>
+</form>
+</div>
+
+<div class="modal-footer">
+
+
+  <button [disabled]="isLoading" class="btn btn-danger mr-2" (click)="modal.close('cancel')">Cancel
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+  </button>
+  <button [disabled]="!editForm.valid" class="btn btn-primary mr-2" (click)="onSubmit()" >Conferma   <!--   contrDate()  manipData()-->
+    <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+  </button>
+
+</div>
+
+
+
+
+<ng-template #templateConfirmDelete>
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Annullamento Upload</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef2.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  confermi annullamento upload file selezionato ?<br />
+</div>
+  <div class="modal-footer">
+   <button type="button" class="btn btn-secondary" (click)="closeModal(2)">Annulla
+    <fa-icon [icon]="faWindowClose"  fixed="true"></fa-icon>
+   </button>
+  <button type="button" class="btn btn-danger" (click)="closeModal(3)">Conferma
+    <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+  </button>
+</div>
+</ng-template>
+
+
+
+
+
+
+
+
+

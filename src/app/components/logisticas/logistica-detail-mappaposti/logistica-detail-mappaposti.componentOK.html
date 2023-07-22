@@ -1,0 +1,544 @@
+<br>
+<!-- funzione Rilascia che non aggiorna correttamente  (va ma deve essere ricontrollata)-->
+<div class="container ">
+  <div class="header_Edit title_Edit" >
+      <strong>{{title}}</strong>
+  </div>
+
+<br>
+  <div >
+    <div class="col-md-auto">
+      <form #fm ="ngForm"  method="POST" #aForm>
+        <input hidden #id="ngModel"  [(ngModel)]="logistica.id" class="form-control" name="id" id="id">
+        <input hidden #key_utenti_operation="ngModel"  [(ngModel)]="logistica.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation">
+
+        <div class="row">
+<!--{{statilogistica | json}} -->
+            <div class="row">
+              <label for="statoe" class="col-sm-1 col-form-label">Stato</label>
+
+              <div class=" col-md-2">
+                <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+                    <div>
+                      <input disabled #d_stato_logistica="ngModel"  [(ngModel)]="logistica.d_stato_logistica" class="form-control" name="d_stato_logistica" id="d_stato_logistica" [style.color]="logistica.stato == 0 ? 'red' : 'white'"  [style.background-color]="logistica.stato == 0 ? 'yellow' : 'red'">
+                    </div>
+              </div>
+           </div>
+
+        </div>
+         <br>
+         <!-- località -->
+         <div class="row">
+          <!-- localita -->
+              <label for="localita" class="col-sm-1 col-form-label">Localita</label>
+              <div class="col-md-3">
+                <input disabled #localita="ngModel"  [(ngModel)]="logistica.localita" class="form-control" name="localita" id="localita"  style="text-transform : uppercase">
+              </div>
+              <!-- luogo -->
+              <div class="col-md-3">
+                <input disabled #luogo="ngModel"  [(ngModel)]="logistica.luogo" class="form-control" name="luogo" id="luogo"  style="text-transform : uppercase">
+              </div>
+              <!-- visualizza -->
+              <div class="col-sm-2">
+                <button  class="btn btn-primary btn-rounded"  (click)="viewlogistica()">
+                  <fa-icon [icon]="faSearch"  fixed="true"></fa-icon> &nbsp; visualizza
+                </button>
+              </div>
+              <label for="nposti" class="col-sm-1 col-form-label">Posti</label>
+              <div class="col-md-1">
+                <input disabled #nposti="ngModel"  [(ngModel)]="logistica.nposti" class="form-control nposti" name="nposti" id="nposti"  >  <!--style="color : red, background-color: yellow" -->
+              </div>
+         </div>
+     <br>
+
+
+
+
+
+test
+<div class="row">
+  <!--  settore -->
+  <label for="settore" class="col-form-label" style="width:70px;">Posti </label>
+  <div class="col-md-3 ">
+    <div class="row">
+      <label for="settore" class="col-form-label" style="width:70px;">Settore</label>
+      <div class="col-md-3 ">
+        <div class="dropdown " style="width:180px;">
+            <select class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" [(ngModel)]="selectedSettore" ngModel name="settore" id="settore" class="form-select" (change)="onSelectedworkSettore($event.target.value)" aria-label="Default select example">
+              <option selected value="9999"  >Seleziona il Settore</option>
+              <option *ngFor="let worksettore of workSettori" [value]="worksettore.id"  class="form-control"  >{{worksettore.dsettore}}</option>
+            </select>
+        </div>
+        <div class="invalid-feedback">effettuare la scelta del Settore</div>
+    </div>
+
+    </div>
+  </div>
+ <!--  Fila -->
+  <div class="col-md-3 ">
+    <div class="row">
+      <label for="fila" class="col-form-label " style="width:70px;">Fila</label>
+      <div class="col-md-3 ">
+        <div class="dropdown "  style="width:180px;">
+          <select class="btn btn-primary dropdown-toggle " type="button" data-toggle="dropdown" [(ngModel)]="selectedFila" ngModel name="fila" id="fila" class="form-select" (change)="onSelectedworkFila($event.target.value)" aria-label="Default select example">
+            <option selected value="9999"  >Seleziona la Fila</option>
+            <option *ngFor="let fila of workFile" [value]="fila.id"  class="form-control"  >{{fila.dfila}}</option>
+          </select>
+        </div>
+        <div class="invalid-feedback">effettuare la scelta della Fila</div>
+    </div>
+
+    </div>
+  </div>
+ <!--  dettaglio posto -->
+ <div class="col-md-5 ">
+  <div class="row" *ngIf="selectedFila > 0">
+
+
+      <label  class="col-form-label" style="width:50px; "><strong>Num. </strong></label>
+      <label  class="col-form-label" style="width:50px; color:blue"><strong>{{workFila.nposti}} </strong></label>
+      <label  class="col-form-label " style='width:80px;'>Inizio</label>
+      <div  style="width:100px;">
+           <input #nstart="ngModel"  [(ngModel)]="workFila.nstart" class="form-control" name="nstart" id="nstart" required minlength="1" maxlength="5" pattern="[0-9]{1,3}" placeholder="Inserire posto iniziale" (blur) = 'ctrpostoStart($event.target.value)' >
+      </div>
+      <br>
+      <div *ngIf="nstart.invalid && (nstart.dirty || nstart.touched)" class="alert-danger">
+        <div *ngIf="nstart.errors.required">
+            <span>il postoStart è obbligatorio</span>
+        </div>
+        <div *ngIf="nstart.errors.minlength">
+           <span>il postoStart deve essere di almeno  {{nstart.errors.minlength.requiredLength }} caratteri</span>
+        </div>
+        <div *ngIf="nstart.errors.maxlength">
+            <span>il postoStart non può essere più lunga di {{nstart.errors.maxlength.requiredLength }} caratteri</span>
+         </div>
+         <div *ngIf="nstart.errors?.pattern">
+          <span>postoStart errato</span>
+         </div>
+      </div>
+      <label for="postoEnd" class="col-form-label" style="width:70px;">Fine</label>
+      <div  style="width:100px;">
+           <input #nend="ngModel"  [(ngModel)]="workFila.nend" class="form-control" name="postoEnd" id="postoEnd" ngModel required minlength="1" maxlength="5" pattern="[0-9]{1,3}"  (blur) = 'ctrpostoend($event.target.value)'  (change)="ctrpostoend($event.target.value)"   placeholder="Inserire posto finalee" >
+      </div>
+      <br>
+      <div *ngIf="nend.invalid && (nend.dirty || nend.touched)" class="alert-danger">
+          <div *ngIf="nend.errors.required">
+              <span>il postoEnd è obbligatorio</span>
+          </div>
+          <div *ngIf="nend.errors.minlength">
+             <span>il postoEnd deve essere di almeno  {{nend.errors.minlength.requiredLength }} caratteri</span>
+          </div>
+          <div *ngIf="nend.errors.maxlength">
+              <span>il postoEnd non può essere più lunga di {{nend.errors.maxlength.requiredLength }} caratteri</span>
+           </div>
+           <div *ngIf="nend.errors?.pattern">
+            <span>postoEnd errato</span>
+           </div>
+      </div>
+
+      <div  style="width:20px;">
+        <input hidden #nposti="ngModel"  [(ngModel)]="workFila.nposti" class="form-control" name="nposti" id="nposti"  >
+      </div>
+
+
+
+
+
+  </div>
+</div>
+
+
+
+
+<!-- combo per selezione fila-->
+<!--
+    <label for="fila" class="col-form-label borde1" style="width:70px;">Fila</label>
+
+    <div class="dropdown "  style="width:180px;">
+      <select class="btn btn-primary dropdown-toggle borde2" type="button" data-toggle="dropdown" [(ngModel)]="selectedFila" ngModel name="fila" id="fila" class="form-select" (change)="onSelectedworkFila($event.target.value)" aria-label="Default select example">
+        <option selected value="9999"  >Seleziona la Fila</option>
+        <option *ngFor="let fila of WorkFile" [value]="fila.id"  class="form-control"  >{{fila.dfila}}</option>
+      </select>
+    </div>
+    <div class="invalid-feedback">effettuare la scelta della Fila</div>  -->
+
+ <!--
+    <div *ngIf="selectedFila > 0">
+
+      <label  class="col-form-label" style="width:50px; color:blue"><strong>{{workFila.nposti}} </strong></label>
+      <label  class="col-form-label borde1" style='width:80px;'>Inizio</label>
+      <div  style="width:100px;">
+           <input #nstart="ngModel"  [(ngModel)]="workFila.nstart" class="form-control" name="nstart" id="nstart" required minlength="1" maxlength="5" pattern="[0-9]{1,3}" placeholder="Inserire posto iniziale" (blur) = 'ctrpostoStart($event.target.value)' >
+      </div>
+      <br>
+      <div *ngIf="nstart.invalid && (nstart.dirty || nstart.touched)" class="alert-danger">
+        <div *ngIf="nstart.errors.required">
+            <span>il postoStart è obbligatorio</span>
+        </div>
+        <div *ngIf="nstart.errors.minlength">
+           <span>il postoStart deve essere di almeno  {{nstart.errors.minlength.requiredLength }} caratteri</span>
+        </div>
+        <div *ngIf="nstart.errors.maxlength">
+            <span>il postoStart non può essere più lunga di {{nstart.errors.maxlength.requiredLength }} caratteri</span>
+         </div>
+         <div *ngIf="nstart.errors?.pattern">
+          <span>postoStart errato</span>
+         </div>
+      </div>
+      <label for="postoEnd" class="col-form-label" style="width:70px;">Fine</label>
+      <div  style="width:100px;">
+           <input #nend="ngModel"  [(ngModel)]="workFila.nend" class="form-control" name="postoEnd" id="postoEnd" ngModel required minlength="1" maxlength="5" pattern="[0-9]{1,3}"  (blur) = 'ctrpostoend($event.target.value)'    placeholder="Inserire posto finalee" >
+      </div>
+      <br>
+      <div *ngIf="nend.invalid && (nend.dirty || nend.touched)" class="alert-danger">
+          <div *ngIf="nend.errors.required">
+              <span>il postoEnd è obbligatorio</span>
+          </div>
+          <div *ngIf="nend.errors.minlength">
+             <span>il postoEnd deve essere di almeno  {{nend.errors.minlength.requiredLength }} caratteri</span>
+          </div>
+          <div *ngIf="nend.errors.maxlength">
+              <span>il postoEnd non può essere più lunga di {{nend.errors.maxlength.requiredLength }} caratteri</span>
+           </div>
+           <div *ngIf="nend.errors?.pattern">
+            <span>postoEnd errato</span>
+           </div>
+      </div>
+    </div>  -->
+
+
+
+
+
+</div>
+<br>
+
+<br>
+<!--
+<div class="row" *ngIf="selectedFila > 0">
+
+  <label  class="col-form-label" style="width:50px; color:blue"><strong>{{workFila.nposti}} </strong></label>
+  <label  class="col-form-label" style='width:100px;'>Inizio</label>
+  <div  style="width:100px;">
+       <input #nstart="ngModel"  [(ngModel)]="workFila.nstart" class="form-control" name="nstart" id="nstart" required minlength="1" maxlength="5" pattern="[0-9]{1,3}" placeholder="Inserire posto iniziale" (blur) = 'ctrpostoStart($event.target.value)' >
+  </div>
+  <br>
+  <div *ngIf="nstart.invalid && (nstart.dirty || nstart.touched)" class="alert-danger">
+    <div *ngIf="nstart.errors.required">
+        <span>il postoStart è obbligatorio</span>
+    </div>
+    <div *ngIf="nstart.errors.minlength">
+       <span>il postoStart deve essere di almeno  {{nstart.errors.minlength.requiredLength }} caratteri</span>
+    </div>
+    <div *ngIf="nstart.errors.maxlength">
+        <span>il postoStart non può essere più lunga di {{nstart.errors.maxlength.requiredLength }} caratteri</span>
+     </div>
+     <div *ngIf="nstart.errors?.pattern">
+      <span>postoStart errato</span>
+     </div>
+  </div>
+  <label for="postoEnd" class="col-form-label" style="width:100px;">Fine</label>
+  <div  style="width:100px;">
+       <input #nend="ngModel"  [(ngModel)]="workFila.nend" class="form-control" name="postoEnd" id="postoEnd" ngModel required minlength="1" maxlength="5" pattern="[0-9]{1,3}"  (blur) = 'ctrpostoend($event.target.value)'    placeholder="Inserire posto finalee" >
+  </div>
+  <br>
+  <div *ngIf="nend.invalid && (nend.dirty || nend.touched)" class="alert-danger">
+      <div *ngIf="nend.errors.required">
+          <span>il postoEnd è obbligatorio</span>
+      </div>
+      <div *ngIf="nend.errors.minlength">
+         <span>il postoEnd deve essere di almeno  {{nend.errors.minlength.requiredLength }} caratteri</span>
+      </div>
+      <div *ngIf="nend.errors.maxlength">
+          <span>il postoEnd non può essere più lunga di {{nend.errors.maxlength.requiredLength }} caratteri</span>
+       </div>
+       <div *ngIf="nend.errors?.pattern">
+        <span>postoEnd errato</span>
+       </div>
+
+  </div>
+</div>  -->
+<!--
+    <div class="row">
+
+      <label  class="col-form-label" style="width:50px; color:blue"><strong>{{workFila.nposti}} </strong></label>
+      <label  class="col-form-label" style='width:100px;'>Inizio</label>
+      <div  style="width:100px;">
+           <input #nstart="ngModel"  [(ngModel)]="workFila.nstart" class="form-control" name="nstart" id="nstart" required minlength="1" maxlength="5" pattern="[0-9]{1,3}" placeholder="Inserire posto iniziale" (blur) = 'ctrpostoStart($event.target.value)' >
+      </div>
+      <br>
+      <div *ngIf="nstart.invalid && (nstart.dirty || nstart.touched)" class="alert-danger">
+        <div *ngIf="nstart.errors.required">
+            <span>il postoStart è obbligatorio</span>
+        </div>
+        <div *ngIf="nstart.errors.minlength">
+           <span>il postoStart deve essere di almeno  {{nstart.errors.minlength.requiredLength }} caratteri</span>
+        </div>
+        <div *ngIf="nstart.errors.maxlength">
+            <span>il postoStart non può essere più lunga di {{nstart.errors.maxlength.requiredLength }} caratteri</span>
+         </div>
+         <div *ngIf="nstart.errors?.pattern">
+          <span>postoStart errato</span>
+         </div>
+      </div>
+      <label for="postoEnd" class="col-form-label" style="width:100px;">Fine</label>
+      <div  style="width:100px;">
+           <input #nend="ngModel"  [(ngModel)]="workFila.nend" class="form-control" name="postoEnd" id="postoEnd" ngModel required minlength="1" maxlength="5" pattern="[0-9]{1,3}"  (blur) = 'ctrpostoend($event.target.value)'    placeholder="Inserire posto finalee" >
+      </div>
+      <br>
+      <div *ngIf="nend.invalid && (nend.dirty || nend.touched)" class="alert-danger">
+          <div *ngIf="nend.errors.required">
+              <span>il postoEnd è obbligatorio</span>
+          </div>
+          <div *ngIf="nend.errors.minlength">
+             <span>il postoEnd deve essere di almeno  {{nend.errors.minlength.requiredLength }} caratteri</span>
+          </div>
+          <div *ngIf="nend.errors.maxlength">
+              <span>il postoEnd non può essere più lunga di {{nend.errors.maxlength.requiredLength }} caratteri</span>
+           </div>
+           <div *ngIf="nend.errors?.pattern">
+            <span>postoEnd errato</span>
+           </div>
+
+      </div>
+    </div> -->
+
+
+    <div class="footer" >
+      <div class="row">
+
+          <div class="col-md-2">
+
+          </div>
+
+          <div class="col-md-2">
+            <button [disabled]="selectComplete === false" class="btn btn-success btn-md " (click)="conferma()" id="conferma_Button">Conferma
+              <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+            </button>
+          </div>
+
+          <div class="col-md-2" >
+            <button [disabled]="logistica.nposti === 0" class="btn btn-primary btn-md " (click)="rilascia()">Rilascia    <!-- [disabled]="fm.invalid "-->
+              <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+            </button>
+          </div>
+          <div class="col-md-2">
+            <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+              <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+            </button>
+          </div>
+      </div>
+    </div>
+    <br>
+<!--   messaggio con esito operazione -->
+
+    <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+ <!--     <h4 class="alert-heading">Errore in Registrazione User</h4>   -->
+      <p>{{Message}}</p>
+      <hr>
+      <p class="mb-0">{{Message1err}}</p>
+    </div>
+    <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+<!--       <h4 class="alert-heading">Registrazione User</h4>   -->
+      <p>{{Message}}</p>
+      <hr>
+      <p class="mb-0"></p>
+    </div>
+  <br>   <!--   wsettoreSelected : {{wsettoreSelected }}   buttare -->
+
+    <!--settori selezionati  {{workSettori | json}}  -->
+
+<!--
+    worksettoreSelected: {{worksettoreSelected}}
+    workfilaSelected: {{workfilaSelected}}  -->
+
+    <div class="row">
+      <div class="col-md-6">
+
+        <div *ngIf="worksettoreSelected === true ">
+          <table class="table table-striped table-hover">
+            <tr>
+              <td>
+                <div *ngIf="worksettoreSelected === true ">
+                  <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Settore</th>
+                        <th scope="col">File</th>
+                        <th scope="col">Posti</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor ="let settore of worksettoriSelected  let i = index">
+                        <td >{{i + 1}}</td>
+
+                        <td><button  class="btn btn-primary btn-sm btn-rounded"  (click)="viewfilebySettore(settore)">
+                          <fa-icon [icon]="faSearch"  fixed="true"></fa-icon> &nbsp; {{settore.dsettore}}
+                        </button></td>
+                          <td ><span class="badge bg-warning rounded-pill">{{settore.nfile}}</span></td>
+                          <td ><span class="badge bg-primary rounded-pill">{{settore.nposti}}</span></td>
+                          <td >
+                            <button [hidden]="settore.nfile > 0" class="btn btn-light btn-sm " (click)="delSettore(settore.id)">  <!-- (click)="deleteSettore(settore.id)" -->
+                              <fa-icon [icon]="faTrash"  fixed="true" style="color:red;"></fa-icon>
+                            </button>
+                          </td>
+
+                     <!--
+                        <td [style.color]="getColor(evento.statobiglietti)" [style.background]="getBackground(evento.statobiglietti)">{{evento.d_stato_evento_biglietto}}</td>
+                        <td [style.color]="getColor(evento.statoposti)" [style.background]="getBackground(evento.statoposti)">{{evento.d_stato_evento_posto}}</td>  -->
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+               </td>
+
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-6">
+
+
+        <div *ngIf="worksettoreSelected === true && workfilaSelected === true">
+          <table class="table table-striped table-hover">
+            <tr>
+              <td>
+                <div >
+                  <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Fila</th>
+                        <th scope="col">Posti</th>
+                        <th scope="col">in.</th>
+                        <th scope="col">Fi.</th>
+                        <th scope="col"></th>
+                        <th style="color:red; background-color: yellow; text-align: center;">{{workSettoreDetail.dsettore}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <!--  workfileSelected: {{workfileSelected | json}}  -->
+                      <tr *ngFor ="let fila of workfileSelected  | paginate: { itemsPerPage: 5, currentPage: p_righe }; let i = index">
+                        <td >{{i + 1}}</td>
+                        <td><span class="badge bg-warning rounded-pill">{{fila.dfila}}</span></td>
+                        <td><span class="badge bg-primary rounded-pill">{{fila.nposti}}</span></td>
+                        <td><span class="badge bg-success rounded-pill">{{fila.nstart}}</span></td>
+                        <td><span class="badge bg-info rounded-pill">{{fila.nend}}</span></td>
+                        <td>
+                          <button  class="btn btn-light btn-sm " (click)="delfila(fila)">  <!-- (click)="deleteSettore(settore.id)" -->
+                              <fa-icon [icon]="faTrash"  fixed="true" style="color:red;"></fa-icon>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <pagination-controls (pageChange)="p_righe = $event"></pagination-controls>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+<hr>
+
+
+    <!-- tabella alfa -->
+    <!-- prima soluzione  ---  buttare
+    <div *ngIf="worksettoreSelected === true ">
+      <table class="table table-striped table-hover">
+        <tr>
+          <td>
+            <div *ngIf="worksettoreSelected === true ">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Settore</th>
+                    <th scope="col">File</th>
+                    <th scope="col">Posti</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor ="let settore of worksettoriSelected  let i = index">
+                    <td >{{i + 1}}</td>
+
+                    <td><button  class="btn btn-primary btn-sm btn-rounded"  (click)="viewfilebySettore(settore.id, settore.idlo)">
+                      <fa-icon [icon]="faSearch"  fixed="true"></fa-icon> &nbsp; {{settore.dsettore}}
+                    </button></td>
+                      <td ><span class="badge bg-primary rounded-pill">{{settore.nfile}}</span></td>
+                      <td ><span class="badge bg-success rounded-pill">{{settore.nposti}}</span></td>
+                      <td >
+                        <button [disabled]="settore.nfile === 0" class="btn btn-light btn-sm " (click)="delSettore(settore.id)">
+                          <fa-icon [icon]="faTrash"  fixed="true" style="color:red;"></fa-icon>
+                        </button>
+                      </td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+
+
+          </td>
+          <td>
+            <table class="table table-striped table-hover">
+              <tr>
+                <td>
+                  visualizzazione delle file per il settore selezionato
+                </td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+      </table>
+    </div>  -->
+
+
+
+
+
+      </form>
+   </div>
+ </div>
+</div>
+
+<ng-template #content let-modal>
+ <div class="modal-header modal-header-color">
+   <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione</h4>
+   <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+     <span aria-hidden="true">&times;</span>
+   </button>
+ </div>
+ <div class="modal-body">
+   <form>
+     <p>confermi la cancellazione del collaboratore &nbsp;&nbsp;</p>
+     <p></p>
+     <p><strong>{{manif.cognome}}&nbsp;&nbsp;{{manif.nome}}</strong>&nbsp;?</p>
+     <!--   esempio di calendario che funziona benissimo
+     <div class="form-group">
+       <label for="dateOfBirth">Date of birth</label>
+       <div class="input-group">
+         <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+         <div class="input-group-append">
+           <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+         </div>
+       </div>
+     </div>
+     -->
+   </form>
+ </div>
+ <div class="modal-footer">
+   <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+
+   <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+     <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+   </button>
+ </div>
+</ng-template>

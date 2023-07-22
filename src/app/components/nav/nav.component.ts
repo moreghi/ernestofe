@@ -80,6 +80,8 @@ export class NavComponent implements OnInit {
   public idGiornata = 0;
   public idruoloday = 0;
 
+  public iduser = 0;
+
   public type = '';
   public Message = '';
   closeResult = '';
@@ -104,11 +106,12 @@ export class NavComponent implements OnInit {
         (user: User)  => {
             this.username = user.username;
             this.ruoloUser = user.idRuolo_Day;
+            this.iduser = user.id;
             this.functionAdmin = parseInt(localStorage.getItem('user_ruolo'));
             this.isUserLoggedIn = true;
             // verifico se la giornata è attiva per gestione
             this.dayAbilitato = false;
-
+            this.profilo = localStorage.getItem('Druolo');
 
         }
     );
@@ -166,10 +169,12 @@ export class NavComponent implements OnInit {
     if(this.isUserLoggedIn)  {
 
       const user = this.auth.getUtente();
-      this.loadProfiloLogged(user.idRuolo_Day);
+      console.log('nav-  ngoninit ----- utente loggato: ' + JSON.stringify(user));
+
+    //  this.loadProfiloLogged(user.idRuolo_Day);  // metodo non necessario. recupero il profilo da localStorage
       this.username = user.cognome;
       this.ruoloUser = user.idRuolo_Day;
-
+      this.profilo = localStorage.getItem('Druolo');
 
       // verifico se utente anonimo abilito a visualizzare le proprie prenotazioni
       if(user.idruoloweb === 0) {
@@ -237,7 +242,7 @@ async verificaEventiOpen() {
         response => {
              if(response['number'] !== 0) {
                this.userlevel = response['data'];
-               this.profilo = this.userlevel.UserLevelName;
+        //       this.profilo = this.userlevel.UserLevelName;
               } else {
                       this.manifActive = false;
              }

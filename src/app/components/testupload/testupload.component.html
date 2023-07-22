@@ -1,0 +1,35 @@
+<p>testupload works!</p>
+
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-4">
+      <div class="mb-3">
+        <label for="formFile" class="form-label">Upload file example</label>
+        <input (change)="this.onFilechange($event)" class="form-control" type="file" id="formFile">
+        <button (click)="this.upload()" type="button" class="btn btn-primary mt-3">Upload</button>
+      </div>
+    </div>
+  </div>
+ </div>
+
+
+ <h3> Right aligning the button</h3>
+	<button class="btn btn-primary float-end ">Submit</button>
+  <br>
+<hr>
+
+  <div class="form-group">
+    <div class="container">
+        <div class="col-md-6">
+          parte a sx
+        </div>
+        <div class="col-md-6">
+          parte di testo a sinistra. bottone a destra
+          <!-- using float-end class in button tag -->
+          <button class="btn btn-success btn-sm float-end" type="submit">
+            Submit
+        </button>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,468 @@
+<p>logistica-detail-mappaposti works! ------ originale</p>
+
+<br>
+
+<div class="container ">
+  <div class="header_Edit title_Edit" *ngIf="fase  ===  'M'">
+      <strong>{{title}}</strong>
+  </div>
+  <div class="header_New" *ngIf="fase  ===  'N'">
+    <caption class="title_New  col-md-12 ">{{title}}</caption>
+  </div>
+
+
+<br>
+  <div >
+    <div class="col-md-auto">
+      <form #fm ="ngForm"  method="POST">
+        <input hidden #id="ngModel"  [(ngModel)]="logistica.id" class="form-control" name="id" id="id">
+        <input hidden #key_utenti_operation="ngModel"  [(ngModel)]="logistica.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation">
+
+        <div class="row">
+<!--{{statilogistica | json}} -->
+            <div class="row">
+              <label for="statoe" class="col-sm-1 col-form-label">Stato</label>
+
+              <div class=" col-md-2">
+                <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+                    <div>
+                      <input disabled #d_stato_logistica="ngModel"  [(ngModel)]="logistica.d_stato_logistica" class="form-control" name="d_stato_logistica" id="d_stato_logistica" [style.color]="logistica.stato == 0 ? 'red' : 'white'"  [style.background-color]="logistica.stato == 0 ? 'yellow' : 'red'">
+                    </div>
+              </div>
+
+
+<!--
+              <div class="dropdown col-sm-2">
+                <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedStato" ngModel name="statoe" id="statoe" class="form-select" required (change)="onSelectedStato($event.target.value)" aria-label="Default select example">
+                  <option selected value="9999"  >Seleziona lo stato</option>
+                  <option *ngFor="let stato of statilogistica" [value]="stato.id"  class="form-control"  >{{stato.d_stato_logistica}}</option>
+                </select>
+              </div>
+              <div class="invalid-feedback">effettuare la scelta dello stato</div>   -->
+            </div>
+
+        </div>
+         <br>
+         <div class="row">
+              <!-- localita -->
+              <label for="localita" class="col-sm-1 col-form-label">Localita</label>
+              <div class="col-md-3">
+                <input disabled #localita="ngModel"  [(ngModel)]="logistica.localita" class="form-control" name="localita" id="localita"  style="text-transform : uppercase">
+              </div>
+              <!-- luogo -->
+              <div class="col-md-3">
+                <input disabled #luogo="ngModel"  [(ngModel)]="logistica.luogo" class="form-control" name="luogo" id="luogo"  style="text-transform : uppercase">
+              </div>
+              <!-- visualizza -->
+              <div class="col-sm-2">
+                <button  class="btn btn-primary btn-rounded"  (click)="viewlogistica()">
+                  <fa-icon [icon]="faSearch"  fixed="true"></fa-icon> &nbsp; visualizza
+                </button>
+              </div>
+         </div>
+         <br>
+
+         settori: {{workSettori | json}}
+
+  <!--  riga Settori  -->
+  <div class="row">
+    <label for="settore" class="col-form-label" style="width:100px;">Posti </label>
+    <label for="settore" class="col-form-label" style="width:100px;">Settore</label>
+      <div class="dropdown " style="width:180px;">
+        <select class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" [(ngModel)]="selectedSettore" ngModel name="settore" id="settore" class="form-select" (change)="onSelectedworkSettore($event.target.value)" aria-label="Default select example">
+          <option selected value="9999"  >Seleziona il Settore</option>
+      <!--    <option *ngFor="let setto of workSettori; let i = index" [value]="workSettori[i].id"  class="form-control"  >{{workSettori[i].dsettore}}</option>  -->
+          <option *ngFor="let worksettore of workSettori" [value]="worksettore.id"  class="form-control"  >{{worksettore.dsettore}}</option>
+
+
+        </select>
+
+
+
+      </div>
+      <div class="invalid-feedback">effettuare la scelta del Settore</div>
+
+    <label for="indirizzo" class="col-form-label" style="width:150px;">Fila</label>
+
+      <div class="dropdown "  style="width:180px;">
+        <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedFila" ngModel name="fila" id="fila" class="form-select" (change)="onSelectedworkFila($event.target.value)" aria-label="Default select example">
+          <option selected value="9999"  >Seleziona la Fila</option>
+          <option *ngFor="let fila of WorkFile" [value]="fila.id"  class="form-control"  >{{fila.dfila}}</option>
+        </select>
+      </div>
+      <div class="invalid-feedback">effettuare la scelta della Fila</div>
+
+    <label  class="col-form-label" style="width:100px; borde1">posti</label>
+    <label  class="col-form-label" style="width:50px; color:blue"><strong>{{logfila.nposti}} </strong></label>
+    <!--<input disabled #nposti="ngModel"  [(ngModel)]="logfila.nposti" class="form-control col-md-1" name="nposti" id="nposti"  > -->
+
+
+    <label  class="col-form-label" style='width:100px;'>Inizio</label>
+    <div  style="width:100px;">
+         <input #nstart="ngModel"  [(ngModel)]="logfila.nstart" class="form-control" name="nstart" id="nstart" required minlength="1" maxlength="5" pattern="[0-9]{1,3}" placeholder="Inserire posto iniziale" (blur) = 'ctrpostoStart($event.target.value)' >
+    </div>
+    <br>
+    <div *ngIf="nstart.invalid && (nstart.dirty || nstart.touched)" class="alert-danger">
+      <div *ngIf="nstart.errors.required">
+          <span>il postoStart è obbligatorio</span>
+      </div>
+      <div *ngIf="nstart.errors.minlength">
+         <span>il postoStart deve essere di almeno  {{nstart.errors.minlength.requiredLength }} caratteri</span>
+      </div>
+      <div *ngIf="nstart.errors.maxlength">
+          <span>il postoStart non può essere più lunga di {{nstart.errors.maxlength.requiredLength }} caratteri</span>
+       </div>
+       <div *ngIf="nstart.errors?.pattern">
+        <span>postoStart errato</span>
+       </div>
+    </div>
+    <label for="postoEnd" class="col-form-label" style="width:100px;">Fine</label>
+    <div  style="width:100px;">
+         <input #nend="ngModel"  [(ngModel)]="logfila.nend" class="form-control" name="postoEnd" id="postoEnd" ngModel required minlength="1" maxlength="5" pattern="[0-9]{1,3}"  (blur) = 'ctrpostoend($event.target.value)'    placeholder="Inserire posto finalee" >
+    </div>
+      <br>
+      <div *ngIf="nend.invalid && (nend.dirty || nend.touched)" class="alert-danger">
+        <div *ngIf="nend.errors.required">
+            <span>il postoEnd è obbligatorio</span>
+        </div>
+        <div *ngIf="nend.errors.minlength">
+           <span>il postoEnd deve essere di almeno  {{nend.errors.minlength.requiredLength }} caratteri</span>
+        </div>
+        <div *ngIf="nend.errors.maxlength">
+            <span>il postoEnd non può essere più lunga di {{nend.errors.maxlength.requiredLength }} caratteri</span>
+         </div>
+         <div *ngIf="nend.errors?.pattern">
+          <span>postoEnd errato</span>
+         </div>
+
+      </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+            <div class="col-sm-5 borde1">
+              <label for="settore" class="col-sm-1 col-form-label">Settore</label>
+              <div class="col-md-5 borde1">
+                <div class="dropdown borde2">
+                  <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedSettore" ngModel name="settore" id="settore" class="form-select" required (change)="onSelectedwSettore($event.target.value)" aria-label="Default select example">
+                    <option selected value="9999"  >Seleziona il Settore</option>
+                    <option *ngFor="let setto of wsettori; let i = index" [value]="wsettori[i].id"  class="form-control"  >{{wsettori[i].descrizione}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="invalid-feedback">effettuare la scelta del Settore</div>
+            </div>
+            <div class="col-sm-5 borde1">
+
+              <label for="fila" class="col-sm-1 col-form-label">Fila</label>
+              <div class="dropdown col-sm-3 borde2">
+                <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedFila" ngModel name="fila" id="fila" class="form-select" required (change)="onSelectedwFila($event.target.value)" aria-label="Default select example">
+                  <option selected value="9999"  >Seleziona la Fila</option>
+                  <option *ngFor="let fila of wfile" [value]="fila.id"  class="form-control"  >{{fila.descrizione}}</option>
+                </select>
+              </div>
+              <div class="invalid-feedback">effettuare la scelta della Fila</div>
+
+
+            </div>   -->
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- settore -->
+     <!--
+        <div class="row">
+          <label for="settore" class="col-sm-1 col-form-label">Settore</label>
+          <div class="dropdown col-sm-3">
+            <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedSettore" ngModel name="settore" id="settore" class="form-select" required (change)="onSelectedwSettore($event.target.value)" aria-label="Default select example">
+              <option selected value="9999"  >Seleziona il Settore</option>
+
+
+              <option *ngFor="let setto of wsettori; let i = index" [value]="wsettori[i].id"  class="form-control"  >{{wsettori[i].descrizione}}</option>
+
+
+            </select>
+          </div>
+          <div class="invalid-feedback">effettuare la scelta del Settore</div>
+
+
+         </div>
+
+        <br>
+        <div class="row">
+
+            <label for="fila" class="col-sm-1 col-form-label">Fila</label>
+            <div class="dropdown col-sm-3">
+              <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedFila" ngModel name="fila" id="fila" class="form-select" required (change)="onSelectedwFila($event.target.value)" aria-label="Default select example">
+                <option selected value="9999"  >Seleziona la Fila</option>
+                <option *ngFor="let fila of wfile" [value]="fila.id"  class="form-control"  >{{fila.descrizione}}</option>
+              </select>
+            </div>
+            <div class="invalid-feedback">effettuare la scelta della Fila</div>
+
+        </div>
+        <br>
+
+
+
+
+        <div class="row"   >
+
+          <label for="fila" class="col-sm-1 col-form-label"><strong>Posti</strong></label>
+          <label for="postoStart" class="col-sm-1 col-form-label">Inizio</label>
+          <div class="col-md-1">
+               <input #postoStart="ngModel"  [(ngModel)]="logsettfilapostow.postoStart" class="form-control" name="postoStart" id="postoStart" required minlength="1" maxlength="5" pattern="[0-9]{1,3}" placeholder="Inserire posto iniziale" >
+
+              </div>
+          <br>
+          <div *ngIf="postoStart.invalid && (postoStart.dirty || postoStart.touched)" class="alert-danger">
+            <div *ngIf="postoStart.errors.required">
+                <span>il postoStart è obbligatorio</span>
+            </div>
+            <div *ngIf="postoStart.errors.minlength">
+               <span>il postoStart deve essere di almeno  {{postoStart.errors.minlength.requiredLength }} caratteri</span>
+            </div>
+            <div *ngIf="postoStart.errors.maxlength">
+                <span>il postoStart non può essere più lunga di {{postoStart.errors.maxlength.requiredLength }} caratteri</span>
+             </div>
+             <div *ngIf="postoStart.errors?.pattern">
+              <span>postoStart errato</span>
+             </div>
+          </div>
+          <label for="postoEnd" class="col-sm-1 col-form-label">Fine</label>
+          <div class="col-md-1">
+               <input #postoEnd="ngModel"  [(ngModel)]="logsettfilapostow.postoEnd" class="form-control" name="postoEnd" id="postoEnd" ngModel required minlength="1" maxlength="5" pattern="[0-9]{1,3}" placeholder="Inserire posto iniziale" >
+          </div>
+            <br>
+            <div *ngIf="postoEnd.invalid && (postoEnd.dirty || postoEnd.touched)" class="alert-danger">
+              <div *ngIf="postoEnd.errors.required">
+                  <span>il postoEnd è obbligatorio</span>
+              </div>
+              <div *ngIf="postoEnd.errors.minlength">
+                 <span>il postoEnd deve essere di almeno  {{postoEnd.errors.minlength.requiredLength }} caratteri</span>
+              </div>
+              <div *ngIf="postoEnd.errors.maxlength">
+                  <span>il postoEnd non può essere più lunga di {{postoEnd.errors.maxlength.requiredLength }} caratteri</span>
+               </div>
+               <div *ngIf="postoEnd.errors?.pattern">
+                <span>postoEnd errato</span>
+               </div>
+
+            </div>
+        </div>  -->
+      <br>
+
+
+
+      <div class="footer" >
+        <div class="row">
+
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-2" >  <!--  *ngIf="fase  ===  'M'" -->
+            <!--  <button [disabled]="fm.invalid " class="btn btn-danger btn-md "  (click)="open(content)"> Cancella   -->
+              <button class="btn btn-success btn-md "  (click)="nuovaRegistrazione()"> Nuova Reg.
+
+              <fa-icon [icon]="faPlus"  fixed="true"></fa-icon>
+              </button>
+            </div>
+            <div class="col-md-2">  <!--    *ngIf="fase  ===  'N' || fase  ===  'M' " -->
+              <button [disabled]="fm.invalid " class="btn btn-success btn-md " (click)="conferma()">Conferma
+                <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+              </button>
+            </div>
+
+            <div class="col-md-2" > <!--  *ngIf="fase  ===  'N'  && swinerror === false || fase  ===  'M'  && swinerror === false || viewAllSettori === true && swinerror === false" -->
+              <button [disabled]="viewAllSettori === false " class="btn btn-primary btn-md " (click)="rilascia()">Rilascia    <!-- [disabled]="fm.invalid "-->
+                <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+              </button>
+            </div>
+            <div class="col-md-2">
+              <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+                <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+              </button>
+            </div>
+        </div>
+      </div>
+      <br>
+ <!--   messaggio con esito operazione -->
+
+      <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+   <!--     <h4 class="alert-heading">Errore in Registrazione User</h4>   -->
+        <p>{{Message}}</p>
+        <hr>
+        <p class="mb-0">{{Message1err}}</p>
+      </div>
+      <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+ <!--       <h4 class="alert-heading">Registrazione User</h4>   -->
+        <p>{{Message}}</p>
+        <hr>
+        <p class="mb-0"></p>
+      </div>
+    <!--  wsettoreSelected : {{wsettoreSelected }}  -->
+      <br>
+
+      settori selezionati  {{workSettori | json}}
+
+      <!-- tabella alfa -->
+      <div *ngIf="wsettoreSelected === true ">
+        <table class="table table-striped table-hover">
+          <tr>
+            <td>
+              <div *ngIf="wsettoreSelected === true ">
+                <table class="table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Settore</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor ="let settore of wsettoriSelected  let i = index">
+                      <td >{{i + 1}}</td>
+                      <td>{{settore.descrizione}}</td>
+
+                   <!--
+                      <td [style.color]="getColor(evento.statobiglietti)" [style.background]="getBackground(evento.statobiglietti)">{{evento.d_stato_evento_biglietto}}</td>
+                      <td [style.color]="getColor(evento.statoposti)" [style.background]="getBackground(evento.statoposti)">{{evento.d_stato_evento_posto}}</td>  -->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+
+
+            </td>
+            <td>
+              visualizzazione delle file per il settore selezionato
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- funziona  - ora la metta come primo td della tabella alfa -->
+      <!--
+      <div *ngIf="wsettoreSelected === true ">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Settore</th>
+              <th  colspan="2" style="text-align: center ">gestione</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor ="let settore of wsettoriSelected  let i = index">
+              <td >{{i + 1}}</td>
+              <td>{{settore.descrizione}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>  -->
+
+
+
+
+<!---  elenco dei settori / file    esempio  -->
+<!--
+<div *ngIf="wsettoreSelected === true ">
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Settore</th>
+      <th scope="col">File</th>
+      <th scope="col">Sposto Inizio</th>
+      <th scope="col">Sposto Fine</th>
+      <th scope="col">Errore</th>
+
+
+      <th  colspan="2" style="text-align: center ">gestione</th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+    <tr app-logsettfilaposti *ngFor ="let logsettfila of logsettfilaposti | filter:searchText | paginate: { itemsPerPage: 10, currentPage: p }; let i = index"
+      [logsettfilaposti-prog] = i+1
+      [logsettfilaposti-data] = "logsettfila"
+      [logsettfilaposti-lastoperation] = "lastoperation"
+      >
+
+    </tr>
+  </tbody>
+</table>  -->
+
+
+
+
+
+
+
+
+      </form>
+   </div>
+ </div>
+</div>
+
+<ng-template #content let-modal>
+ <div class="modal-header modal-header-color">
+   <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione</h4>
+   <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+     <span aria-hidden="true">&times;</span>
+   </button>
+ </div>
+ <div class="modal-body">
+   <form>
+     <p>confermi la cancellazione del collaboratore &nbsp;&nbsp;</p>
+     <p></p>
+     <p><strong>{{manif.cognome}}&nbsp;&nbsp;{{manif.nome}}</strong>&nbsp;?</p>
+     <!--   esempio di calendario che funziona benissimo
+     <div class="form-group">
+       <label for="dateOfBirth">Date of birth</label>
+       <div class="input-group">
+         <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+         <div class="input-group-append">
+           <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+         </div>
+       </div>
+     </div>
+     -->
+   </form>
+ </div>
+ <div class="modal-footer">
+   <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+
+   <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+     <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+   </button>
+ </div>
+</ng-template>
+
+
+
+
+
+

@@ -5,6 +5,8 @@ export interface CassamovInterface {
   id: number;
   idcassa: number;
   idevento: number;
+  causale: string;
+  idevPosto: number;
   idbiglietto: number;
   importo: number;
   stato: number;
